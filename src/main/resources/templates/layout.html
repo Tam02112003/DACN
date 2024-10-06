@@ -79,11 +79,9 @@
                         <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Liên hệ</a></li>
                         <li class="nav-item">
 
-
+                            <a sec:authentication="name" class="nav-link">
+                            </a>
                             <a class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-
-                                <a sec:authentication="name" class="nav-link">
-                                </a>
                                 <a class="nav-link"   th:href="@{/admin}">ADMIN DASHBOARD</a>
 
                             </a>
