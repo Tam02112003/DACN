@@ -13,10 +13,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 
     public class CustomerController {
 
-        @GetMapping("/home")
-        public String showSanphamList(Model model) {
-           
-            return "/customers/index";
-        }
+    @GetMapping("/home")
+    public String showHome(Model model) {
 
+        return "/customers/index";
+    }
+    @GetMapping("/contact")
+    public String showContact(Model model) {
+
+        return "/customers/contact";
+    }
+    @GetMapping("/blog")
+    public String showBlog(Model model) {
+
+        return "/customers/blog";
+    }
+    @GetMapping("/shop")
+    public String showShop(Model model) {
+
+        return "/customers/category";
+    }
 }

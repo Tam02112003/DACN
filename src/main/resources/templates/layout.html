@@ -55,47 +55,57 @@
                         <li class="nav-item active"><a class="nav-link" th:href="@{/home}">Home</a></li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Shop</a>
+                               aria-expanded="false">Sản phẩm</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                                <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                                <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                                <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                                <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/shop}">Sản phẩm bóng đá</a></li>
+
                             </ul>
                         </li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                aria-expanded="false">Blog</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                                <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/blog}">Blog thể thao</a></li>
+
                             </ul>
                         </li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Pages</a>
+                               aria-expanded="false">Trang</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
-                                <li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
-                                <li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/login}">Đăng nhập</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-                            <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
-                            <span class="navbar-text text-dark me-3"><span><form th:action="@{/logout}" method="post">
-                            <button class="btn btn-outline-dark" type="submit">Đăng Xuất</button>
-                            </form>
-                            </span><span sec:authentication="name"></span></span>
-                            </li>
-                            <li class="nav-item" sec:authorize="!isAuthenticated()">
-                                <a class="btn btn-outline-dark" href="/login">Đăng Nhập</a>
-                            </li>
-                        </ul>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Liên hệ</a></li>
+                        <li class="nav-item">
+
+
+                            <a class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+
+                                <a sec:authentication="name" class="nav-link">
+                                </a>
+                                <a class="nav-link"   th:href="@{/admin}">ADMIN DASHBOARD</a>
+
+                            </a>
+                            <a class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                                <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
+                            <span class="navbar-text text-white me-3">
+                                <span>
+                                    <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-nav-link" type="submit">Đăng xuất</button>
+                                    </form>
+                                </span>
+                            </span>
+                                </li>
+                                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                    <a class="btn btn-outline-dark" href="/login">Login</a>
+                                </li>
+                            </a>
+                        </li>
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-item"><a href="#" class="cart"><span class="ti-bag"></span></a></li>
+                        <li class="nav-item"><a th:href="@{/cart}" class="cart"><span class="ti-bag"></span></a></li>
                         <li class="nav-item">
                             <button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
                         </li>
@@ -190,12 +200,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-            <p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-        </div>
+
     </div>
 </footer>
 <!-- End footer Area -->
