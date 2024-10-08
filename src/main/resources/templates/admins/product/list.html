@@ -53,10 +53,10 @@
             <td> <img th:src="${product.ImgUrl}" width="100px" height="100px"></td>
             <td th:text="${product.category.name}"></td>
             <td>
-
+                <div sec:authorize="hasAuthority('ADMIN')">
                     <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success btn-sm">Chỉnh sửa</a>
                     <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Xóa</a>
-
+                </div>
             </td>
         </tr>
         </tbody>

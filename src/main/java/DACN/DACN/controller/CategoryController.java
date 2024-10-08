@@ -40,7 +40,7 @@ public class CategoryController {
         Category category = categoryService.getCategoryById(id); // Lấy thể loại theo ID
         if (category != null) {
             model.addAttribute("category", category); // Đưa thể loại vào model để hiển thị trong form
-            return "/admins/category/edit"; // Trả về view form.html
+            return "/admins/category/edit";
         }
         return "redirect:/categories/list"; // Nếu không tìm thấy, chuyển hướng về danh sách
     }

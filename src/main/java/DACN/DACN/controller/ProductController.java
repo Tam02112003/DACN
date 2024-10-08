@@ -28,6 +28,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/products")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -35,19 +36,19 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/products")
+    @GetMapping("")
     public String showProductList(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         return "/admins/product/list";
     }
-    @GetMapping("/products/create")
+    @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "/admins/product/create";
     }
 
-    @PostMapping("/products/create")
+    @PostMapping("/create")
     public String  addProduct(@Valid Product sanPham, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
             return "/admins/product/create";
@@ -70,7 +71,7 @@ public class ProductController {
         Files.copy(image.getInputStream(), path);
         return fileName;
     }
-    @GetMapping("/product/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
@@ -82,20 +83,25 @@ public class ProductController {
                                 BindingResult result,@RequestParam("image") MultipartFile imageFile ) {
         if (result.hasErrors()) {
             product.setId(id); // set id to keep it in the form in case of errors
-            return "/sanphams/edit";
+            return "admins/products/edit";
         }
+        // Nếu người dùng tải lên hình ảnh mới
         if (!imageFile.isEmpty()) {
             try {
                 String imageName = saveImage(imageFile);
-                product.setImgUrl("/images/" +imageName);
+                product.setImgUrl("/img/" + imageName); // Cập nhật hình ảnh mới
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            // Nếu không upload hình ảnh mới, lấy hình ảnh cũ từ cơ sở dữ liệu
+            Product existingProduct = productService.getProductById(id);
+            product.setImgUrl(existingProduct.getImgUrl());
         }
         productService.updateProduct(product);
         return "redirect:/products";
     }
-    @GetMapping("products/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         productService.deleteProduct(id);
         redirectAttributes.addFlashAttribute("message", "Product deleted successfully!");
