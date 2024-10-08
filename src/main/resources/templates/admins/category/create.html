@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Thể loại</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Thêm Thể loại</h1>
+
+    <form th:action="@{/categories}" th:object="${category}" method="post">
+        <div class="form-group">
+            <label for="name">Tên Thể loại</label>
+            <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập tên thể loại" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Thêm Thể loại</button>
+        <a href="/categories/list" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>
+</body>
+</html>
