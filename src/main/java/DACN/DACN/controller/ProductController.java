@@ -1,6 +1,7 @@
 package DACN.DACN.controller;
 
 import DACN.DACN.entity.Product;
+
 import DACN.DACN.services.CategoryService;
 import DACN.DACN.services.ProductService;
 import jakarta.validation.Valid;
@@ -30,6 +31,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
+
     @Autowired
     private ProductService productService;
 
@@ -39,34 +41,37 @@ public class ProductController {
     @GetMapping("")
     public String showProductList(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "/admins/product/list";
+        return "/admins/product/list";  // Đảm bảo rằng đường dẫn này là chính xác
     }
+
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "/admins/product/create";
+        return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
     }
 
     @PostMapping("/create")
-    public String  addProduct(@Valid Product sanPham, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
+    public String addProduct(@Valid Product sanPham, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
-            return "/admins/product/create";
+            return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
         }
         if (!imageFile.isEmpty()) {
             try {
                 String imageName = saveImage(imageFile);
-                sanPham.setImgUrl("/img/" +imageName);
+                sanPham.setImgUrl("/img/" + imageName);  // Cập nhật đường dẫn hình ảnh
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         productService.addProduct(sanPham);
-        return "redirect:/products";
+        return "redirect:/products";  // Chuyển hướng lại danh sách sản phẩm
     }
+
     private String saveImage(MultipartFile image) throws IOException {
+        // Đảm bảo rằng thư mục lưu trữ hình ảnh nằm trong thư mục static/img
         File saveFile = new ClassPathResource("static/img").getFile();
-        String fileName = UUID.randomUUID()+ "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
+        String fileName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
         Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + fileName);
         Files.copy(image.getInputStream(), path);
         return fileName;

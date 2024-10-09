@@ -34,16 +34,21 @@ public class SecurityConfig {
         return auth; // Trả về nhà cung cấp xác thực.
     }
     @Bean
-    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
+
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(p -> p.disable())
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF (nên xem xét lại nếu ứng dụng có form submission)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/fonts/**", "/css/**", "/", "/img/**","/Karma Shop-doc/**","/scss/**","/js/**","/assets/**","/docs/**","/.github/**","/","/register","/home","/shop",
-                                "/sanphams", "/cart", "/cart/**","/order/checkout", "/sanphams/details/**").permitAll()
-                        .requestMatchers("/sanphams/edit/**", "/sanphams/add", "/sanphams/delete","/order/list","/order/details/**")
+                        // Cho phép truy cập các file tĩnh, và các URL không cần xác thực
+                        .requestMatchers("/fonts/**", "/css/**", "/", "/img/**", "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**", "/.github/**", "/register", "/home", "/shop", "/sanphams", "/cart", "/cart/**", "/order/checkout", "/sanphams/details/**").permitAll()
+
+                        // Chỉ ADMIN mới được phép truy cập các route dưới đây
+                        .requestMatchers("/sanphams/edit/**", "/sanphams/add", "/sanphams/delete", "/order/list", "/order/details/**")
                         .hasAnyAuthority("ADMIN")
+
+                        // Tất cả các yêu cầu còn lại phải được xác thực
                         .anyRequest().authenticated()
-                ) .
+                ).
                 logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login") // Trang chuyển hướng sau khi đăng xuất.
