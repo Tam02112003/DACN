@@ -42,9 +42,31 @@ public class ProductController {
     private CategoryService categoryService;
     @Autowired
     private ProductImageService productImageService;
-    @GetMapping("")
+
+
+    ///////////////////////////////////
+    /*@GetMapping("")
     public String showProductList(Model model) {
         model.addAttribute("products", productService.getAllProducts());
+        return "/admins/product/list";  // Đảm bảo rằng đường dẫn này là chính xác
+    }*/
+    //////////////////////////////////
+
+
+    @GetMapping("")
+    public String showProductList(
+            @RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
+            @RequestParam(defaultValue = "") String search, // Tìm kiếm
+            Model model) {
+
+        // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
+        Page<Product> productPage = productService.getProducts(page, search);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("search", search);
+
         return "/admins/product/list";  // Đảm bảo rằng đường dẫn này là chính xác
     }
 
@@ -55,6 +77,8 @@ public class ProductController {
         return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
     }
 
+
+    //------------------------------------------------------------------------------
     @PostMapping("/create")
     public String addProduct(@Valid Product product, BindingResult result, @RequestParam("image") MultipartFile imageFile, @RequestParam("productimages") MultipartFile[] imageList) {
         if (result.hasErrors()) {

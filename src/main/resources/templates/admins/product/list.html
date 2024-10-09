@@ -153,6 +153,14 @@
 
     <div class="container-fluid py-4">
         <div class="card-body px-0 pb-2">
+            <!-- Form tìm kiếm -->
+            <form th:action="@{/products}" method="get" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="search" th:value="${search}" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+
             <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
                     <thead>
@@ -195,6 +203,19 @@
             </div>
         </div>
     </div>
+    <!-- Phân trang -->
+    <div class="pagination">
+        <ul class="pagination">
+            <li th:class="${currentPage == 1} ? 'disabled'">
+                <a th:href="@{/products(page=${currentPage - 1}, search=${search})}">«</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage} ? 'active'">
+                <a th:href="@{/products(page=${i}, search=${search})}" th:text="${i}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages} ? 'disabled'">
+                <a th:href="@{/products(page=${currentPage + 1}, search=${search})}">»</a>
+            </li>
+        </ul>
     </div>
 </main>
 

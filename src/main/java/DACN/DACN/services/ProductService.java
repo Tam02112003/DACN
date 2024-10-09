@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +36,11 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    public Page<Product> getAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<Product> getProducts(int page, String search) {
+        Pageable pageable = PageRequest.of(page - 1, 5); // Giả sử bạn muốn hiển thị 5 sản phẩm mỗi trang
+        return productRepository.findByNameContainingIgnoreCase(search, pageable);
     }
+
 
     // Add a new product to the database
     public Product addProduct(Product product) {
