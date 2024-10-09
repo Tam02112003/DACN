@@ -1,6 +1,7 @@
 package DACN.DACN.controller;
 import DACN.DACN.entity.Category;
 import DACN.DACN.services.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {

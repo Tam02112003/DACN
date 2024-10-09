@@ -164,7 +164,7 @@
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="price">Giá</label>
-                    <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" required>
+                    <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" required placeholder="Giá sản phẩm">
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="category">Thể loại</label>
@@ -173,8 +173,12 @@
                     </select>
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                    <label class="w-10 me-3 mb-0" for="image">Image URL</label>
-                    <input type="file" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image" name="image">
+                    <label class="w-10 me-3 mb-0" for="image">Hình  ảnh chính:</label>
+                    <input type="file" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image" name="image" required placeholder="hinh anh">
+                </div>
+                <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                    <label for="productimages" class="form-label">Hình ảnh phụ:</label>
+                    <input type="file" id="productimages" multiple accept="image/*" name="productimages" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row"/>
                 </div>
                 <button type="submit" class="btn btn-primary">Create Product</button>
                 <a href="/products" class="btn btn-secondary">Cancel</a>

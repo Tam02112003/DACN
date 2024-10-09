@@ -188,7 +188,17 @@
                     <label for="image"class="w-10 me-3 mb-0">Hình ảnh hiện tại</label>
                     <img th:src="@{${product.ImgUrl}}" width="150" height="150" alt="Sản phẩm" />
                 </div>
-
+                <!-- Hiển thị các ảnh phụ hiện tại -->
+                <div class="mb-3">
+                    <label for="productimages" class="form-label">Hình ảnh phụ hiện tại</label>
+                    <div th:each="img : ${product.images}" class="mb-2">
+                        <img th:src="@{${img.imagePath}}" width="150" height="150" alt="Hình ảnh sản phẩm phụ" />
+                    </div>
+                </div>
+                <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                    <label for="productimages" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">Thêm hình ảnh phụ</label>
+                    <input type="file" name="productimages" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="productimages" multiple accept="image/*">
+                </div>
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
                 <a href="/products" class="btn btn-secondary">Hủy</a>
             </form>

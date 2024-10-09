@@ -2,8 +2,10 @@ package DACN.DACN.controller;
 
 import DACN.DACN.entity.Product;
 
+import DACN.DACN.entity.ProductImage;
 import DACN.DACN.services.CategoryService;
 import DACN.DACN.services.ProductService;
+import DACN.DACN.services.ProductImageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +40,8 @@ public class ProductController {
 
     @Autowired
     private CategoryService categoryService;
-
+    @Autowired
+    private ProductImageService productImageService;
     @GetMapping("")
     public String showProductList(Model model) {
         model.addAttribute("products", productService.getAllProducts());
@@ -52,29 +56,55 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String addProduct(@Valid Product sanPham, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
+    public String addProduct(@Valid Product product, BindingResult result, @RequestParam("image") MultipartFile imageFile, @RequestParam("productimages") MultipartFile[] imageList) {
         if (result.hasErrors()) {
             return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
         }
+
         if (!imageFile.isEmpty()) {
             try {
                 String imageName = saveImage(imageFile);
-                sanPham.setImgUrl("/img/" + imageName);  // Cập nhật đường dẫn hình ảnh
+                product.setImgUrl("/img/" + imageName);  // Cập nhật đường dẫn hình ảnh
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        productService.addProduct(sanPham);
+        productService.addProduct(product);
+        for (MultipartFile image : imageList) {
+            if (!image.isEmpty()) {
+                try {
+                    String imageUrl = saveImage(image);
+                    ProductImage productImage = new ProductImage();
+                    productImage.setImagePath("/img/" +imageUrl);
+                    productImage.setProduct(product);
+                    product.getImages().add(productImage);
+                    productImageService.addProductImage(productImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return "redirect:/products";  // Chuyển hướng lại danh sách sản phẩm
     }
 
     private String saveImage(MultipartFile image) throws IOException {
         // Đảm bảo rằng thư mục lưu trữ hình ảnh nằm trong thư mục static/img
-        File saveFile = new ClassPathResource("static/img").getFile();
+        /*File saveFile = new ClassPathResource("static/img").getFile();
         String fileName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
         Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + fileName);
         Files.copy(image.getInputStream(), path);
-        return fileName;
+        return fileName;*/
+        Path dirImages = Paths.get("target/classes/static/img");
+        if (!Files.exists(dirImages)) {
+            Files.createDirectories(dirImages);
+        }
+
+        String newFileName = UUID.randomUUID()+ "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
+
+        Path pathFileUpload = dirImages.resolve(newFileName);
+        Files.copy(image.getInputStream(), pathFileUpload,
+                StandardCopyOption.REPLACE_EXISTING);
+        return newFileName;
     }
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
@@ -85,7 +115,8 @@ public class ProductController {
     }
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id, @Valid Product product,
-                                BindingResult result,@RequestParam("image") MultipartFile imageFile ) {
+                                BindingResult result,@RequestParam("image") MultipartFile imageFile,
+                                @RequestParam("productimages") MultipartFile[] imageList){
         if (result.hasErrors()) {
             product.setId(id); // set id to keep it in the form in case of errors
             return "admins/products/edit";
@@ -102,6 +133,21 @@ public class ProductController {
             // Nếu không upload hình ảnh mới, lấy hình ảnh cũ từ cơ sở dữ liệu
             Product existingProduct = productService.getProductById(id);
             product.setImgUrl(existingProduct.getImgUrl());
+        }
+        // Xử lý các hình ảnh phụ (nhiều hình ảnh)
+        for (MultipartFile image : imageList) {
+            if (!image.isEmpty()) {
+                try {
+                    String imageUrl = saveImage(image);
+                    ProductImage productImage = new ProductImage();
+                    productImage.setImagePath("/img/" + imageUrl);
+                    productImage.setProduct(product);
+                    product.getImages().add(productImage);
+                    productImageService.addProductImage(productImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         productService.updateProduct(product);
         return "redirect:/products";
