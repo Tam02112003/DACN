@@ -29,29 +29,30 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "username", length = 50, unique = true)
-    @NotBlank(message = "Username is required")
-    @Size(min = 1, max = 50, message = "Username must be between 1 and 50 characters")
+    @NotBlank(message = "Tên người dùng là bắt buộc")
+    @Size(min = 1, max = 50, message = "Tên người dùng phải từ 1-50 kí tự")
     private String username;
 
     @Column(name = "password", length = 250)
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "Mật khẩu là bắt buộc")
     private String password;
 
     @Column(name = "email", length = 50, unique = true)
-    @NotBlank(message = "Email is required")
-    @Size(min = 1, max = 50, message = "Email must be between 1 and 50 characters")
+    @NotBlank(message = "Email là bắt buộc")
     @Email
     private String email;
 
     @Column(name = "fullname", length = 250)
+    @NotBlank(message = "Vui lòng nhập họ tên")
     private String fullname;
 
     @Column(name = "phone", length = 15)
-    @Size(max = 15, message = "Phone number must be up to 15 characters")
+    @NotBlank(message = "Vui lòng nhập số điện thoại")
+    @Size(max = 11, message = "Số điện thoại không hợp lệ")
     private String phone;
 
     @Column(name = "address", length = 250)
-    @Size(max = 250, message = "Address must be up to 250 characters")
+    @Size(max = 400, message = "Địa chỉ của bạn quá dài!!! Vui lòng nhập 400 kí tự ")
     private String address;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -1,6 +1,7 @@
 package DACN.DACN.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,7 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Tên sản phẩm không được để trống")
+    @NotBlank(message = "Tên sản phẩm không được để trống")
     @Size(max = 50, min = 1, message = "Tên phải ít hơn 50 ký tự")
     private String name;
     private String description;
@@ -37,7 +38,6 @@ public class Product {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-
     private String imgUrl;
 
     @PrePersist

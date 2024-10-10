@@ -89,15 +89,12 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <form th:action="@{/products/create}" th:object="${product}"  method="post" enctype="multipart/form-data">
-                <div th:if="${errors}" class="alert alert-danger" role="alert">
-                    <ul class="mb-0">
-                        <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>
-                    </ul>
-                </div>
+            <form th:action="@{/products/create}" th:object="${product}"  method="post" enctype="multipart/form-data" novalidate>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="name">Tên sản phẩm</label>
                     <input type="text" class="form-control" id="name" th:field="*{name}"  placeholder="Nhập tên sản phẩm">
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}"
+                         th:errors="*{name}"></div>
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="description">Mô tả</label>
@@ -105,24 +102,26 @@
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="price">Giá</label>
-                    <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" required placeholder="Giá sản phẩm">
+                    <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}"  placeholder="Giá sản phẩm">
+                    <div class="text-danger" th:if="${#fields.hasErrors('price')}"
+                         th:errors="*{price}"></div>
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="category">Thể loại</label>
-                    <select class="form-control" id="category" th:field="*{category.id}" required>
+                    <select class="form-control" id="category" th:field="*{category.id}" >
                         <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
                     </select>
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="image">Hình  ảnh chính:</label>
-                    <input type="file" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image" name="image" required placeholder="hình ảnh chính">
+                    <input type="file" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image" name="image" placeholder="hình ảnh chính">
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label for="productimages" class="form-label">Hình ảnh phụ:</label>
                     <input type="file" id="productimages" multiple accept="image/*" name="productimages" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" placeholder="hình ảnh phụ"/>
                 </div>
-                <button type="submit" class="btn btn-primary">Create Product</button>
-                <a href="/products" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
+                <a href="/products" class="btn btn-secondary">Quay lại</a>
             </form>
             <div class="row mt-4">
                 <div class="col-lg-5 mb-lg-0 mb-4">

@@ -87,10 +87,12 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <form th:action="@{/categories}" th:object="${category}" method="post">
+            <form th:action="@{/categories}" th:object="${category}" method="post" novalidate>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="name">Tên Thể loại</label>
-                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập tên thể loại" required>
+                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập tên thể loại">
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
                 </div>
 
                 <button type="submit" class="btn btn-primary">Thêm Thể loại</button>

@@ -61,13 +61,14 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="login_form_inner">
-                        <h3>Register</h3>
+                        <h3>Đăng ký</h3>
+                        <div th:if="${errors}" class="alert alert-danger" role="alert">
+                            <ul class="mb-0">
+                                <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>
+                            </ul>
+                        </div>
                         <form class="row login_form" th:action="@{/register}" method="post" id="registrationForm">
-                            <div th:if="${errors}" class="alert alert-danger" role="alert">
-                                <ul class="mb-0">
-                                    <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>
-                                </ul>
-                            </div>
+
                             <div class="col-md-12 form-group">
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn">
                             </div>

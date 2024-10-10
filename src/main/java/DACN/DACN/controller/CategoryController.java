@@ -42,7 +42,11 @@ public class CategoryController {
     }
 
     @PostMapping
-    public String createCategory(@ModelAttribute Category category) {
+    public String createCategory(@ModelAttribute @Valid Category category,BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            // Nếu có lỗi, trả về lại trang thêm thể loại và hiển thị thông báo
+            return "admins/category/create"; // Tên view của form thêm thể loại
+        }
         categoryService.createCategory(category); // Lưu thể loại mới
         return "redirect:/categories/list"; // Chuyển hướng về trang danh sách
     }
@@ -58,8 +62,12 @@ public class CategoryController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateCategory(@PathVariable Long id, @ModelAttribute Category categoryDetails) {
-        categoryService.updateCategory(id, categoryDetails); // Cập nhật thông tin thể loại
+    public String updateCategory(@PathVariable Long id, @ModelAttribute Category category, @Valid BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            category.setId(id);
+            return "admins/category/edit";
+        }
+        categoryService.updateCategory(id, category); // Cập nhật thông tin thể loại
         return "redirect:/categories/list"; // Chuyển hướng về danh sách thể loại
     }
 

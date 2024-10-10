@@ -137,13 +137,13 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "/admins/product/edit";
     }
-    @PostMapping("/update/{id}")
+    @PostMapping("/edit/{id}")
     public String updateProduct(@PathVariable Long id, @Valid Product product,
                                 BindingResult result,@RequestParam("image") MultipartFile imageFile,
                                 @RequestParam("productimages") MultipartFile[] imageList){
         if (result.hasErrors()) {
             product.setId(id); // set id to keep it in the form in case of errors
-            return "admins/products/edit";
+            return "admins/products/edit/{id}";
         }
         // Nếu người dùng tải lên hình ảnh mới
         if (!imageFile.isEmpty()) {
@@ -158,21 +158,30 @@ public class ProductController {
             Product existingProduct = productService.getProductById(id);
             product.setImgUrl(existingProduct.getImgUrl());
         }
-        // Xử lý các hình ảnh phụ (nhiều hình ảnh)
-        for (MultipartFile image : imageList) {
-            if (!image.isEmpty()) {
-                try {
-                    String imageUrl = saveImage(image);
-                    ProductImage productImage = new ProductImage();
-                    productImage.setImagePath("/img/" + imageUrl);
-                    productImage.setProduct(product);
-                    product.getImages().add(productImage);
-                    productImageService.addProductImage(productImage);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+        // Nếu không có hình ảnh phụ mới -> giữ nguyên các hình ảnh phụ cũ
+        if (imageList.length == 0 || (imageList.length == 1 && imageList[0].isEmpty())) {
+            Product existingProduct = productService.getProductById(id);
+            product.setImages(existingProduct.getImages());
+        } else {
+            // Nếu có hình ảnh phụ mới -> xóa hình ảnh cũ và thêm hình ảnh mới
+            productImageService.deleteAllByProductId(id); // Xóa tất cả hình ảnh phụ cũ
+            for (MultipartFile image : imageList) {
+                if (!image.isEmpty()) {
+                    try {
+                        String imageUrl = saveImage(image);
+                        ProductImage productImage = new ProductImage();
+                        productImage.setImagePath("/img/" + imageUrl);
+                        productImage.setProduct(product);
+                        product.getImages().add(productImage);
+                        productImageService.addProductImage(productImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+
         productService.updateProduct(product);
         return "redirect:/products";
     }

@@ -90,11 +90,15 @@
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label for="name" class="w-10 me-3 mb-0">Tên sản phẩm</label>
                     <input type="text" th:field="*{name}" class="form-control" id="name" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}"
+                         th:errors="*{name}"></div>
                 </div>
 
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label for="price" class="w-10 me-3 mb-0">Giá</label>
                     <input type="number" th:field="*{price}" class="form-control" id="price" required>
+                    <div class="text-danger" th:if="${#fields.hasErrors('price')}"
+                         th:errors="*{price}"></div>
                 </div>
 
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
@@ -128,7 +132,7 @@
                     </div>
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                    <label for="productimages" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">Thêm hình ảnh phụ</label>
+                    <label for="productimages" class="w-10 me-3 mb-0">Chỉnh sửa ảnh phụ</label>
                     <input type="file" name="productimages" class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="productimages" multiple accept="image/*">
                 </div>
                 <button type="submit" class="btn btn-primary">Cập nhật</button>

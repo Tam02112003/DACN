@@ -13,6 +13,10 @@ import java.util.List;
 public class ProductImageService {
     private final ProductImageRepository productImageRepository;
 
+    public void deleteAllByProductId(Long productId) {
+        productImageRepository.deleteAllByProduct_Id(productId);
+    }
+
     public List<ProductImage> getAllProductImages() {
         return productImageRepository.findAll();
     }
