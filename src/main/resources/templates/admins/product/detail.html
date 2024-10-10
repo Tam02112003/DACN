@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết sản phẩm</title>
+  <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+  <style>
+    .product-image {
+        max-width: 300px;
+        margin-bottom: 20px;
+    }
+    .product-images img {
+        max-width: 100px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2 class="mb-4">Chi tiết sản phẩm</h2>
+
+  <!-- Tên sản phẩm -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Tên sản phẩm:</strong></label>
+    <h5 th:text="${product.name}"></h5>
+  </div>
+
+  <!-- Mô tả sản phẩm -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Mô tả:</strong></label>
+    <p th:text="${product.description}"></p>
+  </div>
+
+  <!-- Giá sản phẩm -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Giá:</strong></label>
+    <h5 th:text="${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5>
+  </div>
+
+  <!-- Thể loại -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Thể loại:</strong></label>
+    <h5 th:text="${product.category.name}"></h5>
+  </div>
+
+  <!-- Hình ảnh chính -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Hình ảnh:</strong></label><br>
+    <img th:src="@{${product.imgUrl}}" alt="Hình ảnh sản phẩm" class="product-image img-thumbnail">
+  </div>
+
+  <!-- Hình ảnh khác -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Hình ảnh khác:</strong></label>
+    <div class="product-images">
+      <div th:each="image : ${product.images}">
+        <img th:src="@{${image.imagePath}}" alt="Hình ảnh khác" class="img-thumbnail">
+      </div>
+    </div>
+  </div>
+
+  <!-- Ngày tạo và cập nhật -->
+  <div class="mb-3">
+    <label class="form-label"><strong>Ngày tạo:</strong></label>
+    <p th:text="${#dates.format(product.createdDate, 'dd-MM-yyyy HH:mm')}"></p>
+  </div>
+  <div class="mb-3">
+    <label class="form-label"><strong>Ngày cập nhật:</strong></label>
+    <p th:text="${#dates.format(product.updatedDate, 'dd-MM-yyyy HH:mm')}"></p>
+  </div>
+
+  <!-- Nút quay lại -->
+  <a href="/products" class="btn btn-primary">Quay lại danh sách sản phẩm</a>
+</div>
+
+<!-- Thêm các tệp JS -->
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

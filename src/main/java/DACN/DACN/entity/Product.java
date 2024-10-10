@@ -38,7 +38,7 @@ public class Product {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
-    private String ImgUrl;
+    private String imgUrl;
 
     @PrePersist
     protected void onCreate() {

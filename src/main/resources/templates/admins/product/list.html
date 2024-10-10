@@ -193,6 +193,7 @@
                         <td class="mb-0 text-sm" th:text="${product.category.name}"></td>
                         <td>
                             <div class="text-xs font-weight-bold mb-0" sec:authorize="hasAuthority('ADMIN')">
+                                <a th:href="@{/products/detail/{id}(id=${product.id})}" class="primary-btn my-4">Chi tiết</a>
                                 <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-link text-dark px-3 mb-0"><i class="material-icons text-sm me-2">edit</i>Chỉnh sửa</a>
                                 <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirm('Are you sure?')"><i class="material-icons text-sm me-2">delete</i>Xóa</a>
                             </div>

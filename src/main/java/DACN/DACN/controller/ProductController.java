@@ -182,4 +182,11 @@ public class ProductController {
         redirectAttributes.addFlashAttribute("message", "Product deleted successfully!");
         return "redirect:/products"; // Chuyển hướng về danh sách sản phẩm
     }
+    @GetMapping("/detail/{id}")
+    public String getProductDetail(@PathVariable Long id, Model model) {
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "admins/product/detail";
+    }
 }
