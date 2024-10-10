@@ -1,9 +1,11 @@
 package DACN.DACN.controller;
 import DACN.DACN.entity.Category;
+import DACN.DACN.entity.Product;
 import DACN.DACN.services.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +22,16 @@ public class CategoryController {
 
 
     @GetMapping("/list")
-    public String listCategories(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
+    public String listCategories(@RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
+                                 @RequestParam(defaultValue = "") String search, // Tìm kiếm
+                                 Model model) {
+        // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
+        Page<Category> categoryPage = categoryService.getCategories(page, search);
+
+        model.addAttribute("categories", categoryPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", categoryPage.getTotalPages());
+        model.addAttribute("search", search);
         return "admins/category/list"; // Đường dẫn đến file template list.html
     }
 
