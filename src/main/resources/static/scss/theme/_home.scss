@@ -203,11 +203,14 @@
 .single-product {
 	margin-bottom: 50px;
 	img {
+         height: 100px;
+        width:150px;
 		margin-bottom: 20px;
 		width: 100%;
 	}
 	.product-details {
 		h6 {
+
 			font-size: 16px;
 			text-transform: uppercase;
 		}

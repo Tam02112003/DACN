@@ -1505,9 +1505,11 @@ h1, h2, h3, h4, h5, h6 {
 .single-product {
   margin-bottom: 50px; }
   .single-product img {
+    height:150px;
     margin-bottom: 20px;
     width: 100%; }
   .single-product .product-details h6 {
+    height:30px;
     font-size: 16px;
     text-transform: uppercase; }
   .single-product .product-details .price h6 {
@@ -1521,7 +1523,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 0; }
   .single-product .product-details .prd-bottom {
     position: relative;
-    margin-top: 20px; }
+    /* margin-top: 20px;  */}
     .single-product .product-details .prd-bottom .social-info {
       position: relative;
       display: inline-block;

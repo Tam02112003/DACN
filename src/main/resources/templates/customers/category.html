@@ -18,17 +18,19 @@
 	<meta charset="UTF-8">
 	<!-- Site Title -->
 	<title>Karma Shop</title>
-
 	<!--
-            CSS
-            ============================================= -->
+        CSS
+        ============================================= -->
 	<link rel="stylesheet" href="css/linearicons.css">
-	<link rel="stylesheet" href="css/owl.carousel.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="css/themify-icons.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/owl.carousel.css">
 	<link rel="stylesheet" href="css/nice-select.css">
 	<link rel="stylesheet" href="css/nouislider.min.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/ion.rangeSlider.css" />
+	<link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+	<link rel="stylesheet" href="css/magnific-popup.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -59,13 +61,10 @@
 					<div class="top-filter-head">Product Filters</div>
 					<div class="common-filter">
 						<div class="head">Brands</div>
-						<form action="#">
-							<ul>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="apple" name="brand"><label for="apple">Apple<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="asus" name="brand"><label for="asus">Asus<span>(29)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="gionee" name="brand"><label for="gionee">Gionee<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="micromax" name="brand"><label for="micromax">Micromax<span>(19)</span></label></li>
-								<li class="filter-list"><input class="pixel-radio" type="radio" id="samsung" name="brand"><label for="samsung">Samsung<span>(19)</span></label></li>
+						<form  action="#">
+							<ul th:each="category : ${categories}" >
+								<li class="filter-list"><input  class="pixel-radio" th:text="${category.name}" type="radio" id="apple" name="brand"><label for="apple" ><span>(29)</span></label></li>
+
 							</ul>
 						</form>
 					</div>
@@ -117,13 +116,18 @@
 						</select>
 					</div>
 					<div class="pagination">
-						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-						<a href="#" class="active">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>
-						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						<li th:class="${currentPage == 1} ? 'disabled'">
+						<a th:href="@{/shop(page=${currentPage - 1}, search=${search})}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+						</li>
+						<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage} ? 'active'">
+							<a th:href="@{/shop(page=${i}, search=${search})}" th:text="${i}" class="active"></a>
+						</li>
+
+						<!--<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+						<a href="#">6</a>-->
+						<li th:class="${currentPage == totalPages} ? 'disabled'">
+						<a th:href="@{/shop(page=${currentPage + 1}, search=${search})}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						</li>
 					</div>
 				</div>
 				<!-- End Filter Bar -->
@@ -131,198 +135,32 @@
 				<section class="lattest-product-area pb-40 category-list">
 					<div class="row">
 						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
+						<div th:each="product : ${products}" class="col-lg-4 col-md-6">
 							<div class="single-product">
-								<img class="img-fluid" src="img/product/p1.jpg" alt="">
+								<img class="img-fluid" th:src="${product.ImgUrl}" height="100px" width="100px" alt="">
 								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
+									<h6  th:text="${product.name}"></h6>
 									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
+										<h6  th:text="${product.price}" ></h6>
+										<!--<h6 class="l-through">$210.00</h6>-->
 									</div>
 									<div class="prd-bottom">
 
 										<a href="" class="social-info">
 											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
+											<p class="hover-text">Thêm vào giỏ</p>
 										</a>
-										<a href="" class="social-info">
+										<!--<a href="" class="social-info">
 											<span class="lnr lnr-heart"></span>
 											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
+										</a>-->
+										<!--<a href="" class="social-info">
 											<span class="lnr lnr-sync"></span>
 											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
+										</a>-->
+										<a th:href="@{/detail/{id}(id=${product.id})}" class="social-info">
 											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p2.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p3.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p4.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p5.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- single product -->
-						<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<img class="img-fluid" src="img/product/p6.jpg" alt="">
-								<div class="product-details">
-									<h6>addidas New Hammer sole
-										for Sports person</h6>
-									<div class="price">
-										<h6>$150.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-									<div class="prd-bottom">
-
-										<a href="" class="social-info">
-											<span class="ti-bag"></span>
-											<p class="hover-text">add to bag</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-heart"></span>
-											<p class="hover-text">Wishlist</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-sync"></span>
-											<p class="hover-text">compare</p>
-										</a>
-										<a href="" class="social-info">
-											<span class="lnr lnr-move"></span>
-											<p class="hover-text">view more</p>
+											<p class="hover-text">Xem thêm</p>
 										</a>
 									</div>
 								</div>
@@ -334,20 +172,25 @@
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting mr-auto">
-						<select>
+					<!--	<select>
 							<option value="1">Show 12</option>
 							<option value="1">Show 12</option>
 							<option value="1">Show 12</option>
-						</select>
+						</select>-->
 					</div>
 					<div class="pagination">
-						<a href="#" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
-						<a href="#" class="active">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>
-						<a href="#" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						<li th:class="${currentPage == 1} ? 'disabled'">
+							<a th:href="@{/shop(page=${currentPage - 1}, search=${search})}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+						</li>
+						<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage} ? 'active'">
+							<a th:href="@{/shop(page=${i}, search=${search})}" th:text="${i}" class="active"></a>
+						</li>
+
+						<!--<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
+						<a href="#">6</a>-->
+						<li th:class="${currentPage == totalPages} ? 'disabled'">
+							<a th:href="@{/shop(page=${currentPage + 1}, search=${search})}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						</li>
 					</div>
 				</div>
 				<!-- End Filter Bar -->
@@ -493,71 +336,7 @@
 	<!-- End related-product Area -->
 
 	<!-- Modal Quick Product View -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="container relative">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<div class="product-quick-view">
-					<div class="row align-items-center">
-						<div class="col-lg-6">
-							<div class="quick-view-carousel">
-								<div class="item" style="background: url(img/organic-food/q1.jpg);">
 
-								</div>
-								<div class="item" style="background: url(img/organic-food/q1.jpg);">
-
-								</div>
-								<div class="item" style="background: url(img/organic-food/q1.jpg);">
-
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="quick-view-content">
-								<div class="top">
-									<h3 class="head">Mill Oil 1000W Heater, White</h3>
-									<div class="price d-flex align-items-center"><span class="lnr lnr-tag"></span> <span class="ml-10">$149.99</span></div>
-									<div class="category">Category: <span>Household</span></div>
-									<div class="available">Availibility: <span>In Stock</span></div>
-								</div>
-								<div class="middle">
-									<p class="content">Mill Oil is an innovative oil filled radiator with the most modern technology. If you are
-										looking for something that can make your interior look awesome, and at the same time give you the pleasant
-										warm feeling during the winter.</p>
-									<a href="#" class="view-full">View full Details <span class="lnr lnr-arrow-right"></span></a>
-								</div>
-								<div class="bottom">
-									<div class="color-picker d-flex align-items-center">Color:
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-										<span class="single-pick"></span>
-									</div>
-									<div class="quantity-container d-flex align-items-center mt-15">
-										Quantity:
-										<input type="text" class="quantity-amount ml-15" value="1" />
-										<div class="arrow-btn d-inline-flex flex-column">
-											<button class="increase arrow" type="button" title="Increase Quantity"><span class="lnr lnr-chevron-up"></span></button>
-											<button class="decrease arrow" type="button" title="Decrease Quantity"><span class="lnr lnr-chevron-down"></span></button>
-										</div>
-
-									</div>
-									<div class="d-flex mt-20">
-										<a href="#" class="view-btn color-2"><span>Add to Cart</span></a>
-										<a href="#" class="like-btn"><span class="lnr lnr-layers"></span></a>
-										<a href="#" class="like-btn"><span class="lnr lnr-heart"></span></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
 
 
