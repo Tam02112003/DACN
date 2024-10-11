@@ -36,12 +36,15 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    public Page<Product> getProducts(int page, String search) {
-        Pageable pageable = PageRequest.of(page - 1, 5); // Giả sử bạn muốn hiển thị 5 sản phẩm mỗi trang
+    public Page<Product> getProducts(int page, String search, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // Giả sử bạn muốn hiển thị 5 sản phẩm mỗi trang
         return productRepository.findByNameContainingIgnoreCase(search, pageable);
     }
 
-
+    public Page<Product> getProductsByCategoryId(Long categoryId, int page, String search, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // Số lượng sản phẩm trên mỗi trang
+        return productRepository.findByCategoryIdAndNameContaining(categoryId, search, pageable);
+    }
     // Add a new product to the database
     public Product addProduct(Product product) {
         return productRepository.save(product);

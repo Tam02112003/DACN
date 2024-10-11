@@ -57,10 +57,14 @@ public class ProductController {
     public String showProductList(
             @RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
             @RequestParam(defaultValue = "") String search, // Tìm kiếm
+            @RequestParam(defaultValue = "5") int size,
             Model model) {
-
+        // Kiểm tra và đảm bảo page không nhỏ hơn 1
+        if (page < 1) {
+            page = 1;
+        }
         // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
-        Page<Product> productPage = productService.getProducts(page, search);
+        Page<Product> productPage = productService.getProducts(page, search, size);
 
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);

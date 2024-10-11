@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-    @Controller
+import java.util.List;
+
+@Controller
 
     @RequiredArgsConstructor
 
@@ -44,12 +46,24 @@ import org.springframework.web.bind.annotation.RequestParam;
         public String showProductList(
                 @RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
                 @RequestParam(defaultValue = "") String search, // Tìm kiếm
+                @RequestParam(required = false) Long categoryId, // ID thể loại (có thể null)
+                @RequestParam(defaultValue = "6") int size,
                 Model model) {
+            // Kiểm tra và đảm bảo page không nhỏ hơn 1
+            if (page < 1) {
+                page = 1;
+            }
+            // Gọi phương thức từ productService để lấy danh sách sản phẩm theo thể loại, phân trang và tìm kiếm
+            Page<Product> productPage;
+            if (categoryId != null) {
+                productPage = productService.getProductsByCategoryId(categoryId, page, search, size);
+            } else {
+                productPage = productService.getProducts(page, search, size);
+            }
             // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
-            Page<Category> categoryPage = categoryService.getCategories(page, search);
-            // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
-            Page<Product> productPage = productService.getProducts(page, search);
-            model.addAttribute("categories", categoryPage.getContent());
+            List<Category> categories = categoryService.getAllCategories();
+
+            model.addAttribute("categories", categories);
             model.addAttribute("products", productPage.getContent());
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", productPage.getTotalPages());
