@@ -3,9 +3,11 @@ package DACN.DACN.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,17 +45,19 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "fullname", length = 250)
-    @NotBlank(message = "Vui lòng nhập họ tên")
     private String fullname;
 
-    @Column(name = "phone", length = 15)
-    @NotBlank(message = "Vui lòng nhập số điện thoại")
-    @Size(max = 11, message = "Số điện thoại không hợp lệ")
+    @Column(name = "phone", length = 15,  unique = true)
+    @Length(min = 10, max = 10, message = "Số điện thoại phải đúng 10 số")
+    @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số")
     private String phone;
 
     @Column(name = "address", length = 250)
     @Size(max = 400, message = "Địa chỉ của bạn quá dài!!! Vui lòng nhập 400 kí tự ")
     private String address;
+
+    @Column(name = "provider", length = 50)
+    private String provider;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

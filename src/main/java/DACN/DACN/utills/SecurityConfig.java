@@ -1,6 +1,7 @@
 package DACN.DACN.utills;
 
 
+import DACN.DACN.services.OauthService;
 import DACN.DACN.services.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 @Configuration // Đánh dấu lớp này là một lớp cấu hình cho Spring Context.
 @EnableWebSecurity // Kích hoạt tính năng bảo mật web của Spring Security.
 @RequiredArgsConstructor // Lombok tự động tạo constructor có tham số cho tất cả các trường final.
 public class SecurityConfig {
     private final UserService userService; // Tiêm UserService vào lớp cấu hình này.
+    private final OauthService oauthService;
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
         return new UserService(); // Cung cấp dịch vụ xử lý chi tiết người dùng.
@@ -63,7 +66,24 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home",true) // Trang sau đăng nhập thành công.
                         .failureUrl("/login?error") // Trang đăng nhập thất bại.
                         .permitAll()
-                ) .
+                )
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint (userInfoEndpoint ->userInfoEndpoint
+                                .userService (oauthService))
+
+                        .successHandler(
+                                (request, response,authentication) -> {
+                                    var oidcUser =
+                                            (DefaultOidcUser) authentication.getPrincipal();
+                                    userService.saveOauthUser (oidcUser.getEmail(), oidcUser.getName());
+                                    response.sendRedirect("/home");
+                                }
+
+
+                        ).permitAll()
+                ).
                 rememberMe(rememberMe -> rememberMe
                         .key("hutech")
                         .rememberMeCookieName("hutech")
