@@ -154,11 +154,29 @@
 										<!--<h6 class="l-through">$210.00</h6>-->
 									</div>
 									<div class="prd-bottom">
-
-										<a href="" class="social-info">
+										<a href="#" class="social-info"
+										   th:onclick="'document.getElementById(\'add-to-cart-form-' + ${product.id} + '\').submit(); return false;'">
 											<span class="ti-bag"></span>
 											<p class="hover-text">Thêm vào giỏ</p>
 										</a>
+
+										<form th:id="'add-to-cart-form-' + ${product.id}" th:action="@{/cart/add}" method="post" style="display:none;">
+											<input type="hidden" name="quantity" value="1">
+											<input type="hidden" th:value="${product.id}" name="productId">
+										</form>
+
+
+
+										<!--<form th:action="@{/cart/add}" method="post">
+
+											<span class="ti-bag"></span>
+											<input type="hidden" name="quantity" value="1"/>
+											<input type="hidden" th:value="${product.id}"
+												   name="productId"/>
+
+											<button class="hover-text">Thêm vào giỏ hàng</button>
+
+										</form>-->
 										<!--<a href="" class="social-info">
 											<span class="lnr lnr-heart"></span>
 											<p class="hover-text">Wishlist</p>
@@ -171,6 +189,7 @@
 											<span class="lnr lnr-move"></span>
 											<p class="hover-text">Xem thêm</p>
 										</a>
+
 									</div>
 								</div>
 							</div>

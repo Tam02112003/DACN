@@ -141,7 +141,7 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "/admins/product/edit";
     }
-    @PostMapping("/edit/{id}")
+    @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id, @Valid Product product,
                                 BindingResult result,@RequestParam("image") MultipartFile imageFile,
                                 @RequestParam("productimages") MultipartFile[] imageList){

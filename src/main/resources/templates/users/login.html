@@ -30,6 +30,8 @@
 	<link rel="stylesheet" th:href="@{/css/nouislider.min.css}">
 	<link rel="stylesheet"  th:href="@{/css/bootstrap.css}">
 	<link rel="stylesheet"  th:href="@{/css/main.css}">
+
+
 </head>
 
 <body>
@@ -69,10 +71,11 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>Đăng nhập để trải nghiệm</h3>
-						<a href="/oauth2/authorization/google"
+					<!--	<a href="/oauth2/authorization/google"
 						   class="btn btn-outline-danger btn-floating m-1" role="button">
 							Login with Google
-						</a>
+						</a>-->
+
 						<!-- Hiển thị thông báo lỗi nếu có -->
 						<div th:if="${param.error}" class="alert alert-danger" role="alert">
 							Tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại!
@@ -97,6 +100,9 @@
 							</div>-->
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="primary-btn">Đăng nhập</button>
+									<a class="btn btn-link px-3" th:href="@{/oauth2/authorization/google}">
+										<img src="img/logogoogle.png" width="20px">
+									</a>
 								<a th:href="@{/register}">Đăng ký</a>
 							</div>
 						</form>

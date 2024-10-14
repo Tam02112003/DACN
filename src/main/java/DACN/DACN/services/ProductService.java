@@ -23,9 +23,7 @@ import java.util.Optional;
 @Service
 public class ProductService {
     @Autowired
-    private ProductRepository productRepository;
-
-
+    private final ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -45,7 +43,8 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page - 1, size); // Số lượng sản phẩm trên mỗi trang
         return productRepository.findByCategoryIdAndNameContaining(categoryId, search, pageable);
     }
-    // Add a new product to the database
+
+    // Thêm sản phẩm vào cơ sở dữ liệu
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
@@ -71,4 +70,7 @@ public class ProductService {
         existingSanpham.setUpdatedDate(new Date());
         return productRepository.save(existingSanpham);
     }
+
+
+
 }

@@ -77,31 +77,33 @@
 				<div class="col-lg-5 offset-lg-1">
 					<div class="s_product_text">
 						<!-- Tên sản phẩm -->
-
-
 							<h3 th:text="${product.name}"></h3>
-
-
 							<h2 th:text="${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')} + ' VND'"></h2>
-
 						<ul class="list">
 							<li><a class="active" href="#"><span>Thể loại</span><a th:text="${product.category.name}"></a></a></li>
 							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
 						</ul>
 						<p th:text="${product.description}"></p>
-						<div class="product_count">
-							<label for="qty">Quantity:</label>
-							<input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-							 class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-						</div>
-						<div class="card_area d-flex align-items-center">
-							<a class="primary-btn" href="#">Add to Cart</a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-						</div>
+						<!--<form th:action="@{/cart/add}" method="post">
+							<input type="number" name="quantity" min="1" value="1"
+								   class="form-control d-inline-block" style="width: 70px;">
+							<input type="hidden" th:value="${product.id}"
+								   name="productId"/>
+						</form>-->
+						<form th:action="@{/cart/add}" method="post" th:object="${product}">
+							<div class="product_count">
+								<label for="qty">Số lượng:</label>
+								<input type="number" name="quantity" id="sst" min="1" max="100" title="Số lượng:" class="input-text qty" value="1" />
+								<button type="button" onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst)) result.value++; return false;"
+										class="increase items-count"><i class="lnr lnr-chevron-up"></i></button>
+								<button type="button" onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst) && sst > 1) result.value--; return false;"
+										class="reduced items-count"><i class="lnr lnr-chevron-down"></i></button>
+							</div>
+							<div class="card_area d-flex align-items-center">
+								<input type="hidden" th:name="productId" th:value="${product.id}" />
+								<button type="submit" class="primary-btn">Thêm vào Giỏ hàng</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
