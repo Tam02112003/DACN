@@ -20,8 +20,10 @@ public class Product {
     private Long id;
 
     @NotBlank(message = "Tên sản phẩm không được để trống")
-    @Size(max = 50, min = 1, message = "Tên phải ít hơn 50 ký tự")
+    @Size(max = 150, min = 1, message = "Tên phải ít hơn 150 ký tự")
     private String name;
+    @Size(max = 5000, message = "Mô tả không được vượt quá 5000 ký tự")
+    @Column(length = 5000)
     private String description;
 
     @NotNull(message = "Giá là bắt buộc")

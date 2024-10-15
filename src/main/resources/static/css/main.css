@@ -10,7 +10,7 @@
 .no-padding {
   padding: 0; }
 
-.section_gap {
+.section_gap {s
   padding: 100px 0; }
   @media (max-width: 991px) {
     .section_gap {
@@ -5791,5 +5791,10 @@ label {
   .footer-text a,
   .footer-text i {
     color: #ffba00; }
+
+.single-product .price {
+    margin-top: 32px;
+        min-height: 30px;
+}
 
 /*# sourceMappingURL=main.css.map */

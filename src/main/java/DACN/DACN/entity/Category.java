@@ -1,19 +1,20 @@
 package DACN.DACN.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 @Entity
 public class Category {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @NotBlank(message = "Tên thể loại không được để trống")
+    @Column(name = "name", nullable = false)
     private String name;
     //Construtor
     public Category() {

@@ -71,7 +71,7 @@ public class ProductController {
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("search", search);
 
-        return "/admins/product/list";  // Đảm bảo rằng đường dẫn này là chính xác
+        return "/admins/product/list";
     }
 
     @GetMapping("/create")
