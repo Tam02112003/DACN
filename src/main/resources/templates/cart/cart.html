@@ -96,8 +96,12 @@
                                         <input type="text" name="qty" id="qty-{{item.product.id}}" maxlength="12"
                                                th:value="${item.quantity}" min="1" class="input-text qty" readonly>
                                         <!-- Nút giảm -->
-                                        <form th:action="@{/cart/decrease/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
-                                            <button type="submit" class="reduced items-count">
+                                        <form th:action="@{/cart/add}" method="post" style="display:inline;">
+                                            <input type="hidden" name="productId" th:value="${item.product.id}" />
+                                            <!-- Giảm số lượng đi 1 -->
+                                            <input type="hidden" name="quantity" th:value="-1" />
+                                            <button type="submit" class="reduced items-count"
+                                                    th:disabled="${item.quantity == 1}"> <!-- Disable nếu số lượng là 1 -->
                                                 <i class="lnr lnr-chevron-down"></i>
                                             </button>
                                         </form>
@@ -140,10 +144,10 @@
 
                                 </td>
                                 <td>
-                                    <h5>Subtotal</h5>
+                                    <h5>Tổng tiền giỏ hàng</h5>
                                 </td>
                                 <td>
-                                    <h5 th:text="${totalPrice}">$2160.00</h5>
+                                    <h5 th:text="${totalPrice}"></h5>
                                 </td>
                             </tr>
                           <!--  <tr class="shipping_area">

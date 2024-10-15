@@ -28,7 +28,7 @@ public class OrderController {
     @GetMapping
     public String showCheckoutForm(Model model) {
         model.addAttribute("cartItems", cartService.getCartItems());
-        return "/cart/checkout1"; // Chuyển đến trang checkout
+        return "/cart/checkout"; // Chuyển đến trang checkout
     }
     @PostMapping
     public String processCheckout(String customerName, String phone, String address, String paymentMethod, Model model) {
@@ -57,6 +57,6 @@ public class OrderController {
         // Xóa giỏ hàng sau khi đặt hàng thành công
         cartService.clearCart();
         model.addAttribute("message", "Đặt hàng thành công!");
-        return "/cart/success"; // Chuyển hướng đến giỏ hàng hoặc trang cảm ơn
+        return "/cart/confirmation"; // Chuyển hướng đến giỏ hàng hoặc trang cảm ơn
     }
 }

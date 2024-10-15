@@ -23,14 +23,10 @@ public class CartController {
     }
     @PostMapping("/add")
     public String addToCart(@RequestParam("productId") Long productId, @RequestParam("quantity") int quantity) {
-        // Nếu số lượng không được chỉ định, mặc định là 1
-        if (quantity <= 0) {
-            quantity = 1;
-        }
-
         cartService.addToCart(productId, quantity);
         return "redirect:/cart";
     }
+
 
     @GetMapping("/remove/{productId}")
     public String removeFromCart(@PathVariable Long productId) {

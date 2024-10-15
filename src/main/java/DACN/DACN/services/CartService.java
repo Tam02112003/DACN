@@ -17,28 +17,30 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
     public void addToCart(Long productId, int quantity) {
-        if (quantity <= 0) {
-            // Nếu số lượng là 0, xóa sản phẩm khỏi giỏ hàng
-            removeFromCart(productId);
-            return;
-        }
-
-        // Tìm sản phẩm trong giỏ hàng
+        // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng không
         CartItem existingItem = cartItems.stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst()
                 .orElse(null);
 
         if (existingItem != null) {
-            // Nếu sản phẩm đã tồn tại, tăng số lượng
-            existingItem.setQuantity(existingItem.getQuantity() + quantity);
-        } else {
-            // Nếu sản phẩm chưa có, tìm sản phẩm từ repository và thêm mới
+            int newQuantity = existingItem.getQuantity() + quantity;
+
+            if (newQuantity <= 0) {
+                // Nếu số lượng <= 0, xóa sản phẩm khỏi giỏ hàng
+                removeFromCart(productId);
+            } else {
+                // Cập nhật số lượng mới
+                existingItem.setQuantity(newQuantity);
+            }
+        } else if (quantity > 0) {
+            // Nếu sản phẩm chưa tồn tại và số lượng lớn hơn 0, thêm sản phẩm mới vào giỏ hàng
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
             cartItems.add(new CartItem(product, quantity));
         }
     }
+
     public List<CartItem> getCartItems() {
         return cartItems;
     }
