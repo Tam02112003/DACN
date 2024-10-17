@@ -26,6 +26,10 @@ public class OrderDetail {
     @Column(name = "quantity", nullable = false)
     private int quantity;  // Số lượng sản phẩm
 
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Size size;
+
     // Constructors
     public OrderDetail(Product product, int quantity) {
         this.product = product;

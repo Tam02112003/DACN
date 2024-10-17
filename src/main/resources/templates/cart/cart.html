@@ -64,6 +64,7 @@
                                 <th scope="col">Sản phẩm</th>
                                 <th scope="col">Giá</th>
                                 <th scope="col">Số lượng</th>
+                                <th scope="col">Size</th>
                                 <th scope="col">Tổng</th>
                                 <th scope="col">Chức năng</th>
                             </tr>
@@ -107,12 +108,14 @@
                                         </form>
                                     </div>
                                 </td>
-
+                                <td>
+                                    <p th:text="${item.size.name}"></p> <!-- Hiển thị tên size -->
+                                </td>
                                 <td>
                                     <h5 th:text="${item.product.price * item.quantity}" id="'price-' + ${item.product.id}" ></h5>
                                 </td>
                                 <td>
-                                    <a th:href="@{/cart/remove/{productId}(productId=${item.product.id})}" class="btn btn-danger btn-sm">
+                                    <a th:href="@{/cart/remove/{productId}(productId=${item.product.id}}" class="btn btn-danger btn-sm">
                                         <h5>Xóa</h5>
                                     </a>
                                 </td>

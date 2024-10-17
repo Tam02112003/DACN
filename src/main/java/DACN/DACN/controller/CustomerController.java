@@ -3,8 +3,10 @@ package DACN.DACN.controller;
 
 import DACN.DACN.entity.Category;
 import DACN.DACN.entity.Product;
+import DACN.DACN.entity.Size;
 import DACN.DACN.services.CategoryService;
 import DACN.DACN.services.ProductService;
+import DACN.DACN.services.SizeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,9 @@ import java.util.List;
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SizeService sizeService;
     @GetMapping("/home")
     public String showHome(Model model) {
 
@@ -74,8 +79,14 @@ import java.util.List;
     @GetMapping("/detail/{id}")
     public String getProductDetail(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
+        if (product == null) {
+            throw new IllegalArgumentException("Sản phẩm không tồn tại: " + id);
+        }
+        // Lấy danh sách size theo thể loại của sản phẩm
+        List<Size> sizes = sizeService.getSizesByCategory(product.getCategory().getId());
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("sizes", sizes); // Thêm danh sách size vào model
         return "customers/single-product";
     }
 }

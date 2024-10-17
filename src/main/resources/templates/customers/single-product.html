@@ -99,6 +99,15 @@
 								<button type="button" onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst) && sst > 1) result.value--; return false;"
 										class="reduced items-count"><i class="lnr lnr-chevron-down"></i></button>
 							</div>
+							<div class="product_count">
+								<label for="size">Chọn size:</label>
+								<select name="sizeId" required>
+									<option value="" disabled selected>Chọn size</option>
+									<th:block th:each="size : ${sizes}">
+										<option th:value="${size.id}" th:text="${size.name}"></option>
+									</th:block>
+								</select>
+							</div>
 							<div class="card_area d-flex align-items-center">
 								<input type="hidden" th:name="productId" th:value="${product.id}" />
 								<button type="submit" class="primary-btn">Thêm vào Giỏ hàng</button>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layoutadmin}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}">
+    <title>Thêm thể loại</title>
+    <!-- Fonts and icons -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link th:href="@{/assets/css/nucleo-icons.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/nucleo-svg.css}" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link id="pagestyle" th:href="@{/assets/css/material-dashboard.css?v=3.1.0}" rel="stylesheet" />
+
+    <!-- Nepcha Analytics -->
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+
+
+<main class="main-content border-radius-lg " layout:fragment="content">
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Size</li>
+                </ol>
+                <h6 class="font-weight-bolder mb-0">Thêm</h6>
+
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+
+
+                </div>
+                <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item d-flex align-items-center">
+                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/sizes/create}">Thêm Size</a>
+                    </li>
+
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item px-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="./pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+
+                            <span class="d-sm-inline d-none">Sign In</span>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <form th:action="@{/sizes/create}" th:object="${size}" method="post" novalidate>
+                <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                    <label class="w-10 me-3 mb-0" for="name">Size:</label>
+                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập Size">
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+                <div>
+                    <label for="category">Thể loại:</label>
+                    <select th:field="*{category.id}" required id="category">
+                        <option value="" disabled selected>Chọn thể loại</option>
+                        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm Size</button>
+                <a href="/sizes" class="btn btn-secondary">Quay lại</a>
+            </form>
+            <div class="row mt-4">
+                <div class="col-lg-5 mb-lg-0 mb-4">
+                    <div class="card z-index-2 mt-4">
+                        <div class="card-body mt-n5 px-3">
+                            <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1 mb-3">
+                                <div class="chart">
+                                    <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                                </div>
+                            </div>
+                            <h6 class="ms-2 mt-4 mb-0"> Active Users </h6>
+                            <p class="text-sm ms-2"> (<span class="font-weight-bolder">+11%</span>) than last week </p>
+                            <div class="container border-radius-lg">
+                                <div class="row">
+                                    <div class="col-3 py-3 ps-0">
+                                        <div class="d-flex mb-2">
+                                            <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-primary text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="material-icons opacity-10">groups</i>
+                                            </div>
+                                            <p class="text-xs my-auto font-weight-bold">Users</p>
+                                        </div>
+                                        <h4 class="font-weight-bolder">42K</h4>
+                                        <div class="progress w-75">
+                                            <div class="progress-bar bg-dark w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 py-3 ps-0">
+                                        <div class="d-flex mb-2">
+                                            <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-info text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="material-icons opacity-10">ads_click</i>
+                                            </div>
+                                            <p class="text-xs mt-1 mb-0 font-weight-bold">Clicks</p>
+                                        </div>
+                                        <h4 class="font-weight-bolder">1.7m</h4>
+                                        <div class="progress w-75">
+                                            <div class="progress-bar bg-dark w-90" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 py-3 ps-0">
+                                        <div class="d-flex mb-2">
+                                            <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-warning text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="material-icons opacity-10">receipt</i>
+                                            </div>
+                                            <p class="text-xs mt-1 mb-0 font-weight-bold">Sales</p>
+                                        </div>
+                                        <h4 class="font-weight-bolder">399$</h4>
+                                        <div class="progress w-75">
+                                            <div class="progress-bar bg-dark w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 py-3 ps-0">
+                                        <div class="d-flex mb-2">
+                                            <div class="icon icon-shape icon-xxs shadow border-radius-sm bg-gradient-danger text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="material-icons opacity-10">category</i>
+                                            </div>
+                                            <p class="text-xs mt-1 mb-0 font-weight-bold">Items</p>
+                                        </div>
+                                        <h4 class="font-weight-bolder">74</h4>
+                                        <div class="progress w-75">
+                                            <div class="progress-bar bg-dark w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card z-index-2">
+                        <div class="card-header pb-0">
+                            <h6>Sales overview</h6>
+                            <p class="text-sm">
+                                <i class="fa fa-arrow-up text-success"></i>
+                                <span class="font-weight-bold">4% more</span> in 2021
+                            </p>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="chart">
+                                <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="globe" class="position-absolute end-0 top-10 mt-sm-3 mt-7 me-lg-7">
+                        <canvas width="700" height="600" class="w-lg-100 h-lg-100 w-75 h-75 me-lg-0 me-n10 mt-lg-5"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Core JS Files -->
+<script th:src="@{/assets/js/core/popper.min.js}"></script>
+<script th:src="@{/assets/js/core/bootstrap.min.js}"></script>
+
+<script th:src="@{/assets/js/plugins/perfect-scrollbar.min.js}" ></script>
+<script th:src="@{/assets/js/plugins/smooth-scrollbar.min.js}" ></script>
+
+<script th:inline="javascript">
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        };
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+
+<!-- Github buttons -->
+<script async defer th:src="@{https://buttons.github.io/buttons.js}"></script>
+
+<!-- Control Center for Material Dashboard -->
+<script th:src="@{/assets/js/material-dashboard.min.js?v=3.1.0}"></script>
+
+</body>
+
+</html>

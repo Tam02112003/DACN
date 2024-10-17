@@ -27,7 +27,14 @@ public class OrderController {
 
     @GetMapping
     public String showCheckoutForm(Model model) {
-        model.addAttribute("cartItems", cartService.getCartItems());
+        List<CartItem> cartItems = cartService.getCartItems();
+        model.addAttribute("cartItems", cartItems);
+        // Tính toán tổng tiền
+        double totalPrice = cartItems.stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+
+        model.addAttribute("totalPrice", totalPrice); // Thêm tổng tiền vào model
         return "/cart/checkout"; // Chuyển đến trang checkout
     }
     @PostMapping
@@ -43,6 +50,7 @@ public class OrderController {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setProduct(item.getProduct()); // Thiết lập sản phẩm
                     orderDetail.setQuantity(item.getQuantity()); // Thiết lập số lượng
+                    orderDetail.setSize(item.getSize()); // Thiết lập kích thước
                     orderDetail.setOrder(order); // Thiết lập liên kết với đơn hàng
                     return orderDetail;
                 })

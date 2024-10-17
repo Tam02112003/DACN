@@ -22,15 +22,18 @@ public class CartController {
         return "/cart/cart";
     }
     @PostMapping("/add")
-    public String addToCart(@RequestParam("productId") Long productId, @RequestParam("quantity") int quantity) {
-        cartService.addToCart(productId, quantity);
+    public String addToCart(@RequestParam("productId") Long productId,
+                            @RequestParam("quantity") int quantity,
+                            @RequestParam("sizeId") Long sizeId) {
+        cartService.addToCart(productId, quantity, sizeId);
         return "redirect:/cart";
     }
 
 
     @GetMapping("/remove/{productId}")
-    public String removeFromCart(@PathVariable Long productId) {
-        cartService.removeFromCart(productId);
+    public String removeFromCart(@PathVariable Long productId,
+                                 @RequestParam Long sizeId) {
+        cartService.removeFromCart(productId, sizeId);
         return "redirect:/cart";
     }
     @GetMapping("/clear")

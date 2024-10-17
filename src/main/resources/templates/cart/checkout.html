@@ -94,17 +94,15 @@
                             <ul class="list">
                                 <li><a>Product <span>Total</span></a></li>
 
-                                <li th:each="item : ${cartItems}"><a th:text="${item.product.name} + ' x ' + ${item.quantity}">
-                                    <span class="middle"></span>
-                                    <span class="last">$720.00</span>
-                                </a>
+                                <li th:each="item : ${cartItems}">
+                                    <a th:text="${item.product.name} + ' x ' + ${item.quantity} + ' size ' +${item.size.name} "></a>
                                 </li>
 
                             </ul>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                                <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                                <li><a href="#">Total <span>$2210.00</span></a></li>
+                                <li><a href="#">Subtotal <span th:text="${#numbers.formatDecimal(totalPrice, 0, 0)} + ' VND'"></span></a></li>
+                                <li><a href="#">Shipping <span>Ship: 30.000 VND</span></a></li>
+                                <li><a href="#">Total <span th:text="${#numbers.formatDecimal(totalPrice + 30000, 0, 0)} + ' VND'"></span></a></li>
                             </ul>
 
 
