@@ -52,6 +52,7 @@ public class CartService {
     public List<CartItem> getCartItems() {
         return cartItems;
     }
+
     public void removeFromCart(Long productId, Long sizeId) {
         cartItems.removeIf(item -> item.getProduct().getId().equals(productId)&& item.getSize().getId().equals(sizeId));
     }

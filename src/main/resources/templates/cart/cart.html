@@ -53,7 +53,7 @@
 
     <!--================Cart Area =================-->
 
-    <section class="cart_area">
+    <!--<section class="cart_area">
         <form th:action="@{/cart/add}" method="post">
         <div class="container">
             <div class="cart_inner">
@@ -86,8 +86,8 @@
                                 </td>
                                 <td>
                                     <div class="product_count">
-                                        <!-- Nút tăng -->
-                                        <form th:action="@{/cart/add}" method="post" style="display:inline;">
+                                        &lt;!&ndash; Nút tăng &ndash;&gt;
+                                        <form th:action="@{/cart/increase/' + ${item.product.id}}" method="post" style="display:inline;">
                                             <input type="hidden" name="productId" th:value="${item.product.id}" />
                                             <input type="hidden" name="quantity" value="1" />
                                             <button type="submit" class="increase items-count">
@@ -96,20 +96,20 @@
                                         </form>
                                         <input type="text" name="qty" id="qty-{{item.product.id}}" maxlength="12"
                                                th:value="${item.quantity}" min="1" class="input-text qty" readonly>
-                                        <!-- Nút giảm -->
+                                        &lt;!&ndash; Nút giảm &ndash;&gt;
                                         <form th:action="@{/cart/add}" method="post" style="display:inline;">
                                             <input type="hidden" name="productId" th:value="${item.product.id}" />
-                                            <!-- Giảm số lượng đi 1 -->
+                                            &lt;!&ndash; Giảm số lượng đi 1 &ndash;&gt;
                                             <input type="hidden" name="quantity" th:value="-1" />
                                             <button type="submit" class="reduced items-count"
-                                                    th:disabled="${item.quantity == 1}"> <!-- Disable nếu số lượng là 1 -->
+                                                    th:disabled="${item.quantity == 1}"> &lt;!&ndash; Disable nếu số lượng là 1 &ndash;&gt;
                                                 <i class="lnr lnr-chevron-down"></i>
                                             </button>
                                         </form>
                                     </div>
                                 </td>
                                 <td>
-                                    <p th:text="${item.size.name}"></p> <!-- Hiển thị tên size -->
+                                    <p th:text="${item.size.name}"></p> &lt;!&ndash; Hiển thị tên size &ndash;&gt;
                                 </td>
                                 <td>
                                     <h5 th:text="${item.product.price * item.quantity}" id="'price-' + ${item.product.id}" ></h5>
@@ -122,7 +122,7 @@
                             </tr>
                             <tr class="bottom_button">
                                 <td>
-                                    <!--<a class="gray_btn" href="#" onclick="updateCart(); return false;">Update Cart</a>-->
+                                    &lt;!&ndash;<a class="gray_btn" href="#" onclick="updateCart(); return false;">Update Cart</a>&ndash;&gt;
                                 </td>
 
                                 <td>
@@ -132,11 +132,11 @@
 
                                 </td>
                                 <td>
-                                    <!--<div class="cupon_text d-flex align-items-center">
+                                    &lt;!&ndash;<div class="cupon_text d-flex align-items-center">
                                         <input type="text" placeholder="Coupon Code">
                                         <a class="primary-btn" href="#">Apply</a>
                                         <a class="gray_btn" href="#">Close Coupon</a>
-                                    </div>-->
+                                    </div>&ndash;&gt;
                                 </td>
                             </tr>
                             <tr>
@@ -153,7 +153,7 @@
                                     <h5 th:text="${totalPrice}"></h5>
                                 </td>
                             </tr>
-                          <!--  <tr class="shipping_area">
+                          &lt;!&ndash;  <tr class="shipping_area">
                                 <td>
 
                                 </td>
@@ -186,7 +186,7 @@
                                         <a class="gray_btn" href="#">Update Details</a>
                                     </div>
                                 </td>
-                            </tr>-->
+                            </tr>&ndash;&gt;
                             <tr class="out_button_area">
                                 <td>
 
@@ -210,7 +210,103 @@
             </div>
         </div>
         </form>
-    </section>
+    </section>-->
+      <section class="cart_area">
+          <div class="container">
+              <div class="cart_inner">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead>
+                          <tr>
+                              <th scope="col">Sản phẩm</th>
+                              <th scope="col">Giá</th>
+                              <th scope="col">Số lượng</th>
+                              <th scope="col">Size</th>
+                              <th scope="col">Tổng</th>
+                              <th scope="col">Chức năng</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr th:each="item : ${cartItems}">
+                              <td>
+                                  <div class="media">
+                                      <div class="d-flex">
+                                          <img th:src="${item.product.ImgUrl}" width="100px" height="100px" alt="">
+                                      </div>
+                                      <div class="media-body">
+                                          <p th:text="${item.product.name}"></p>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <h5 th:text="${item.product.price}"></h5>
+                              </td>
+                              <td>
+                                  <div class="product_count">
+                                      <!-- Nút tăng -->
+                                      <form th:action="@{/cart/increase/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
+                                          <button type="submit" class="increase items-count">
+                                              <i class="lnr lnr-chevron-up"></i>
+                                          </button>
+                                      </form>
+                                      <input type="text" name="qty" id="qty-[[${item.product.id}]]" maxlength="12"
+                                             th:value="${item.quantity}" min="1" class="input-text qty" readonly>
+                                      <!-- Nút giảm -->
+                                      <form th:action="@{/cart/decrease/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
+                                          <button type="submit" class="reduced items-count" th:disabled="${item.quantity == 1}">
+                                              <i class="lnr lnr-chevron-down"></i>
+                                          </button>
+                                      </form>
+                                  </div>
+                              </td>
+                              <td>
+                                  <p th:text="${item.size.name}"></p> <!-- Hiển thị tên size -->
+                              </td>
+                              <td>
+                                  <h5 th:text="${item.product.price * item.quantity}" id="'price-' + ${item.product.id}"></h5>
+                              </td>
+                              <td>
+                                  <form th:action="@{/cart/remove/{productId}/{sizeId}(productId=${item.product.id}, sizeId=${item.size.id})}" method="post" style="display:inline;">
+                                      <button type="submit" class="btn btn-danger btn-sm">
+                                          <h5>Xóa</h5>
+                                      </button>
+                                  </form>
+                              </td>
+                          </tr>
+                          <tr class="bottom_button">
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                  <h5>Tổng tiền giỏ hàng</h5>
+                              </td>
+                              <td>
+                                  <h5 th:text="${totalPrice}"></h5>
+                              </td>
+                          </tr>
+                          <tr class="out_button_area">
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                  <div class="checkout_btn_inner d-flex align-items-center">
+                                      <a class="gray_btn" th:href="@{/shop}">Quay lại</a>
+                                      <a class="primary-btn" href="/checkout">Proceed to checkout</a>
+                                  </div>
+                              </td>
+                          </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </section>
+
 
       <script>
           function increaseQuantity(productId) {

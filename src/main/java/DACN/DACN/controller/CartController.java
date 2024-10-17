@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,10 +31,12 @@ public class CartController {
     }
 
 
-    @GetMapping("/remove/{productId}")
+    @PostMapping("/remove/{productId}/{sizeId}")
     public String removeFromCart(@PathVariable Long productId,
-                                 @RequestParam Long sizeId) {
+                                 @PathVariable Long sizeId,
+                                 RedirectAttributes redirectAttributes) {
         cartService.removeFromCart(productId, sizeId);
+        redirectAttributes.addFlashAttribute("message", "Đã xóa sản phẩm khỏi giỏ hàng");
         return "redirect:/cart";
     }
     @GetMapping("/clear")
