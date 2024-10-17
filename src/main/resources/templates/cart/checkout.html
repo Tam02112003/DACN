@@ -39,10 +39,10 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Checkout</h1>
+                    <h1>Thanh Toán</h1>
                     <nav class="d-flex align-items-center">
                         <a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-                        <a href="single-product.html">Checkout</a>
+                        <a href="single-product.html">Thanh Toán</a>
                     </nav>
                 </div>
             </div>
@@ -57,7 +57,7 @@
             <div class="billing_details">
                 <div class="row">
                     <div class="col-lg-8">
-                        <h3>Billing Details</h3>
+                        <h3>Chi tiết đơn hàng</h3>
 
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control" id="customerName" name="customerName">
@@ -80,29 +80,28 @@
                             </div>
                             <div class="col-md-12 form-group">
                                 <div class="creat_account">
-                                    <h3>Shipping Details</h3>
-                                    <input type="checkbox" id="f-option3" name="selector">
-                                    <label for="f-option3">Ship to a different address?</label>
+                                    <h3>Ghi chú đơn hàng</h3>
                                 </div>
-                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Ghi chú"></textarea>
                             </div>
 
                     </div>
                     <div class="col-lg-4">
                         <div class="order_box">
-                            <h2>Your Order</h2>
+                            <h2>Đơn hàng của bạn</h2>
                             <ul class="list">
-                                <li><a>Product <span>Total</span></a></li>
+                                <li><a>Sản phẩm <span>Giá Tiền</span></a></li>
 
                                 <li th:each="item : ${cartItems}">
                                     <a th:text="${item.product.name} + ' x ' + ${item.quantity} + ' size ' +${item.size.name} "></a>
+                                    <span th:text="${#numbers.formatDecimal(item.product.price * item.quantity, 0, 0)} + ' VND'"></span>
                                 </li>
 
                             </ul>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span th:text="${#numbers.formatDecimal(totalPrice, 0, 0)} + ' VND'"></span></a></li>
-                                <li><a href="#">Shipping <span>Ship: 30.000 VND</span></a></li>
-                                <li><a href="#">Total <span th:text="${#numbers.formatDecimal(totalPrice + 30000, 0, 0)} + ' VND'"></span></a></li>
+                                <li><a href="#">Tổng cộng: <span th:text="${#numbers.formatDecimal(totalPrice, 0, 0)} + ' VND'"></span></a></li>
+                                <li><a href="#">Phí Ship: <span>30.000 VND</span></a></li>
+                                <li><a href="#">Tổng Thanh Toán: <span th:text="${#numbers.formatDecimal(totalPrice + 30000, 0, 0)} + ' VND'"></span></a></li>
                             </ul>
 
 
