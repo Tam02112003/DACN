@@ -53,32 +53,39 @@
     <!--================Checkout Area =================-->
     <section class="checkout_area section_gap">
         <div class="container">
-            <form class="row contact_form" action="/checkout"  method="post" novalidate="novalidate">
+            <form class="row contact_form" th:action="@{/checkout}"  method="post" novalidate="novalidate">
             <div class="billing_details">
                 <div class="row">
                     <div class="col-lg-8">
                         <h3>Chi tiết đơn hàng</h3>
 
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="customerName" name="customerName">
+                                <input type="text" class="form-control" id="customerName" name="customerName" required>
                                 <span class="placeholder" data-placeholder="Họ và tên"></span>
+                                <!--<div class="text-danger" th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}"></div>-->
                             </div>
+
+
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control" id="phone" name="phone">
                                 <span class="placeholder" data-placeholder="Số điện thoại người nhận hàng"></span>
+
                             </div>
-                            <div class="col-md-12 form-group p_star">
+
+
+                        <div class="col-md-12 form-group p_star">
                                 <select class="country_select">
                                     <option value="1">Việt Nam</option>
-                                    <!--<option value="2">Country</option>
-                                    <option value="4">Country</option>-->
                                 </select>
                             </div>
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control" id="address" name="address">
                                 <span class="placeholder" data-placeholder="Địa chỉ nhận hàng"></span>
+
                             </div>
-                            <div class="col-md-12 form-group">
+
+
+                        <div class="col-md-12 form-group">
                                 <div class="creat_account">
                                     <h3>Ghi chú đơn hàng</h3>
                                 </div>
@@ -117,7 +124,7 @@
                             </div>-->
                             <div class="payment_item">
                                 <div class="radio_btn">
-                                    <input type="radio" id="paymentMethod" name="paymentMethod">
+                                    <input type="radio" id="paymentMethod" name="paymentMethod" value="Thanh toán khi nhận hàng" required>
                                     <label for="paymentMethod">Thanh toán khi nhận hàng</label>
                                     <div class="check"></div>
                                 </div>

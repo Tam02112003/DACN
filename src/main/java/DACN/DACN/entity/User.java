@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Email là bắt buộc")
     @Email
     private String email;
-
+    @NotBlank(message = "Họ tên là bắt buộc")
     @Column(name = "fullname", length = 250)
     private String fullname;
 

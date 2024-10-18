@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -27,5 +29,11 @@ public class OrderService {
 
         return savedOrder; // Trả về đơn hàng đã lưu
     }
-
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalStateException("Order not found with id: " + orderId));
+    }
 }

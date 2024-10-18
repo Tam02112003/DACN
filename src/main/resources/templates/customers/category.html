@@ -155,21 +155,7 @@
 										<h6  th:text="${product.price}" ></h6>
 									</div>
 									<div class="prd-bottom">
-										<a href="#" class="social-info"
-										   th:onclick="'document.getElementById(\'add-to-cart-form-' + ${product.id} + '\').submit(); return false;'">
-											<span class="ti-bag"></span>
-											<p class="hover-text">Thêm vào giỏ</p>
-										</a>
-
-										<form th:id="'add-to-cart-form-' + ${product.id}" th:action="@{/cart/add}" method="post" style="display:none;">
-											<input type="hidden" name="quantity" value="1">
-											<input type="hidden" th:value="${product.id}" name="productId">
-										</form>
-
-
-
 										<!--<form th:action="@{/cart/add}" method="post">
-
 											<span class="ti-bag"></span>
 											<input type="hidden" name="quantity" value="1"/>
 											<input type="hidden" th:value="${product.id}"

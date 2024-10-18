@@ -93,15 +93,14 @@
                     <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập Size">
                     <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
-                <div>
-                    <label for="category">Thể loại:</label>
-                    <select th:field="*{category.id}" required id="category">
-                        <option value="" disabled selected>Chọn thể loại</option>
-                        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                    <label class="w-10 me-3 mb-0" for="category">Thể loại</label>
+                    <select class="form-control" id="category" th:field="*{category.id}" >
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Sửa Size</button>
-                <a href="/sizes" class="btn btn-secondary">Quay lại</a>
+                <a th:href="@{/sizes}" class="btn btn-secondary">Quay lại</a>
             </form>
             <div class="row mt-4">
                 <div class="col-lg-5 mb-lg-0 mb-4">

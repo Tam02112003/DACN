@@ -296,7 +296,7 @@
                               <td>
                                   <div class="checkout_btn_inner d-flex align-items-center">
                                       <a class="gray_btn" th:href="@{/shop}">Quay lại</a>
-                                      <a class="primary-btn" href="/checkout">Proceed to checkout</a>
+                                      <a class="primary-btn"  id="checkoutBtn" th:href="@{/checkout}">Proceed to checkout</a>
                                   </div>
                               </td>
                           </tr>
@@ -309,6 +309,18 @@
 
 
       <script>
+          document.addEventListener('DOMContentLoaded', function() {
+              const checkoutBtn = document.getElementById('checkoutBtn');
+              const cartItems = /*[[${cartItems.size()}]]*/ 0; // Lấy số lượng sản phẩm trong giỏ
+
+              checkoutBtn.addEventListener('click', function(event) {
+                  if (cartItems === 0) {
+                      event.preventDefault(); // Ngăn chặn hành động mặc định
+                      alert("Giỏ hàng của bạn đang trống. Không thể thực hiện checkout."); // Hiển thị thông báo
+                  }
+              });
+          });
+
           function increaseQuantity(productId) {
     fetch(`/cart/increase/${productId}`, {
         method: 'POST',
