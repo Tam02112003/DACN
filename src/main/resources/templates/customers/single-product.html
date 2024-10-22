@@ -115,6 +115,34 @@
 						</form>
 					</div>
 				</div>
+				<div>
+					<h3>Đánh giá sản phẩm</h3>
+					<div class="reviews">
+						<ul class="list-group">
+							<li class="list-group-item" th:each="review : ${reviews}">
+								<strong th:text="${review.user.username}"></strong> <!-- Tên người dùng -->
+								<p th:text="${review.comment}"></p> <!-- Bình luận -->
+								<p th:text="${review.rating}"></p> <!-- Đánh giá -->
+								<small th:text="${#dates.format(review.createDate, 'dd/MM/yyyy')}"></small> <!-- Ngày tạo -->
+
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<!-- Form để người dùng bình luận -->
+					<form th:action="@{/detail/{id}/review(id=${product.id})}" method="post" th:object="${review}">
+						<div class="mb-3">
+							<label for="comment" class="form-label">Nội dung bình luận</label>
+							<textarea id="comment" th:field="*{comment}" class="form-control" required></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="rating" class="form-label">Đánh giá (1-5)</label>
+							<input type="number" id="rating" th:field="*{rating}" class="form-control" min="1" max="5" required />
+						</div>
+						<button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -457,6 +485,7 @@
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</section>

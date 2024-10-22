@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -31,15 +32,20 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductReview> reviews = new ArrayList<>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
+
     private String imgUrl;
 
     @PrePersist

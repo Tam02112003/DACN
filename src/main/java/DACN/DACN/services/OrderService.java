@@ -2,6 +2,8 @@ package DACN.DACN.services;
 
 import DACN.DACN.entity.Order;
 import DACN.DACN.entity.OrderDetail;
+import DACN.DACN.entity.OrderStatus;
+import DACN.DACN.entity.User;
 import DACN.DACN.repository.OrderDetailRepository;
 import DACN.DACN.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,26 @@ public class OrderService {
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
+
     public Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalStateException("Order not found with id: " + orderId));
     }
+    // Phương thức lấy đơn hàng theo người dùng
+    public List<Order> getOrdersByUser(User user) {
+        return orderRepository.findByUser(user);
+    }
+
+    public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
+        // Tìm đơn hàng theo ID
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại")); // Ném lỗi nếu không tìm thấy
+
+        // Cập nhật trạng thái cho đơn hàng
+        order.setStatus(orderStatus);
+
+        // Lưu đơn hàng đã cập nhật
+        orderRepository.save(order);
+    }
+
 }

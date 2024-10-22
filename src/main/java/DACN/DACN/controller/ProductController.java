@@ -3,16 +3,13 @@ package DACN.DACN.controller;
 import DACN.DACN.entity.Product;
 
 import DACN.DACN.entity.ProductImage;
-import DACN.DACN.services.CategoryService;
-import DACN.DACN.services.ProductService;
-import DACN.DACN.services.ProductImageService;
+import DACN.DACN.entity.ProductReview;
+import DACN.DACN.entity.User;
+import DACN.DACN.services.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,13 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -43,7 +41,10 @@ public class ProductController {
     @Autowired
     private ProductImageService productImageService;
 
-
+    @Autowired
+    private ProductReviewService productReviewService;
+    @Autowired
+    private UserService userService;
     ///////////////////////////////////
     /*@GetMapping("")
     public String showProductList(Model model) {
@@ -202,4 +203,7 @@ public class ProductController {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "admins/product/detail";
     }
+
+
+
 }

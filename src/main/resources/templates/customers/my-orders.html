@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Đường dẫn tới file CSS của bạn -->
+</head>
+<body>
+<h1>Danh sách đơn hàng của tôi</h1>
+
+<!-- Nếu không có đơn hàng nào -->
+<div th:if="${orders.size() == 0}">
+    <p>Bạn chưa có đơn hàng nào.</p>
+</div>
+
+<!-- Hiển thị danh sách đơn hàng -->
+<table th:if="${orders.size() > 0}">
+    <thead>
+    <tr>
+        <th>ID đơn hàng</th>
+        <th>Ngày đặt hàng</th>
+        <th>Trạng thái</th>
+        <th>Tổng tiền đơn hàng</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td> <!-- Hiển thị ID đơn hàng -->
+        <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy')}"></td> <!-- Hiển thị ngày đặt hàng -->
+        <td th:text="${order.status}"></td> <!-- Hiển thị trạng thái đơn hàng -->
+        <td th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 2)}"></td> <!-- Hiển thị tổng tiền của đơn hàng -->
+        <td>
+            <a th:href="@{/orders/details/{id}(id=${order.id})}">Xem chi tiết</a> <!-- Link tới trang chi tiết đơn hàng -->
+        </td>
+    </tr>
+    </tbody>
+</table>

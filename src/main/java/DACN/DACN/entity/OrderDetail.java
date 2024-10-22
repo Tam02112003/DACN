@@ -30,9 +30,17 @@ public class OrderDetail {
     @JoinColumn(name = "size_id")
     private Size size;
 
+    @Column(name = "total_price", nullable = false)
+    private double totalPrice;
+
     // Constructors
     public OrderDetail(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
+        this.totalPrice = product.getPrice() * quantity;  // Tính tổng tiền
+    }
+    // Phương thức để cập nhật lại tổng tiền khi số lượng hoặc giá thay đổi
+    public void updateTotalPrice() {
+        this.totalPrice = this.product.getPrice() * this.quantity;
     }
 }

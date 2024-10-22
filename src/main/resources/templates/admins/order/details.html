@@ -113,6 +113,8 @@
                     <th>Tên sản phẩm</th>
                     <th>Kích cỡ</th>
                     <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Tổng tiền</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -120,6 +122,8 @@
                     <td th:text="${detail.product.name}"></td>
                     <td th:text="${detail.size.name}"></td>
                     <td th:text="${detail.quantity}"></td>
+                    <td th:text="${#numbers.formatDecimal(detail.product.price, 1, 2)}"></td> <!-- Hiển thị giá sản phẩm -->
+                    <td th:text="${#numbers.formatDecimal(detail.totalPrice, 1, 2)}"></td> <!-- Hiển thị tổng tiền sản phẩm -->
                 </tr>
                 </tbody>
             </table>

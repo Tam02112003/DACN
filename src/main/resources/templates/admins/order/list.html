@@ -168,12 +168,28 @@
                                         <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.phone}"></span></span>
                                         <span class="mb-2 text-xs">Phương thức thanh toán: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.paymentMethod}"></span></span>
                                         <span class="mb-2 text-xs">Thời gian đặt hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></span>
+                                        <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.status}"></span></span>
+
+
+                                        <span class="mb-2 text-xs">Tổng tiền đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 2)}"></span></span><!-- Hiển thị tổng tiền của đơn hàng -->
 
                                     </div>
                                     <div class="ms-auto text-end">
+                                        <form th:action="@{/orders/update-status}" method="post" style="display:inline;">
+                                            <select name="status" class="form-select">
+                                                <option value="PENDING" th:selected="${order.status == 'PENDING'}">Đang chờ</option>
+                                                <option value="PROCESSING" th:selected="${order.status == 'PROCESSING'}">Đang xử lý</option>
+                                                <option value="SHIPPED" th:selected="${order.status == 'SHIPPED'}">Đang gửi</option>
+                                                <option value="DELIVERED" th:selected="${order.status == 'DELIVERED'}">Đã giao</option>
+                                                <option value="CANCELED" th:selected="${order.status == 'CANCELED'}">Đã hủy</option>
+                                            </select>
+                                            <input type="hidden" name="orderId" th:value="${order.id}" />
+                                            <button type="submit" class="btn btn-primary btn-sm mb-0">Cập nhật trạng thái</button>
+                                        </form>
                                         <a th:href="@{/orders/details/{id}(id=${order.id})}" class="btn btn-outline-primary btn-sm mb-0">View</a>
 
                                     </div>
+
 
                                 </li>
 
