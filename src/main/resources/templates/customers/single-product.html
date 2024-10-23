@@ -7,7 +7,7 @@
 <head>
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- Favicon-->
+	<!-- Favicon -->
 	<link rel="shortcut icon" th:href="@{/img/fav.png}">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
@@ -19,9 +19,7 @@
 	<meta charset="UTF-8">
 	<!-- Site Title -->
 	<title>Karma Shop</title>
-	<!--
-            CSS
-            ============================================= -->
+	<!-- CSS ============================================= -->
 	<link rel="stylesheet" th:href="@{/css/linearicons.css}">
 	<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/css/themify-icons.css}">
@@ -29,9 +27,31 @@
 	<link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
 	<link rel="stylesheet" th:href="@{/css/nice-select.css}">
 	<link rel="stylesheet" th:href="@{/css/nouislider.min.css}">
-	<link rel="stylesheet" th:href="@{/css/ion.rangeSlider.css}">
-	<link rel="stylesheet" th:href="@{/css/ion.rangeSlider.skinFlat.css}">
+	<link rel="stylesheet" th:href="@{/css/ion.rangeSlider.css}" />
+	<link rel="stylesheet" th:href="@{/css/ion.rangeSlider.skinFlat.css}" />
+	<link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
 	<link rel="stylesheet" th:href="@{/css/main.css}">
+	<link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}">
+	<style>
+		.list-star {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-star li {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .fa-star {
+            color: #ccc; /* Màu ngôi sao mặc định */
+            font-size: 24px;
+        }
+
+        .highlighted {
+            color: #FFD700; /* Màu vàng khi ngôi sao được chọn */
+        }
+	</style>
 </head>
 
 <body>
@@ -45,7 +65,7 @@
 				<div class="col-first">
 					<h1 th:text="${product.name}"></h1>
 					<nav class="d-flex align-items-center">
-						<a th:href="@{index}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
+						<a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
 						<a th:href="@{/shop}">Sản phẩm<span class="lnr lnr-arrow-right"></span></a>
 						<a href="#">Chi tiết sản phẩm</a>
 					</nav>
@@ -92,7 +112,7 @@
 						</form>-->
 						<form th:action="@{/cart/add}" method="post" th:object="${product}">
 							<div class="product_count">
-								<label for="qty">Số lượng:</label>
+								<label>Số lượng:</label>
 								<input type="number" name="quantity" id="sst" min="1" max="100" title="Số lượng:" class="input-text qty" value="1" />
 								<button type="button" onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst)) result.value++; return false;"
 										class="increase items-count"><i class="lnr lnr-chevron-up"></i></button>
@@ -100,9 +120,9 @@
 										class="reduced items-count"><i class="lnr lnr-chevron-down"></i></button>
 							</div>
 							<div class="product_count">
-								<label for="size">Chọn size:</label>
-								<select name="sizeId" required>
-									<option value="" disabled selected>Chọn size</option>
+								<label></label>
+								<select  name="sizeId" required>
+									<option  value="" disabled selected>Chọn size</option>
 									<th:block th:each="size : ${sizes}">
 										<option th:value="${size.id}" th:text="${size.name}"></option>
 									</th:block>
@@ -114,34 +134,6 @@
 							</div>
 						</form>
 					</div>
-				</div>
-				<div>
-					<h3>Đánh giá sản phẩm</h3>
-					<div class="reviews">
-						<ul class="list-group">
-							<li class="list-group-item" th:each="review : ${reviews}">
-								<strong th:text="${review.user.username}"></strong> <!-- Tên người dùng -->
-								<p th:text="${review.comment}"></p> <!-- Bình luận -->
-								<p th:text="${review.rating}"></p> <!-- Đánh giá -->
-								<small th:text="${#dates.format(review.createDate, 'dd/MM/yyyy')}"></small> <!-- Ngày tạo -->
-
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div>
-					<!-- Form để người dùng bình luận -->
-					<form th:action="@{/detail/{id}/review(id=${product.id})}" method="post" th:object="${review}">
-						<div class="mb-3">
-							<label for="comment" class="form-label">Nội dung bình luận</label>
-							<textarea id="comment" th:field="*{comment}" class="form-control" required></textarea>
-						</div>
-						<div class="mb-3">
-							<label for="rating" class="form-label">Đánh giá (1-5)</label>
-							<input type="number" id="rating" th:field="*{rating}" class="form-control" min="1" max="5" required />
-						</div>
-						<button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -158,10 +150,6 @@
 				<li class="nav-item">
 					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
 					 aria-selected="false">Specification</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-					 aria-selected="false">Comments</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
@@ -275,213 +263,88 @@
 						</table>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="comment_list">
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img th:src="@{img/product/review-1.png}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item reply">
-									<div class="media">
-										<div class="d-flex">
-											<img th:src="@{img/product/review-2.png}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img th:src="@{img/product/review-3.png}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Post a comment</h4>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
+
 				<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
 					<div class="row">
 						<div class="col-lg-6">
+
 							<div class="row total_rate">
 								<div class="col-6">
 									<div class="box_total">
-										<h5>Overall</h5>
-										<h4>4.0</h4>
-										<h6>(03 Reviews)</h6>
+										<h5>Tổng quan</h5>
+										<!-- Hiển thị trung bình số sao -->
+										<h4 id="averageRating" th:text="${averageRating}">0.0</h4>
+										<!-- Hiển thị tổng số đánh giá -->
+										<h6 id="totalReviews" th:text="'(' + ${totalReviews} + ' Đánh giá)'">(0 Đánh giá)</h6>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="rating_list">
-										<h3>Based on 3 Reviews</h3>
+										<h3>Dựa trên tổng số đánh giá</h3>
 										<ul class="list">
-											<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+											<!-- Lặp qua các giá trị trong ratingCounts -->
+											<li th:each="entry : ${ratingCounts}">
+												<a href="#">
+													<span th:text="${entry.key} + ' Star '"></span> <!-- Hiển thị số sao -->
+													<!-- Hiển thị các ngôi sao -->
+													<i th:each="i : ${#numbers.sequence(1, entry.key)}" class="fa fa-star highlighted"></i>
+													<span th:text="${entry.value}"></span> <!-- Hiển thị số lượng đánh giá -->
+												</a>
+											</li>
 										</ul>
 									</div>
 								</div>
 							</div>
+
 							<div class="review_list">
-								<div class="review_item">
+								<div class="review_item" th:each="review : ${reviews}">
 									<div class="media">
 										<div class="d-flex">
-											<img th:src="@{img/product/review-1.png}" alt="">
+											<!--<img th:src="@{img/product/review-3.png}" alt="User review">-->
 										</div>
 										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
+											<h4 th:text="${review.user.username}"></h4>
+											<!-- Hiển thị ngôi sao theo đánh giá -->
+											<ul class="list-star">
+												<!-- Hiển thị ngôi sao vàng cho số sao đã đánh giá -->
+												<li th:each="i : ${#numbers.sequence(1, review.rating)}">
+													<i class="fa fa-star highlighted"></i> <!-- Sao vàng -->
+												</li>
+											</ul>
 										</div>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img th:src="@{img/product/review-2.png}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img th:src="@{img/product/review-3.png}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
+									<p th:text="${review.comment}"></p>
+									<small th:text="${#dates.format(review.createDate, 'dd/MM/yyyy')}"></small> <!-- Ngày tạo -->
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
+							<form class="row contact_form" th:action="@{/detail/{id}/review(id=${product.id})}" method="post" th:object="${review}" novalidate="novalidate">
 							<div class="review_box">
-								<h4>Add a Review</h4>
-								<p>Your Rating:</p>
-								<ul class="list">
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
+
+								<h4>Thêm đánh giá</h4>
+								<!-- Thymeleaf sẽ tự động lưu giá trị đánh giá -->
+								<input type="hidden" id="rating" th:field="*{rating}" />
+								<p>Đánh giá của bạn:</p>
+								<ul class="list-star" id="star-rating">
+									<li><a href="#" data-rating="1"><i class="fa fa-star"></i></a></li>
+									<li><a href="#" data-rating="2"><i class="fa fa-star"></i></a></li>
+									<li><a href="#" data-rating="3"><i class="fa fa-star"></i></a></li>
+									<li><a href="#" data-rating="4"><i class="fa fa-star"></i></a></li>
+									<li><a href="#" data-rating="5"><i class="fa fa-star"></i></a></li>
 								</ul>
-								<p>Outstanding</p>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+								<p>Nội dung</p>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Full name'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Review" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
+											<textarea class="form-control" name="message" th:field="*{comment}" rows="1" placeholder="Ghi chú" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ghi chú'"></textarea></textarea>
 										</div>
 									</div>
 									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="primary-btn">Submit Now</button>
+										<button type="submit" value="submit" class="primary-btn">Đánh giá</button>
 									</div>
-								</form>
+
 							</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -627,7 +490,30 @@
 		</div>
 	</section>
 	<!-- End related-product Area -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('#star-rating li a');
+            const ratingInput = document.getElementById('rating');
 
+            stars.forEach(star => {
+                star.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const rating = this.getAttribute('data-rating');
+
+                    // Cập nhật giá trị của input ẩn
+                    ratingInput.value = rating;
+
+                    // Loại bỏ các ngôi sao được đánh dấu trước đó
+                    stars.forEach(star => star.querySelector('i').classList.remove('highlighted'));
+
+                    // Đánh dấu ngôi sao được chọn và các ngôi sao trước nó
+                    for (let i = 0; i < rating; i++) {
+                        stars[i].querySelector('i').classList.add('highlighted');
+                    }
+                });
+            });
+        });
+	</script>
 	<script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 	<script th:src="@{/js/vendor/bootstrap.min.js}"></script>
@@ -641,7 +527,5 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 	<script th:src="@{/js/gmaps.min.js}"></script>
 	<script th:src="@{/js/main.js}"></script>
-</section>
 </body>
-
 </html>

@@ -5,7 +5,7 @@
 <head>
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
+    <!-- Favicon -->
     <link rel="shortcut icon" th:href="@{/img/fav.png}">
     <!-- Author Meta -->
     <meta name="author" content="CodePixar">
@@ -17,9 +17,7 @@
     <meta charset="UTF-8">
     <!-- Site Title -->
     <title>Karma Shop</title>
-    <!--
-            CSS
-            ============================================= -->
+    <!-- CSS ============================================= -->
     <link rel="stylesheet" th:href="@{/css/linearicons.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
@@ -27,9 +25,11 @@
     <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
     <link rel="stylesheet" th:href="@{/css/nice-select.css}">
     <link rel="stylesheet" th:href="@{/css/nouislider.min.css}">
-    <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.css}">
-    <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.skinFlat.css}">
+    <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.css}" />
+    <link rel="stylesheet" th:href="@{/css/ion.rangeSlider.skinFlat.css}" />
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}">
 </head>
 
 <body>
@@ -260,7 +260,7 @@
                                   </div>
                               </td>
                               <td>
-                                  <p th:text="${item.size.name}"></p> <!-- Hiển thị tên size -->
+                                  <h5 th:text="${item.size.name}"></h5> <!-- Hiển thị tên size -->
                               </td>
                               <td>
                                   <h5 th:text="${item.product.price * item.quantity}" id="'price-' + ${item.product.id}"></h5>

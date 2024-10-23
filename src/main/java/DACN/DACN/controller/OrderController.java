@@ -75,7 +75,7 @@ public class OrderController {
             // Xóa giỏ hàng sau khi đặt hàng thành công
             cartService.clearCart();
             model.addAttribute("message", "Đặt hàng thành công!");
-            return "/cart/confirmation"; // Chuyển hướng đến trang cảm ơn
+            return "redirect:/cart/confirm"; // Chuyển hướng đến trang cảm ơn
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Có lỗi xảy ra trong quá trình đặt hàng. Vui lòng thử lại.");
             return "/cart/checkout";

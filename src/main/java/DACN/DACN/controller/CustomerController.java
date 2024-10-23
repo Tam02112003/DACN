@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 
@@ -28,6 +25,8 @@ import java.util.Optional;
     private UserService userService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private OrderService orderService;
     @Autowired
     private ProductReviewService productReviewService;
     @Autowired
@@ -82,16 +81,36 @@ import java.util.Optional;
         if (product == null) {
             throw new IllegalArgumentException("Sản phẩm không tồn tại: " + id);
         }
-        List<ProductReview> reviews = productReviewService.getReviewsByProductId(id); // Lấy các bình luận cho sản phẩm
-        // Lấy danh sách size theo thể loại của sản phẩm
+
+        List<ProductReview> reviews = productReviewService.getReviewsByProductId(id);
         List<Size> sizes = sizeService.getSizesByCategory(product.getCategory().getId());
+
+        // Đếm số lượng đánh giá theo từng mức sao
+        Map<Integer, Long> ratingCounts = productReviewService.countReviewsByRatingForProduct(id);
+
+        // Tính tổng số lượng đánh giá và trung bình số sao
+        double totalRating = 0;
+        long totalReviews = 0;
+        for (Map.Entry<Integer, Long> entry : ratingCounts.entrySet()) {
+            totalRating += entry.getKey() * entry.getValue(); // tổng sao (mức sao * số lượng đánh giá)
+            totalReviews += entry.getValue(); // tổng số lượng đánh giá
+        }
+
+        double averageRating = (totalReviews > 0) ? totalRating / totalReviews : 0;
+
+        // Thêm dữ liệu vào model
         model.addAttribute("product", product);
         model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("sizes", sizes); // Thêm danh sách size vào model
-        model.addAttribute("reviews", reviews); // Thêm danh sách bình luận vào model
-        model.addAttribute("review", new ProductReview()); // Tạo một đối tượng để sử dụng trong form bình luận
+        model.addAttribute("sizes", sizes);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("ratingCounts", ratingCounts);
+        model.addAttribute("averageRating", averageRating); // Trung bình sao
+        model.addAttribute("totalReviews", totalReviews);   // Tổng số lượng đánh giá
+        model.addAttribute("review", new ProductReview());
+
         return "customers/single-product";
     }
+
     // Phương thức POST để thêm bình luận
     @PostMapping("/detail/{id}/review")
     public String addReview(@PathVariable Long id,
@@ -128,4 +147,11 @@ import java.util.Optional;
         redirectAttributes.addFlashAttribute("message", "Bình luận đã được thêm thành công!");
         return "redirect:/detail/" + id; // Chuyển hướng về trang chi tiết sản phẩm
     }
+    @GetMapping("order/details/{id}")
+    public String orderDetails(@PathVariable("id") Long orderId, Model model) {
+        Order order = orderService.getOrderById(orderId);
+        model.addAttribute("order", order);
+        return "customers/order-detail";
+    }
+
 }
