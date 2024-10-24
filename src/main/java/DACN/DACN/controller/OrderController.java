@@ -72,10 +72,14 @@ public class OrderController {
 
             createAndSaveOrder(order, cartItems);//Tạo và lưu đơn hàng
 
+            // Lưu lại danh sách sản phẩm vào Model trước khi xóa giỏ hàng
+            model.addAttribute("cartItems", cartItems); // Sử dụng danh sách sản phẩm trước khi xóa
+            model.addAttribute("order", order);
+
             // Xóa giỏ hàng sau khi đặt hàng thành công
             cartService.clearCart();
             model.addAttribute("message", "Đặt hàng thành công!");
-            return "redirect:/cart/confirm"; // Chuyển hướng đến trang cảm ơn
+            return "/cart/confirmation"; // Chuyển hướng đến trang cảm ơn
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Có lỗi xảy ra trong quá trình đặt hàng. Vui lòng thử lại.");
             return "/cart/checkout";

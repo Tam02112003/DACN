@@ -41,7 +41,7 @@
     <div class="container">
       <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
         <div class="col-first">
-          <h1>Confirmation</h1>
+          <h1>Chi tiết đơn hàng</h1>
           <nav class="d-flex align-items-center">
             <a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
             <a th:href="@{/orders/my-orders}">Đơn hàng của tôi<span class="lnr lnr-arrow-right"></span></a>
@@ -61,36 +61,38 @@
 
         <div class="col-lg-4">
           <div class="details_item">
-            <h4>Đơn hàng</h4>
+            <h4>Thông tin đặt hàng</h4>
             <ul class="list">
-              <li>
-                <p>Mã đơn hàng: <span th:text="${order.id}"></span></p>
-              </li>
-              <li>
-                <p>Thời gian đặt hàng: <span th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></p>
-              </li>
-              <li>
-                <p>Phương thức thanh toán: <span th:text="${order.paymentMethod}"></span></p>
-              </li>
-              <li>
-                <p>Trạng thái đơn hàng: <span th:text="${order.status}"></span></p>
-              </li>
+              <li><p><strong>Mã đơn hàng:</strong> <span th:text="${order.id}"></span></p></li>
+              <li><p><strong>Thời gian đặt hàng:</strong> <span th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></p></li>
+              <li><p><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></span></p></li>
+              <li><p><strong>Phương thức thanh toán:</strong> <span th:text="${order.paymentMethod}"></span></p></li>
             </ul>
           </div>
         </div>
         <div class="col-lg-4">
           <div class="details_item">
-            <h4>Nội dung nhận hàng</h4>
+            <h4>Thông tin người đặt:</h4>
             <ul class="list">
               <li>
-                <p>Tên người nhận: <span th:text="${order.customerName}"></span></p>
+                <p><strong>Tên người nhận:</strong> <span th:text="${order.customerName}"></span></p>
               </li>
               <li>
-                <p>Địa chỉ giao hàng: <span th:text="${order.address}"></span></p>
+                <p><strong>Địa chỉ giao hàng:</strong> <span th:text="${order.address}"></span></p>
               </li>
               <li>
-                <p>Số điện thoại: <span th:text="${order.phone}"></span></p>
+                <p><strong>Số điện thoại:</strong> <span th:text="${order.phone}"></span></p>
               </li>
+            </ul>
+
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="details_item">
+            <h4>Ghi chú:</h4>
+            <ul class="list">
+              <li><strong>Nội dung: </strong> <span th:text="${order.note}"></span></li>
+              <li><strong>Trạng thái đơn hàng: </strong> <span class="order-status" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></span></li>
             </ul>
           </div>
         </div>
@@ -104,18 +106,19 @@
             <tr>
               <th scope="col">Tên sản phẩm</th>
               <th scope="col">Kích cỡ</th>
-              <th scope="col">Giá Sản Phẩm</th>
-              <th scope="col">Số lượng</th>
               <th scope="col">Đơn giá</th>
+              <th scope="col">Số lượng</th>
+              <th scope="col">Tổng tiền sản phẩm</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="detail : ${order.orderDetails}">
+
               <td>
-                <p th:text="${detail.product.name}"></p>
+                <h5 th:text="${detail.product.name}"></h5>
               </td>
               <td>
-                <p th:text="${detail.size.name}"></p>
+                <h5 th:text="${detail.size.name}"></h5>
               </td>
               <td>
                 <h5 th:text="${#numbers.formatDecimal(detail.product.price, 0, 0)}  + ' VND'"></h5>
@@ -124,40 +127,40 @@
                 <h5 th:text="${detail.quantity}"></h5>
               </td>
               <td>
-                <p th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 0, 0 )} + ' VND'"></p>
+                <h5 th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 0, 0 )} + ' VND'"></h5>
               </td>
             </tr>
             <tr>
               <td>
-                <h4>Tổng giá sản phẩm</h4>
+                <h4>Thành tiền: </h4>
               </td>
               <td>
                 <h5></h5>
               </td>
               <td>
-                <p th:text="${#numbers.formatDecimal(order.getTotalAmount(), 0, 0)} + ' VND'"></p>
+                <h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 0, 0)} + ' VND'"></h5>
               </td>
             </tr>
             <tr>
               <td>
-                <h4>Phí ship</h4>
+                <h4>Phí ship: </h4>
               </td>
               <td>
                 <h5></h5>
               </td>
               <td>
-                <p>30.000 VND</p>
+                <h5>30.000 VND</h5>
               </td>
             </tr>
             <tr>
               <td>
-                <h4>Tổng cộng</h4>
+                <h3>Tổng cộng: </h3>
               </td>
               <td>
                 <h5></h5>
               </td>
               <td>
-                <p th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></p>
+                <strong><h5 th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></h5></strong>
               </td>
             </tr>
             </tbody>

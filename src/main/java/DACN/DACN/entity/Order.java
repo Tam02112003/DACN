@@ -54,21 +54,29 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;  // Người dùng đặt đơn hàng
 
+    @Size(max = 500, message = "Ghi chú quá dài vui lòng viết dưới 500 ký tự")
+    @Column(name = "note", length = 500)
+    private String note;  // Ghi chú từ khách hàng
+
+
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
-    public Order(String customerName, String phone, String address, String paymentMethod) {
+    public Order(String customerName, String phone, String address, String paymentMethod, String note) {
         this.customerName = customerName;
         this.phone = phone;
         this.address = address;
         this.paymentMethod = paymentMethod;
+        this.note = note;
     }
+
     // Thêm phương thức tiện ích để thêm chi tiết đơn hàng
     public void addOrderDetail(OrderDetail orderDetail) {
         orderDetails.add(orderDetail);
         orderDetail.setOrder(this);
     }
+
     public void removeOrderDetail(OrderDetail orderDetail) {
         orderDetails.remove(orderDetail);
         orderDetail.setOrder(null);
@@ -80,4 +88,14 @@ public class Order {
                 .mapToDouble(OrderDetail::getTotalPrice) // Lấy totalPrice của từng OrderDetail
                 .sum(); // Cộng dồn để ra tổng tiền
     }
+
+
+
+    public String getStatusInVietnamese() {
+        return status.getStatusInVietnamese(); // Trả về mô tả trạng thái
+    }
+    public String getStatusColor() {
+        return status.getColor(); // Trả về màu sắc tương ứng với trạng thái
+    }
+
 }

@@ -163,12 +163,13 @@
                             <ul class="list-group">
                                 <li th:each="order : ${orders}" class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm" th:text="${order.customerName}"></h6>
-                                        <span class="mb-2 text-xs" >Địa chỉ: <span class="text-dark font-weight-bold ms-sm-2" th:text="${order.address}"></span></span>
-                                        <span class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.phone}"></span></span>
-                                        <span class="mb-2 text-xs">Phương thức thanh toán: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.paymentMethod}"></span></span>
-                                        <span class="mb-2 text-xs">Thời gian đặt hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></span>
-                                        <span class="mb-2 text-xs">Trạng thái đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.status}"></span></span>
+                                        <h5 class="mb-3 text-sm">Mã đơn hàng: <span  class="mb-3 text-sm" th:text="${order.id}"></span></h5>
+                                        <h6 class="mb-3 text-sm">Tên người đặt: <span  class="mb-3 text-sm" th:text="${order.customerName}"></span></h6>
+                                        <p class="mb-2 text-xs" >Địa chỉ: <span class="text-dark font-weight-bold ms-sm-2" th:text="${order.address}"></span></p>
+                                        <p class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.phone}"></span></p>
+                                        <p class="mb-2 text-xs">Phương thức thanh toán: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.paymentMethod}"></span></p>
+                                        <p class="mb-2 text-xs">Thời gian đặt hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></p>
+                                        <p class="mb-2 text-xs">Trạng thái đơn hàng: <span class="order-status text-dark ms-sm-2 font-weight-bold" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></span></p>
 
 
                                         <span class="mb-2 text-xs">Tổng tiền đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 2)}"></span></span><!-- Hiển thị tổng tiền của đơn hàng -->
@@ -177,11 +178,11 @@
                                     <div class="ms-auto text-end">
                                         <form th:action="@{/orders/update-status}" method="post" style="display:inline;">
                                             <select name="status" class="form-select">
-                                                <option value="PENDING" th:selected="${order.status == 'PENDING'}">Đang chờ</option>
-                                                <option value="PROCESSING" th:selected="${order.status == 'PROCESSING'}">Đang xử lý</option>
-                                                <option value="SHIPPED" th:selected="${order.status == 'SHIPPED'}">Đang gửi</option>
-                                                <option value="DELIVERED" th:selected="${order.status == 'DELIVERED'}">Đã giao</option>
-                                                <option value="CANCELED" th:selected="${order.status == 'CANCELED'}">Đã hủy</option>
+                                                <option value="PENDING" th:selected="${order.status == T(DACN.DACN.entity.OrderStatus).PENDING}">Đang chờ</option>
+                                                <option value="PROCESSING" th:selected="${order.status == T(DACN.DACN.entity.OrderStatus).PROCESSING}">Đang xử lý</option>
+                                                <option value="SHIPPED" th:selected="${order.status == T(DACN.DACN.entity.OrderStatus).SHIPPED}">Đang giao hàng</option>
+                                                <option value="DELIVERED" th:selected="${order.status == T(DACN.DACN.entity.OrderStatus).DELIVERED}">Đã nhận hàng</option>
+                                                <option value="CANCELED" th:selected="${order.status == T(DACN.DACN.entity.OrderStatus).CANCELED}">Đã hủy</option>
                                             </select>
                                             <input type="hidden" name="orderId" th:value="${order.id}" />
                                             <button type="submit" class="btn btn-primary btn-sm mb-0">Cập nhật trạng thái</button>

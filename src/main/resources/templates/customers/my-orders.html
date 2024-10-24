@@ -76,7 +76,11 @@
                         <tr th:each="order : ${orders}">
                             <td th:text="${order.id}"></td> <!-- Hiển thị ID đơn hàng -->
                             <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy')}"></td> <!-- Hiển thị ngày đặt hàng -->
-                            <td th:text="${order.status}"></td> <!-- Hiển thị trạng thái đơn hàng -->
+                            <!--<td th:text="${order.status}"></td>--> <!-- Hiển thị trạng thái đơn hàng -->
+                            <!--<td th:text="${order.getStatusInVietnamese()}"></td>--> <!-- Hiển thị trạng thái đơn hàng bằng tiếng Việt -->
+                            <td class="order-status" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></td>
+
+
                             <td th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 2)}"></td> <!-- Hiển thị tổng tiền của đơn hàng -->
                             <td>
                                 <a th:href="@{/order/details/{id}(id=${order.id})}">Xem chi tiết</a> <!-- Link tới trang chi tiết đơn hàng -->

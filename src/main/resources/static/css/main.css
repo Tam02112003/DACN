@@ -5797,4 +5797,18 @@ label {
         min-height: 30px;
 }
 
+.order-status {
+    border-radius: 50px; /* Bo góc cho ô */
+    padding: 10px 15px; /* Thêm khoảng cách bên trong */
+    color: white; /* Màu chữ (có thể thay đổi) */
+    font-weight: bold; /* Làm chữ đậm */
+    text-align: center; /* Canh giữa văn bản */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+
+}
+
+.order-status:hover {
+    opacity: 0.9; /* Hiệu ứng khi di chuột qua ô */
+}
+
 /*# sourceMappingURL=main.css.map */
