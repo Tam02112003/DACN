@@ -59,10 +59,11 @@
 			<div class="row order_d_inner">
 				<div class="col-lg-4">
 					<div class="details_item">
-						<h4>Thông tin đặt hàng</h4>
+						<h4>Thông tin đơn hàng</h4>
 						<ul class="list">
 							<li><strong>Mã đơn hàng:</strong> <span th:text="${order.id}"></span></li>
 							<li><strong>Thời gian đặt hàng:</strong> <span th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></li>
+							<li><strong>Giao hàng dự kiến:</strong> <span th:text="${#dates.format(order.estimatedDeliveryDate, 'dd/MM/yyyy')}"></span></li>
 							<li><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></span></li>
 							<li><strong>Phương thức thanh toán:</strong> <span th:text="${order.paymentMethod}"></span></li>
 						</ul>

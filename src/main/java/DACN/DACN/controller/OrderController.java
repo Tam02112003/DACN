@@ -99,8 +99,12 @@ public class OrderController {
     }
     // Phương thức riêng để tạo và lưu đơn hàng
     private void createAndSaveOrder(Order order, List<CartItem> cartItems) {
+
         // Thiết lập ngày giờ đặt hàng
         order.setOrderDate(new Date());
+
+        // Tính toán và thiết lập ngày giao hàng dự kiến (sau 3 ngày)
+        order.setEstimatedDeliveryDate(order.calculateEstimatedDeliveryDate());
 
         // Chuyển đổi CartItem thành OrderDetail và thiết lập liên kết với đơn hàng
         List<OrderDetail> orderDetails = cartItems.stream()

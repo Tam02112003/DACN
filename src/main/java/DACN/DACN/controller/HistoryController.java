@@ -48,9 +48,22 @@ public class HistoryController {
             model.addAttribute("error", "Trạng thái không hợp lệ!"); // Thêm thông báo lỗi
             return "redirect:/orders/list"; // Chuyển hướng về danh sách đơn hàng nếu có lỗi
         }
+        // Tìm đơn hàng theo ID
+        Order order = orderService.getOrderById(orderId);
+        if (order == null) {
+            model.addAttribute("error", "Không tìm thấy đơn hàng!"); // Thêm thông báo lỗi nếu đơn hàng không tồn tại
+            return "redirect:/orders/list";
+        }
 
-        // Gọi phương thức trong dịch vụ để cập nhật trạng thái đơn hàng
-        orderService.updateOrderStatus(orderId, orderStatus);
+        // Cập nhật trạng thái đơn hàng
+        order.setStatus(orderStatus);
+
+        // Kiểm tra nếu trạng thái là DELIVERED, cập nhật ngày giao hàng thực tế
+        if (orderStatus == OrderStatus.DELIVERED) {
+            order.updateActualDeliveryDate();  // Cập nhật ngày giao hàng thực tế
+        }
+        // Lưu đơn hàng sau khi cập nhật trạng thái và ngày giao hàng
+        orderService.save(order);
 
         // Thêm thông báo thành công (nếu cần)
         model.addAttribute("message", "Cập nhật trạng thái đơn hàng thành công!");

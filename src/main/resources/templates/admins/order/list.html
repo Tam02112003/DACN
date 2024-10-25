@@ -169,6 +169,8 @@
                                         <p class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.phone}"></span></p>
                                         <p class="mb-2 text-xs">Phương thức thanh toán: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.paymentMethod}"></span></p>
                                         <p class="mb-2 text-xs">Thời gian đặt hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></p>
+                                        <p class="mb-2 text-xs">Giao hàng dự kiến: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#dates.format(order.estimatedDeliveryDate, 'dd/MM/yyyy')}"></span></p>
+                                        <p class="mb-2 text-xs">Đã giao: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.actualDeliveryDate != null ? #dates.format(order.actualDeliveryDate, 'dd/MM/yyyy') : 'Chưa cập nhật'}"></span></p>
                                         <p class="mb-2 text-xs">Trạng thái đơn hàng: <span class="order-status text-dark ms-sm-2 font-weight-bold" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></span></p>
 
 

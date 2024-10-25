@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Getter
@@ -44,6 +45,14 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private Date orderDate;  // Ngày đặt hàng
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "estimated_delivery_date")
+    private Date estimatedDeliveryDate;  // Ngày giao hàng dự kiến
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "actual_delivery_date")
+    private Date actualDeliveryDate;  // Ngày giao hàng thực tế
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails;  // Danh sách chi tiết đơn hàng
 
@@ -69,6 +78,21 @@ public class Order {
         this.address = address;
         this.paymentMethod = paymentMethod;
         this.note = note;
+    }
+
+    public Date calculateEstimatedDeliveryDate() {
+        // Tạo Calendar để tính ngày
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date()); // Lấy ngày hiện tại
+        calendar.add(Calendar.DAY_OF_YEAR, 3); // Thêm 3 ngày cho ngày giao hàng dự kiến
+        return calendar.getTime();
+    }
+
+    // Phương thức cập nhật ngày giao hàng thực tế khi trạng thái là DELIVERED
+    public void updateActualDeliveryDate() {
+        if (this.status == OrderStatus.DELIVERED) {
+            this.actualDeliveryDate = new Date();
+        }
     }
 
     // Thêm phương thức tiện ích để thêm chi tiết đơn hàng

@@ -31,8 +31,12 @@ public class OrderService {
 
         return savedOrder; // Trả về đơn hàng đã lưu
     }
-    public List<Order> getAllOrders() {
+    /*public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }*/
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAllByOrderByIdDesc();
     }
 
     public Order getOrderById(Long orderId) {
@@ -41,7 +45,7 @@ public class OrderService {
     }
     // Phương thức lấy đơn hàng theo người dùng
     public List<Order> getOrdersByUser(User user) {
-        return orderRepository.findByUser(user);
+        return orderRepository.findByUserOrderByIdDesc(user);
     }
 
     public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
@@ -54,6 +58,10 @@ public class OrderService {
 
         // Lưu đơn hàng đã cập nhật
         orderRepository.save(order);
+    }
+
+    public void save(Order order) {
+        orderRepository.save(order); // Lưu đơn hàng vào cơ sở dữ liệu
     }
 
 }

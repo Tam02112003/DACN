@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByUser(User user);  // Tìm đơn hàng theo người dùng
+    List<Order> findByUserOrderByIdDesc(User user);  // Tìm đơn hàng theo người dùng
+    List<Order> findAllByOrderByIdDesc();
 }
 

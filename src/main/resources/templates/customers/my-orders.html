@@ -67,7 +67,9 @@
                         <tr>
                             <th scope="col">ID đơn hàng</th>
                             <th scope="col">Ngày đặt hàng</th>
+                            <th scope="col">Giao hàng dự kiến</th>
                             <th scope="col">Trạng thái</th>
+                            <th scope="col">Ngày nhận hàng</th>
                             <th scope="col">Tổng tiền đơn hàng</th>
                             <th scope="col">Hành động</th>
                         </tr>
@@ -76,10 +78,11 @@
                         <tr th:each="order : ${orders}">
                             <td th:text="${order.id}"></td> <!-- Hiển thị ID đơn hàng -->
                             <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy')}"></td> <!-- Hiển thị ngày đặt hàng -->
+                            <td th:text="${#dates.format(order.estimatedDeliveryDate, 'dd/MM/yyyy')}"></td> <!-- Hiển thị ngày giao hàng dự kiến -->
                             <!--<td th:text="${order.status}"></td>--> <!-- Hiển thị trạng thái đơn hàng -->
                             <!--<td th:text="${order.getStatusInVietnamese()}"></td>--> <!-- Hiển thị trạng thái đơn hàng bằng tiếng Việt -->
                             <td class="order-status" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></td>
-
+                            <td class="mb-2 text-xs"  th:text="${order.actualDeliveryDate != null ? #dates.format(order.actualDeliveryDate, 'dd/MM/yyyy') : 'Chưa cập nhật'}"></td>
 
                             <td th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 2)}"></td> <!-- Hiển thị tổng tiền của đơn hàng -->
                             <td>
