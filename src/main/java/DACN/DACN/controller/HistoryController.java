@@ -7,11 +7,13 @@ import DACN.DACN.services.CartService;
 import DACN.DACN.services.OrderService;
 import DACN.DACN.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,5 +97,42 @@ public class HistoryController {
 
         return "customers/my-orders"; // Trả về view hiển thị danh sách đơn hàng
     }
+    @GetMapping("/search")
+    public String searchOrders(
+            @RequestParam(required = false) String orderId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate estimatedDeliveryDate,
+            Model model, Principal principal) {
 
+        Optional<User> optionalUser = userService.findByUsername(principal.getName());
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            // Gọi searchOrders với tiêu chí tìm kiếm và người dùng
+            List<Order> orders = orderService.searchOrders(user, orderId, status, orderDate, estimatedDeliveryDate);
+
+            model.addAttribute("orders", orders);
+            model.addAttribute("orderStatuses", OrderStatus.values());
+        } else {
+            model.addAttribute("errorMessage", "Không tìm thấy thông tin người dùng.");
+        }
+        return "customers/my-orders";
+    }
+    @GetMapping("/find")
+    public String listOrders(Model model, Principal principal,
+                             @RequestParam(required = false) String orderId,
+                             @RequestParam(required = false) String customerName,
+                             @RequestParam(required = false) String phone,
+                             @RequestParam(required = false) OrderStatus status,
+                             @RequestParam(required = false) LocalDate orderDate,
+                             @RequestParam(required = false) LocalDate estimatedDeliveryDate) {
+        User user = userService.findByUsername(principal.getName()).orElse(null); // Lấy thông tin người dùng
+
+        List<Order> orders = orderService.findOrders(orderId, customerName, phone, status, orderDate, estimatedDeliveryDate, user);
+        model.addAttribute("orders", orders);
+        model.addAttribute("orderStatuses", OrderStatus.values());
+        return "admins/order/list";
+    }
 }

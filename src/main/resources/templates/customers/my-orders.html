@@ -42,7 +42,7 @@
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
                 <div class="col-first">
-                    <h1>Confirmation</h1>
+                    <h1>Đơn hàng của tôi</h1>
                     <nav class="d-flex align-items-center">
                         <a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
                         <a th:href="@{/orders/my-orders}">Đơn hàng của tôi</a>
@@ -56,16 +56,53 @@
     <!--================Order Details Area =================-->
     <section class="order_details section_gap">
         <div class="container">
-            <!-- Nếu không có đơn hàng nào -->
+            <form th:action="@{/orders/search}" method="get" class="form-inline">
+                <!-- Tìm kiếm theo ID đơn hàng -->
+                <div class="form-group mb-2">
+                    <input type="text" name="orderId" class="form-control" placeholder="Mã đơn hàng">
+                </div>
+
+                <!-- Tìm kiếm theo trạng thái -->
+                <div class="form-group mx-sm-3 mb-2">
+                    <lable>Trạng thái: </lable>
+                    <select name="status" class="form-control">
+                        <option value="">Tất cả</option>
+                        <option value="PENDING">Đang chờ</option>
+                        <option value="PROCESSING">Đang xử lý</option>
+                        <option value="SHIPPED">Đang giao</option>
+                        <option value="DELIVERED">Đã giao hàng</option>
+                        <option value="CANCELED">Đã hủy</option>
+                    </select>
+                </div>
+
+                <!-- Tìm kiếm theo ngày đặt hàng -->
+                <div class="form-group mx-sm-3 mb-2">
+                    <label>Ngày đặt hàng: </label>
+                    <input type="date" name="orderDate" class="form-control">
+                </div>
+
+                <!-- Tìm kiếm theo ngày giao hàng dự kiến -->
+                <div class="form-group mx-sm-3 mb-2">
+                    <label>Ngày giao hàng dự kiến: </label>
+                    <input type="date" name="estimatedDeliveryDate" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+            </form>
+          <!--  &lt;!&ndash; Nếu không có đơn hàng nào &ndash;&gt;
             <div th:if="${orders.size() == 0}">
                 <p>Bạn chưa có đơn hàng nào.</p>
-            </div>
+            </div>-->
             <div class="order_details_table">
                 <div class="table-responsive">
+                    <!-- Nếu không có đơn hàng nào -->
+                    <div th:if="${orders.size() == 0}">
+                        <H1>Bạn chưa có đơn hàng nào.</H1>
+                    </div>
                     <table class="table" th:if="${orders.size() > 0}">
                         <thead>
                         <tr>
-                            <th scope="col">ID đơn hàng</th>
+                            <th scope="col">Mã đơn hàng</th>
                             <th scope="col">Ngày đặt hàng</th>
                             <th scope="col">Giao hàng dự kiến</th>
                             <th scope="col">Trạng thái</th>

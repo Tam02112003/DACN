@@ -40,11 +40,12 @@ public class User implements UserDetails {
     @NotBlank(message = "Email là bắt buộc")
     @Email
     private String email;
-    @NotBlank(message = "Họ tên là bắt buộc")
+
+
     @Column(name = "fullname", length = 250)
     private String fullname;
 
-    @Column(name = "phone", length = 15,  unique = true)
+    @Column(name = "phone", length = 15, unique = true)
     @Length(min = 10, max = 10, message = "Số điện thoại phải đúng 10 số")
     @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số")
     private String phone;
@@ -52,6 +53,7 @@ public class User implements UserDetails {
     @Column(name = "address", length = 250)
     @Size(max = 400, message = "Địa chỉ của bạn quá dài!!! Vui lòng nhập 400 kí tự ")
     private String address;
+
 
     @Column(name = "provider", length = 50)
     private String provider;
@@ -65,8 +67,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;  // Danh sách đơn hàng của người dùng
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<ProductReview> reviews=new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ProductReview> reviews = new ArrayList<>();
+
+    @Column(name = "profile_image_url") // Trường cho URL hình ảnh đại diện
+    private String profileImageUrl; // Thuộc tính để lưu URL hình ảnh đại diện
 
 
     @Override

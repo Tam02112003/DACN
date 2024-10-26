@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF (nên xem xét lại nếu ứng dụng có form submission)
                 .authorizeHttpRequests(auth -> auth
                         // Cho phép truy cập các file tĩnh, và các URL không cần xác thực
-                        .requestMatchers("/fonts/**", "/css/**", "/", "/img/**", "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**", "/.github/**", "/register", "/home", "/shop", "/cart", "/cart/**", "/detail/**").permitAll()
+                        .requestMatchers("/fonts/**", "/css/**", "/", "/img/**","/uploads/profile-pictures/**", "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**", "/.github/**", "/register", "/home", "/shop", "/cart", "/cart/**", "/detail/**").permitAll()
 
                         // Chỉ ADMIN mới được phép truy cập các route dưới đây
                         .requestMatchers( "/admin","/products","/products/detail/**","/categories/list","/categories/create","/categories/edit","/categories/delete","/products/edit/**", "/products/create", "/products/delete", "/order/list", "/order/details/**")

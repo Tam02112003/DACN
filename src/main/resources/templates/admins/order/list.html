@@ -144,21 +144,46 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+          <!--    <form th:action="@{/orders/find}" method="get">
+                            <div>
+                                <label for="orderId">ID Đơn Hàng</label>
+                                <input type="text" id="orderId" name="orderId" placeholder="Nhập ID đơn hàng" th:value="${param.orderId}" />
+                            </div>
+                            <div>
+                                <label for="customerName">Tên Khách Hàng</label>
+                                <input type="text" id="customerName" name="customerName"  placeholder="Nhập tên khách hàng" th:value="${param.customerName}" />
+                            </div>
+                            <div>
+                                <label for="phone">Số Điện Thoại</label>
+                                <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" th:value="${param.phone}" />
+                            </div>
+                            <div>
+                                <label for="status">Trạng Thái Đơn Hàng</label>
+                                <select id="status" name="status" >
+                                    <option value="">&#45;&#45; Chọn Trạng Thái &#45;&#45;</option>
+                                    <th:block th:each="status : ${orderStatuses}">
+                                        <option th:value="${status}" th:text="${status}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="orderDate">Ngày Đặt Hàng</label>
+                                <input type="date" id="orderDate" name="orderDate"  th:value="${param.orderDate}" />
+                            </div>
+                            <div>
+                                <label for="estimatedDeliveryDate">Ngày Giao Hàng Dự Kiến</label>
+                                <input type="date" id="estimatedDeliveryDate" name="estimatedDeliveryDate"  th:value="${param.estimatedDeliveryDate}" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+                        </form>-->
             <div class="row">
                 <div class="col-md-12 mt-4">
                     <div class="card">
                         <div class="card-header pb-0 px-3">
                             <h6 class="mb-0">Billing Information</h6>
                         </div>
-                        <!-- Form tìm kiếm -->
-                        <form th:action="@{/orders/list}" method="get" class="mb-3">
-                            <div class="card-header pb-0 px-3">
-                                <input type="text" name="search" th:value="${search}" class="form-control" placeholder="Tìm kiếm tên người dùng...">
-                                <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                            </div>
-                        </form>
+
                         <div class="card-body pt-4 p-3">
                             <ul class="list-group">
                                 <li th:each="order : ${orders}" class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
@@ -190,18 +215,13 @@
                                             <button type="submit" class="btn btn-primary btn-sm mb-0">Cập nhật trạng thái</button>
                                         </form>
                                         <a th:href="@{/orders/details/{id}(id=${order.id})}" class="btn btn-outline-primary btn-sm mb-0">View</a>
-
                                     </div>
-
-
                                 </li>
-
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </main>

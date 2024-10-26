@@ -78,12 +78,12 @@
                         </li>
                         <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Liên hệ</a></li>
                         <li class="nav-item">
-
-                            <a sec:authentication="name" class="nav-link">
-                            </a>
+                            <a sec:authentication="name" th:href="@{/profile}" class="nav-link">
+                        </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
                                 <a class="nav-link"   th:href="@{/admin}">ADMIN DASHBOARD</a>
-
                             </a>
                             <a class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                                 <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
