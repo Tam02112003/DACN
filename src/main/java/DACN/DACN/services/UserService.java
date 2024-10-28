@@ -42,6 +42,7 @@ public class UserService implements UserDetailsService {
         log.info("User {} saved successfully.", user.getUsername());
     }
 
+
     // Lưu hình ảnh của người dùng
     public void saveImage(User user, MultipartFile image) {
         String uploadDir = "D:/DACN/DACN/src/main/resources/static/uploads/profile-pictures";

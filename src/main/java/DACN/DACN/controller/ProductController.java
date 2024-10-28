@@ -117,12 +117,6 @@ public class ProductController {
     }
 
     private String saveImage(MultipartFile image) throws IOException {
-        // Đảm bảo rằng thư mục lưu trữ hình ảnh nằm trong thư mục static/img
-        /*File saveFile = new ClassPathResource("static/img").getFile();
-        String fileName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
-        Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + fileName);
-        Files.copy(image.getInputStream(), path);
-        return fileName;*/
         Path dirImages = Paths.get("target/classes/static/img");
         if (!Files.exists(dirImages)) {
             Files.createDirectories(dirImages);
