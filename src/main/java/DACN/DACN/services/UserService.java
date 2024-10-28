@@ -41,7 +41,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         log.info("User {} saved successfully.", user.getUsername());
     }
-
+    // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
+    public void update(@NotNull User user) {
+        userRepository.save(user);
+    }
 
     // Gán vai trò mặc định cho người dùng dựa trên tên người dùng.
     public void setDefaultRole(String username) {

@@ -39,6 +39,15 @@
           <div class="action mb-4">
             <a th:href="@{/orders/my-orders}" class="btn btn-outline-primary">Đơn hàng của tôi</a>
           </div>
+          <!-- Hiển thị thông báo thành công nếu có -->
+          <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+          </div>
+
+          <!-- Hiển thị thông báo lỗi nếu có -->
+          <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+          </div>
           <form th:action="@{/profile/upload-image}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="imageUpload" class="form-label">Thay đổi hình ảnh:</label>
@@ -46,12 +55,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Tải lên</button>
           </form>
-          <div th:if="${message}" class="alert alert-success mt-3" role="alert">
-            <p th:text="${message}"></p>
-          </div>
-          <div th:if="${error}" class="alert alert-danger mt-3" role="alert">
-            <p th:text="${error}"></p>
-          </div>
         </div>
 
         <div class="col-md-8">
@@ -77,7 +80,7 @@
                   <tr>
                     <td><label>Email:</label></td>
                     <td class="email">
-                      <span th:text="${user.email}"></span>
+                      <input type="text" class="form-control" name="email" th:value="${user.email}" readonly />
                     </td>
                   </tr>
                   <tr>

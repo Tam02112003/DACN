@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -72,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("/profile/upload-image")
-    public String uploadImage(@RequestParam("image") MultipartFile image, Model model) {
+    public String uploadImage(@RequestParam("image") MultipartFile image, Model model, RedirectAttributes redirectAttributes) {
         String username = getCurrentUsername();
         Optional<User> userOptional = userService.findByUsername(username);
 
@@ -88,34 +89,37 @@ public class UserController {
                 }
             }
             try {
-                userService.save(user);
-                model.addAttribute("message", "Hình ảnh đã được cập nhật thành công.");
+                userService.update(user);
+                redirectAttributes.addFlashAttribute("message", "Hình ảnh đã được cập nhật thành công.");
             } catch (Exception e) {
-                model.addAttribute("error", "Lỗi khi tải lên hình ảnh: " + e.getMessage());
+                redirectAttributes.addFlashAttribute("error", "Lỗi khi tải lên hình ảnh: " + e.getMessage());
             }
             return "redirect:/profile";
         } else {
-            model.addAttribute("error", "Người dùng không tìm thấy.");
+            redirectAttributes.addFlashAttribute("error", "Người dùng không tìm thấy.");
             return "error";
         }
     }
 
     @PostMapping("/profile/update")
-    public String updateUser(@ModelAttribute("user") User user, Model model) {
+    public String updateUser(@ModelAttribute("user") User user, Model model, RedirectAttributes redirectAttributes) {
         String username = getCurrentUsername();
         Optional<User> userOptional = userService.findByUsername(username);
 
         if (userOptional.isPresent()) {
             User existingUser = userOptional.get();
+
             existingUser.setFullname(user.getFullname());
             existingUser.setPhone(user.getPhone());
             existingUser.setAddress(user.getAddress());
+            // Giữ nguyên mật khẩu hiện tại
+            /*existingUser.setPassword(existingUser.getPassword());*/
 
-            userService.save(existingUser);
-            model.addAttribute("message", "Thông tin đã được cập nhật thành công.");
+            userService.update(existingUser);
+            redirectAttributes.addFlashAttribute("message", "Thông tin đã được cập nhật thành công.");
             return "redirect:/profile";
         } else {
-            model.addAttribute("error", "Người dùng không tìm thấy.");
+            redirectAttributes.addFlashAttribute("error", "Người dùng không tìm thấy.");
             return "error";
         }
     }
