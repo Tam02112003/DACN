@@ -43,27 +43,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-    // Lưu hình ảnh của người dùng
-    public void saveImage(User user, MultipartFile image) {
-        String uploadDir = "D:/DACN/DACN/src/main/resources/static/uploads/profile-pictures";
-
-        try {
-            File directory = new File(uploadDir);
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            String fileName = user.getUsername() + "_" + image.getOriginalFilename();
-            Path filepath = Paths.get(uploadDir, fileName);
-            image.transferTo(filepath.toFile());
-
-            user.setProfileImageUrl("uploads/profile-pictures/" + fileName);
-            userRepository.save(user);
-        } catch (IOException e) {
-            log.error("Error saving image for user {}: {}", user.getUsername(), e.getMessage());
-        }
-    }
-
     // Gán vai trò mặc định cho người dùng dựa trên tên người dùng.
     public void setDefaultRole(String username) {
         userRepository.findByUsername(username).ifPresentOrElse(
