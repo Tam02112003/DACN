@@ -1,4 +1,3 @@
-
 <html lang="zxx" class="no-js"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -32,11 +31,8 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}">
 </head>
-
 <body>
-
 <section layout:fragment="content">
-
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
         <div class="container">
@@ -77,14 +73,14 @@
 
                 <!-- Tìm kiếm theo ngày đặt hàng -->
                 <div class="form-group mx-sm-3 mb-2">
-                    <label>Ngày đặt hàng: </label>
-                    <input type="date" name="orderDate" class="form-control">
+                    <label>Ngày đặt hàng từ: </label>
+                    <input type="date" name="startDate" class="form-control">
                 </div>
 
                 <!-- Tìm kiếm theo ngày giao hàng dự kiến -->
                 <div class="form-group mx-sm-3 mb-2">
-                    <label>Ngày giao hàng dự kiến: </label>
-                    <input type="date" name="estimatedDeliveryDate" class="form-control">
+                    <label>Đến ngày: </label>
+                    <input type="date" name="endDate" class="form-control">
                 </div>
 
                 <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>

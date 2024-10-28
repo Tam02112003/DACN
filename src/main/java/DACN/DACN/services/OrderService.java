@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -63,7 +64,7 @@ public class OrderService {
         // Lưu đơn hàng đã cập nhật
         orderRepository.save(order);
     }
-    public List<Order> findOrders(String orderId, String customerName, String phone, OrderStatus status, LocalDate orderDate, LocalDate estimatedDeliveryDate, User user) {
+    public List<Order> findOrders(String orderId, String customerName, String phone, OrderStatus status, Date startDate, Date endDate, User user) {
         return orderRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -83,12 +84,13 @@ public class OrderService {
                 predicates.add(criteriaBuilder.equal(root.get("status"), status));
             }
 
-            if (orderDate != null) {
-                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("DATE", LocalDate.class, root.get("orderDate")), orderDate));
-            }
-
-            if (estimatedDeliveryDate != null) {
-                predicates.add(criteriaBuilder.equal(criteriaBuilder.function("DATE", LocalDate.class, root.get("estimatedDeliveryDate")), estimatedDeliveryDate));
+            // Kiểm tra và thêm tiêu chí tìm kiếm theo ngày đặt hàng
+            if (startDate != null && endDate != null) {
+                predicates.add(criteriaBuilder.between(root.get("orderDate"), startDate, endDate));
+            } else if (startDate != null) { // Chỉ có startDate
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("orderDate"), startDate));
+            } else if (endDate != null) { // Chỉ có endDate
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("orderDate"), endDate));
             }
 
             // Nếu user không phải là null, có thể thêm điều kiện cho user
@@ -102,7 +104,7 @@ public class OrderService {
 
 
 
-    public List<Order> searchOrders(User user, String orderId, String status, LocalDate orderDate, LocalDate estimatedDeliveryDate) {
+    public List<Order> searchOrders(User user, String orderId, String status, Date startDate, Date endDate) {
         return orderRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -120,14 +122,14 @@ public class OrderService {
             }
 
             // Kiểm tra và thêm tiêu chí tìm kiếm theo ngày đặt hàng
-            if (orderDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("orderDate").as(LocalDate.class), orderDate));
+            if (startDate != null && endDate != null) {
+                predicates.add(criteriaBuilder.between(root.get("orderDate"), startDate, endDate));
+            } else if (startDate != null) { // Chỉ có startDate
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("orderDate"), startDate));
+            } else if (endDate != null) { // Chỉ có endDate
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("orderDate"), endDate));
             }
 
-            // Kiểm tra và thêm tiêu chí tìm kiếm theo ngày giao hàng dự kiến
-            if (estimatedDeliveryDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("estimatedDeliveryDate").as(LocalDate.class), estimatedDeliveryDate));
-            }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });

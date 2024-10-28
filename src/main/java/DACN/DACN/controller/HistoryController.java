@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,8 +102,8 @@ public class HistoryController {
     public String searchOrders(
             @RequestParam(required = false) String orderId,
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate orderDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate estimatedDeliveryDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
             Model model, Principal principal) {
 
         Optional<User> optionalUser = userService.findByUsername(principal.getName());
@@ -111,7 +112,7 @@ public class HistoryController {
             User user = optionalUser.get();
 
             // Gọi searchOrders với tiêu chí tìm kiếm và người dùng
-            List<Order> orders = orderService.searchOrders(user, orderId, status, orderDate, estimatedDeliveryDate);
+            List<Order> orders = orderService.searchOrders(user, orderId, status, startDate, endDate);
 
             model.addAttribute("orders", orders);
             model.addAttribute("orderStatuses", OrderStatus.values());
@@ -126,11 +127,11 @@ public class HistoryController {
                              @RequestParam(required = false) String customerName,
                              @RequestParam(required = false) String phone,
                              @RequestParam(required = false) OrderStatus status,
-                             @RequestParam(required = false) LocalDate orderDate,
-                             @RequestParam(required = false) LocalDate estimatedDeliveryDate) {
+                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         User user = userService.findByUsername(principal.getName()).orElse(null); // Lấy thông tin người dùng
 
-        List<Order> orders = orderService.findOrders(orderId, customerName, phone, status, orderDate, estimatedDeliveryDate, user);
+        List<Order> orders = orderService.findOrders(orderId, customerName, phone, status, startDate, endDate, user);
         model.addAttribute("orders", orders);
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "admins/order/list";

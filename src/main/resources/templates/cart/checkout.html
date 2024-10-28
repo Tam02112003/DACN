@@ -74,7 +74,7 @@
 
                             <div class="col-md-12 form-group p_star">
                                 <label class="w-10 me-3 mb-0" for="address">Địa chỉ:<span class="text-danger">*</span></label>
-                                <input th:field="*{address}" type="text" class="form-control" id="address">
+                                <input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Địa chỉ">
                                 <div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
                             </div>
 
