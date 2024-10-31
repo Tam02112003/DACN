@@ -32,7 +32,7 @@
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}">
 </head>
 <body>
-  <section layout:fragment="content">
+<section layout:fragment="content">
     <!-- Start Banner Area -->
     <section class="banner-area organic-breadcrumb">
         <div class="container">
@@ -209,170 +209,170 @@
         </div>
         </form>
     </section>-->
-      <section class="cart_area">
-          <div class="container">
-              <div class="cart_inner">
-                  <div class="table-responsive">
-                      <table class="table">
-                          <thead>
-                          <tr>
-                              <th scope="col">Sản phẩm</th>
-                              <th scope="col">Giá</th>
-                              <th scope="col">Số lượng</th>
-                              <th scope="col">Size</th>
-                              <th scope="col">Tổng</th>
-                              <th scope="col">Chức năng</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr th:each="item : ${cartItems}">
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img th:src="${item.product.ImgUrl}" width="100px" height="100px" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p th:text="${item.product.name}"></p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5 th:text="${item.product.price}"></h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <!-- Nút tăng -->
-                                      <form th:action="@{/cart/increase/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
-                                          <button type="submit" class="increase items-count">
-                                              <i class="lnr lnr-chevron-up"></i>
-                                          </button>
-                                      </form>
-                                      <input type="text" name="qty" id="qty-[[${item.product.id}]]" maxlength="12"
-                                             th:value="${item.quantity}" min="1" class="input-text qty" readonly>
-                                      <!-- Nút giảm -->
-                                      <form th:action="@{/cart/decrease/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
-                                          <button type="submit" class="reduced items-count" th:disabled="${item.quantity == 1}">
-                                              <i class="lnr lnr-chevron-down"></i>
-                                          </button>
-                                      </form>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5 th:text="${item.size.name}"></h5> <!-- Hiển thị tên size -->
-                              </td>
-                              <td>
-                                  <h5 th:text="${item.product.price * item.quantity}" id="'price-' + ${item.product.id}"></h5>
-                              </td>
-                              <td>
-                                  <form th:action="@{/cart/remove/{productId}/{sizeId}(productId=${item.product.id}, sizeId=${item.size.id})}" method="post" style="display:inline;">
-                                      <button type="submit" class="btn btn-danger btn-sm">
-                                          <h5>Xóa</h5>
-                                      </button>
-                                  </form>
-                              </td>
-                          </tr>
-                          <tr class="bottom_button">
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                          </tr>
-                          <tr>
-                              <td></td>
-                              <td></td>
-                              <td>
-                                  <h5>Tổng tiền giỏ hàng</h5>
-                              </td>
-                              <td>
-                                  <h5 th:text="${totalPrice}"></h5>
-                              </td>
-                          </tr>
-                          <tr class="out_button_area">
-                              <td></td>
-                              <td></td>
-                              <td>
-                              </td>
-                              <td>
-                                  <div class="checkout_btn_inner d-flex align-items-center">
-                                      <a class="gray_btn" th:href="@{/shop}">Quay lại</a>
-                                      <a class="primary-btn"  id="checkoutBtn" th:href="@{/checkout}">Proceed to checkout</a>
-                                  </div>
-                              </td>
-                          </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-      </section>
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Tổng</th>
+                            <th scope="col">Chức năng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${cartItems}">
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img th:src="${item.product.ImgUrl}" width="100px" height="100px" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p th:text="${item.product.name}"></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5 th:text="${item.product.price}"></h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <!-- Nút tăng -->
+                                    <form th:action="@{/cart/increase/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="increase items-count">
+                                            <i class="lnr lnr-chevron-up"></i>
+                                        </button>
+                                    </form>
+                                    <input type="text" name="qty" id="qty-[[${item.product.id}]]" maxlength="12"
+                                           th:value="${item.quantity}" min="1" class="input-text qty" readonly>
+                                    <!-- Nút giảm -->
+                                    <form th:action="@{/cart/decrease/{productId}(productId=${item.product.id})}" method="post" style="display:inline;">
+                                        <button type="submit" class="reduced items-count" th:disabled="${item.quantity == 1}">
+                                            <i class="lnr lnr-chevron-down"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>
+                                <h5 th:text="${item.size.name}"></h5> <!-- Hiển thị tên size -->
+                            </td>
+                            <td>
+                                <h5 th:text="${item.product.price * item.quantity}" id="'price-' + ${item.product.id}"></h5>
+                            </td>
+                            <td>
+                                <form th:action="@{/cart/remove/{productId}/{sizeId}(productId=${item.product.id}, sizeId=${item.size.id})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <h5>Xóa</h5>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="bottom_button">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>Tổng tiền giỏ hàng</h5>
+                            </td>
+                            <td>
+                                <h5 th:text="${totalPrice}"></h5>
+                            </td>
+                        </tr>
+                        <tr class="out_button_area">
+                            <td></td>
+                            <td></td>
+                            <td>
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" th:href="@{/shop}">Quay lại</a>
+                                    <a class="primary-btn"  id="checkoutBtn" th:href="@{/checkout}">Proceed to checkout</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-      <script>
-          document.addEventListener('DOMContentLoaded', function() {
-              const checkoutBtn = document.getElementById('checkoutBtn');
-              const cartItems = [[${cartItems.size()}]] ; // Lấy số lượng sản phẩm trong giỏ
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const cartItems = [[${cartItems.size()}]] ; // Lấy số lượng sản phẩm trong giỏ
 
-              checkoutBtn.addEventListener('click', function(event) {
-                  if (cartItems == 0) {
-                      event.preventDefault(); // Ngăn chặn hành động mặc định
-                      alert("Giỏ hàng của bạn đang trống. Không thể thực hiện checkout."); // Hiển thị thông báo
-                  }
-              });
-          });
+            checkoutBtn.addEventListener('click', function(event) {
+                if (cartItems == 0) {
+                    event.preventDefault(); // Ngăn chặn hành động mặc định
+                    alert("Giỏ hàng của bạn đang trống. Không thể thực hiện checkout."); // Hiển thị thông báo
+                }
+            });
+        });
 
-          function increaseQuantity(productId) {
-    fetch(`/cart/increase/${productId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById(`price-${productId}`).innerText = data.newPrice.toFixed(2);
-        // Cập nhật tổng tiền nếu cần
-    })
-    .catch(error => {
-        console.error('Error increasing quantity:', error);
-    });
+        function increaseQuantity(productId) {
+  fetch(`/cart/increase/${productId}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      document.getElementById(`price-${productId}`).innerText = data.newPrice.toFixed(2);
+      // Cập nhật tổng tiền nếu cần
+  })
+  .catch(error => {
+      console.error('Error increasing quantity:', error);
+  });
 }
 
 function decreaseQuantity(productId) {
-    fetch(`/cart/decrease/${productId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById(`price-${productId}`).innerText = data.newPrice.toFixed(2);
-        // Cập nhật tổng tiền nếu cần
-    })
-    .catch(error => {
-        console.error('Error decreasing quantity:', error);
-    });
+  fetch(`/cart/decrease/${productId}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      document.getElementById(`price-${productId}`).innerText = data.newPrice.toFixed(2);
+      // Cập nhật tổng tiền nếu cần
+  })
+  .catch(error => {
+      console.error('Error decreasing quantity:', error);
+  });
 }
 
-      </script>
+    </script>
     <!--================End Cart Area =================-->
 
-      <script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-      <script th:src="@{/js/vendor/bootstrap.min.js}"></script>
-      <script th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
-      <script th:src="@{/js/jquery.nice-select.min.js}"></script>
-      <script th:src="@{/js/jquery.sticky.js}"></script>
-      <script th:src="@{/js/nouislider.min.js}"></script>
-      <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
-      <script th:src="@{/js/owl.carousel.min.js}"></script>
-      <!-- gmaps Js -->
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-      <script th:src="@{/js/gmaps.min.js}"></script>
-      <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script th:src="@{/js/vendor/bootstrap.min.js}"></script>
+    <script th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+    <script th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script th:src="@{/js/jquery.sticky.js}"></script>
+    <script th:src="@{/js/nouislider.min.js}"></script>
+    <script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script th:src="@{/js/owl.carousel.min.js}"></script>
+    <!-- gmaps Js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script th:src="@{/js/gmaps.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
 
 
-  </section>
+</section>
 
 </body>
 

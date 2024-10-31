@@ -2,16 +2,14 @@ package DACN.DACN.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 
-import java.awt.*;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -20,9 +18,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; // Người dùng mua sản phẩm
+
     @NotBlank(message = "Tên sản phẩm không được để trống")
     @Size(max = 150, min = 1, message = "Tên phải ít hơn 150 ký tự")
     private String name;
+
     @Size(max = 5000, message = "Mô tả không được vượt quá 5000 ký tự")
     @Column(length = 5000)
     private String description;

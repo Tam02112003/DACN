@@ -52,6 +52,7 @@
             color: #FFD700; /* Màu vàng khi ngôi sao được chọn */
         }
 	</style>
+
 </head>
 
 <body>
@@ -63,11 +64,11 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1 th:text="${product.name}"></h1>
+					<h1 style="color: black;" th:text="${product.name}"></h1>
 					<nav class="d-flex align-items-center">
-						<a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
-						<a th:href="@{/shop}">Sản phẩm<span class="lnr lnr-arrow-right"></span></a>
-						<a href="#">Chi tiết sản phẩm</a>
+						<a style="color: black;" th:href="@{/home}">Trang chủ<span style="color: black;" class="lnr lnr-arrow-right"></span></a>
+						<a style="color: black;" th:href="@{/shop}">Sản phẩm<span style="color: black;" class="lnr lnr-arrow-right"></span></a>
+						<a style="color: black;" href="#">Chi tiết sản phẩm</a>
 					</nav>
 				</div>
 			</div>
@@ -98,7 +99,10 @@
 					<div class="s_product_text">
 						<!-- Tên sản phẩm -->
 							<h3 th:text="${product.name}"></h3>
+
 							<h2 th:text="${#numbers.formatDecimal(product.price, 1, 'COMMA', 2, 'POINT')} + ' VND'"></h2>
+
+
 						<ul class="list">
 							<li><a class="active" href="#"><span>Thể loại</span><a th:text="${product.category.name}"></a></a></li>
 							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
@@ -342,13 +346,11 @@
 									<div class="col-md-12 text-right">
 										<button type="submit" value="submit" class="primary-btn">Đánh giá</button>
 									</div>
-
 							</div>
 							</form>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</section>
@@ -360,119 +362,27 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6 text-center">
 					<div class="section-title">
-						<h1>Deals of the Week</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua.</p>
+						<h1>SẢN PHẨM PHÙ HỢP</h1>
+						<p>Gợi ý dựa trên sản phẩm bạn đã xem , sản phẩm cùng loại</p>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-9">
 					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r1.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
+
+							<div  th:if="${recommendedProducts.isEmpty()}">
+								<p>Không có sản phẩm gợi ý.</p>
 							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+
+						<div th:if="${!recommendedProducts.isEmpty()}" th:each="product : ${recommendedProducts}" class="col-lg-4 col-md-4 col-sm-6 mb-20">
 							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r2.jpg}" alt=""></a>
+								<a th:href="@{/detail/{id}(id=${product.id})}"><img th:src="${product.imgUrl}" width="70px" height="70px" alt=""></a>
 								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
+									<a th:href="@{/detail/{id}(id=${product.id})}" class="title" th:text="${product.name}">Tên sản phẩm</a>
 									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r3.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r5.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r6.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r7.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r9.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r10.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img th:src="@{img/r11.jpg}" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
+										<h6  th:text="${product.price}">Giá sản phẩm</h6>
+										<h6 th:text="${product.category.name}">Danh mục</h6>
 									</div>
 								</div>
 							</div>

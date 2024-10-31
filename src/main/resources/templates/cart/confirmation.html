@@ -96,14 +96,14 @@
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
-							<tr>
-								<th scope="col">Tên sản phẩm</th>
-								<th scope="col">Kích cỡ</th>
-								<th scope="col">Số lượng</th>
-								<th scope="col">Đơn giá</th>
-								<th scope="col">Tổng tiền</th>
+						<tr>
+							<th scope="col">Tên sản phẩm</th>
+							<th scope="col">Kích cỡ</th>
+							<th scope="col">Số lượng</th>
+							<th scope="col">Giá sản phẩm</th>
+							<th scope="col">Tổng tiền</th>
 
-							</tr>
+						</tr>
 						</thead>
 						<tbody>
 						<tr th:each="detail : ${order.orderDetails}">
@@ -125,39 +125,39 @@
 								<h5 th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 0, 0 )} + ' VND'"></h5>
 							</td>
 						</tr>
-							<tr>
-								<td>
-									<h4>Thành tiền:</h4>
-								</td>
-								<td>
-									<h5></h5>
-								</td>
-								<td>
-									<h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 0, 0)} + ' VND'"></h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h4>Phí Ship: </h4>
-								</td>
-								<td>
-									<h5></h5>
-								</td>
-								<td>
-									<h5>30.000 VND</h5>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h4>Tổng cộng: </h4>
-								</td>
-								<td>
-									<h5></h5>
-								</td>
-								<td>
-									<h5 th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></h5>
-								</td>
-							</tr>
+						<tr>
+							<td>
+								<h4>Thành tiền:</h4>
+							</td>
+							<td>
+								<h5></h5>
+							</td>
+							<td>
+								<h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 0, 0)} + ' VND'"></h5>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h4>Phí Ship: </h4>
+							</td>
+							<td>
+								<h5></h5>
+							</td>
+							<td>
+								<h5>30.000 VND</h5>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h4>Tổng cộng: </h4>
+							</td>
+							<td>
+								<h5></h5>
+							</td>
+							<td>
+								<h5 th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></h5>
+							</td>
+						</tr>
 						</tbody>
 					</table>
 				</div>

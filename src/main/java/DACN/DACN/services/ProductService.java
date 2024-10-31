@@ -1,6 +1,5 @@
 package DACN.DACN.services;
 
-
 import DACN.DACN.entity.Product;
 import DACN.DACN.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,17 +12,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class ProductService {
+
     @Autowired
     private final ProductRepository productRepository;
+
+
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -35,22 +35,20 @@ public class ProductService {
     }
 
     public Page<Product> getProducts(int page, String search, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size); // Giả sử bạn muốn hiển thị 5 sản phẩm mỗi trang
+        Pageable pageable = PageRequest.of(page - 1, size);
         return productRepository.findByNameContainingIgnoreCase(search, pageable);
     }
 
     public Page<Product> getProductsByCategoryId(Long categoryId, int page, String search, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size); // Số lượng sản phẩm trên mỗi trang
+        Pageable pageable = PageRequest.of(page - 1, size);
         return productRepository.findByCategoryIdAndNameContaining(categoryId, search, pageable);
     }
 
-    // Thêm sản phẩm vào cơ sở dữ liệu
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
 
     public void deleteProduct(Long id) {
-        // Kiểm tra xem sản phẩm có tồn tại trước khi xóa
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
         } else {
@@ -59,18 +57,15 @@ public class ProductService {
     }
 
     public Product updateProduct(@NotNull Product product) {
-        Product existingSanpham = productRepository.findById(product.getId())
+        Product existingProduct = productRepository.findById(product.getId())
                 .orElseThrow(() -> new IllegalStateException("Product with ID " +
                         product.getId() + " does not exist."));
-        existingSanpham.setName(product.getName());
-        existingSanpham.setPrice(product.getPrice());
-        existingSanpham.setDescription(product.getDescription());
-        existingSanpham.setImgUrl(product.getImgUrl());
-        existingSanpham.setCategory(product.getCategory());
-        existingSanpham.setUpdatedDate(new Date());
-        return productRepository.save(existingSanpham);
+        existingProduct.setName(product.getName());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setImgUrl(product.getImgUrl());
+        existingProduct.setCategory(product.getCategory());
+        existingProduct.setUpdatedDate(new Date());
+        return productRepository.save(existingProduct);
     }
-
-
-
 }

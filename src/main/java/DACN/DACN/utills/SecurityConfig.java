@@ -46,7 +46,9 @@ public class SecurityConfig {
                         .requestMatchers("/fonts/**", "/css/**", "/", "/img/**","/uploads/profile-pictures/**", "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**", "/.github/**", "/register", "/home", "/shop", "/cart", "/cart/**", "/detail/**").permitAll()
 
                         // Chỉ ADMIN mới được phép truy cập các route dưới đây
-                        .requestMatchers( "/admin","/products","/products/detail/**","/categories/list","/categories/create","/categories/edit","/categories/delete","/products/edit/**", "/products/create", "/products/delete", "/order/list", "/order/details/**")
+                        .requestMatchers( "/admin","/products","/products/detail/**","/categories/list","/categories/create","/categories/edit","/categories/delete","/products/edit/**"
+                                , "/products/create", "/products/delete", "/order/list", "/order/details/**","/sizes","/sizes/create","/sizes/edit/**","/sizes/delete","/discounts"
+                                ,"/discounts/create","/discounts/edit/**","/discounts/delete")
                         .hasAnyAuthority("ADMIN")
 
                         // Tất cả các yêu cầu còn lại phải được xác thực

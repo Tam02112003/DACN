@@ -73,6 +73,13 @@ public class User implements UserDetails {
     @Column(name = "profile_image_url") // Trường cho URL hình ảnh đại diện
     private String profileImageUrl; // Thuộc tính để lưu URL hình ảnh đại diện
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Product> viewedProducts = new ArrayList<>();  // Sản phẩm đã xem
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Product> purchasedProducts = new ArrayList<>();  // Sản phẩm đã mua
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

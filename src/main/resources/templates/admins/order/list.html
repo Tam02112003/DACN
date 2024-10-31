@@ -44,9 +44,9 @@
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 </div>
                 <ul class="navbar-nav  justify-content-end">
-                  <!--  <li class="nav-item d-flex align-items-center">
-                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/orders/create}">Thêm thể loại</a>
-                    </li>-->
+                    <!--  <li class="nav-item d-flex align-items-center">
+                          <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/orders/create}">Thêm thể loại</a>
+                      </li>-->
 
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -145,39 +145,39 @@
                     </div>
                 </div>
             </div>
-              <form th:action="@{/orders/find}" method="get">
-                            <div>
-                                <label for="orderId">ID Đơn Hàng</label>
-                                <input type="text" id="orderId" name="orderId" placeholder="Nhập ID đơn hàng" th:value="${param.orderId}" />
-                            </div>
-                            <div>
-                                <label for="customerName">Tên Khách Hàng</label>
-                                <input type="text" id="customerName" name="customerName"  placeholder="Nhập tên khách hàng" th:value="${param.customerName}" />
-                            </div>
-                            <div>
-                                <label for="phone">Số Điện Thoại</label>
-                                <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" th:value="${param.phone}" />
-                            </div>
-                            <div>
-                                <label for="status">Trạng Thái Đơn Hàng</label>
-                                <select id="status" name="status" >
-                                    <option value="">-- Chọn Trạng Thái --</option>
-                                    <th:block th:each="status : ${orderStatuses}">
-                                        <option th:value="${status}" th:text="${status}"></option>
-                                    </th:block>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="startDate">Ngày Đặt Hàng từ:</label>
-                                <input type="date" id="startDate" name="startDate"  th:value="${param.startDate}" />
-                            </div>
+            <form th:action="@{/orders/find}" method="get">
+                <div>
+                    <label for="orderId">ID Đơn Hàng</label>
+                    <input type="text" id="orderId" name="orderId" placeholder="Nhập ID đơn hàng" th:value="${param.orderId}" />
+                </div>
+                <div>
+                    <label for="customerName">Tên Khách Hàng</label>
+                    <input type="text" id="customerName" name="customerName"  placeholder="Nhập tên khách hàng" th:value="${param.customerName}" />
+                </div>
+                <div>
+                    <label for="phone">Số Điện Thoại</label>
+                    <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" th:value="${param.phone}" />
+                </div>
+                <div>
+                    <label for="status">Trạng Thái Đơn Hàng</label>
+                    <select id="status" name="status" >
+                        <option value="">-- Chọn Trạng Thái --</option>
+                        <th:block th:each="status : ${orderStatuses}">
+                            <option th:value="${status}" th:text="${status}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div>
+                    <label for="startDate">Ngày Đặt Hàng từ:</label>
+                    <input type="date" id="startDate" name="startDate"  th:value="${param.startDate}" />
+                </div>
 
-                            <div>
-                                <label for="endDate">Đến ngày:</label>
-                                <input type="date" id="endDate" name="endDate"  th:value="${param.endDate}" />
-                            </div>
-                            <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
-                        </form>
+                <div>
+                    <label for="endDate">Đến ngày:</label>
+                    <input type="date" id="endDate" name="endDate"  th:value="${param.endDate}" />
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+            </form>
             <div class="row">
                 <div class="col-md-12 mt-4">
                     <div class="card">

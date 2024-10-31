@@ -3,9 +3,11 @@ package DACN.DACN.controller;
 
 import DACN.DACN.entity.*;
 import DACN.DACN.services.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,8 @@ import java.util.*;
     private ProductReviewService productReviewService;
     @Autowired
     private SizeService sizeService;
+    @Autowired
+    private ProductRecommendationService recommendationService;
     @GetMapping("/home")
     public String showHome(Model model) {
 
@@ -46,42 +50,64 @@ import java.util.*;
 
         return "/customers/blog";
     }
-        @GetMapping("/shop")
-        public String showProductList(
-                @RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
-                @RequestParam(defaultValue = "") String search, // Tìm kiếm
-                @RequestParam(required = false) Long categoryId, // ID thể loại (có thể null)
-                @RequestParam(defaultValue = "6") int size,
-                Model model) {
-            // Kiểm tra và đảm bảo page không nhỏ hơn 1
-            if (page < 1) {
-                page = 1;
-            }
-            // Gọi phương thức từ productService để lấy danh sách sản phẩm theo thể loại, phân trang và tìm kiếm
-            Page<Product> productPage;
-            if (categoryId != null) {
-                productPage = productService.getProductsByCategoryId(categoryId, page, search, size);
-            } else {
-                productPage = productService.getProducts(page, search, size);
-            }
-            // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
-            List<Category> categories = categoryService.getAllCategories();
-
-            model.addAttribute("categories", categories);
-            model.addAttribute("products", productPage.getContent());
-            model.addAttribute("currentPage", page);
-            model.addAttribute("totalPages", productPage.getTotalPages());
-            model.addAttribute("search", search);
-
-            return "customers/category";  // Đảm bảo rằng đường dẫn này là chính xác
+    @GetMapping("/shop")
+    public String showProductList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "") String search,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(defaultValue = "6") int size,
+            Model model) {
+        if (page < 1) {
+            page = 1;
         }
+        Page<Product> productPage;
+        if (categoryId != null) {
+            productPage = productService.getProductsByCategoryId(categoryId, page, search, size);
+        } else {
+            productPage = productService.getProducts(page, search, size);
+        }
+        // Lấy 9 sản phẩm ngẫu nhiên
+        List<Product> randomProducts = recommendationService.getRandomProducts(9);
+        List<Category> categories = categoryService.getAllCategories();
+
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("search", search);
+        model.addAttribute("randomProducts", randomProducts);
+        return "customers/category";
+    }
+
+
     @GetMapping("/detail/{id}")
-    public String getProductDetail(@PathVariable Long id, Model model) {
+    public String getProductDetail(@PathVariable Long id, Model model,
+                                   @AuthenticationPrincipal User user, HttpSession session) {
         Product product = productService.getProductById(id);
         if (product == null) {
             throw new IllegalArgumentException("Sản phẩm không tồn tại: " + id);
         }
 
+        // Thêm sản phẩm vào danh sách đã xem của người dùng nếu đã đăng nhập
+        if (user != null) {
+            if (!user.getViewedProducts().contains(product)) {
+                user.getViewedProducts().add(product);
+                userService.update(user);  // Lưu thay đổi trong UserService
+            }
+        } else {
+            // Nếu chưa đăng nhập, lưu sản phẩm vào danh sách đã xem trong session
+            List<Product> viewedProducts = (List<Product>) session.getAttribute("viewedProducts");
+            if (viewedProducts == null) {
+                viewedProducts = new ArrayList<>();
+            }
+            if (!viewedProducts.contains(product)) {
+                viewedProducts.add(product);
+            }
+            session.setAttribute("viewedProducts", viewedProducts);
+        }
+
+        // Lấy danh sách đánh giá và kích cỡ
         List<ProductReview> reviews = productReviewService.getReviewsByProductId(id);
         List<Size> sizes = sizeService.getSizesByCategory(product.getCategory().getId());
 
@@ -92,11 +118,13 @@ import java.util.*;
         double totalRating = 0;
         long totalReviews = 0;
         for (Map.Entry<Integer, Long> entry : ratingCounts.entrySet()) {
-            totalRating += entry.getKey() * entry.getValue(); // tổng sao (mức sao * số lượng đánh giá)
-            totalReviews += entry.getValue(); // tổng số lượng đánh giá
+            totalRating += entry.getKey() * entry.getValue();
+            totalReviews += entry.getValue();
         }
-
         double averageRating = (totalReviews > 0) ? totalRating / totalReviews : 0;
+
+        // Lấy các sản phẩm gợi ý dựa trên sản phẩm đã xem
+        List<Product> recommendedProducts = recommendationService.getRecommendedProducts(user, session);
 
         // Thêm dữ liệu vào model
         model.addAttribute("product", product);
@@ -104,12 +132,15 @@ import java.util.*;
         model.addAttribute("sizes", sizes);
         model.addAttribute("reviews", reviews);
         model.addAttribute("ratingCounts", ratingCounts);
-        model.addAttribute("averageRating", averageRating); // Trung bình sao
-        model.addAttribute("totalReviews", totalReviews);   // Tổng số lượng đánh giá
+        model.addAttribute("averageRating", averageRating);
+        model.addAttribute("totalReviews", totalReviews);
         model.addAttribute("review", new ProductReview());
+        model.addAttribute("recommendedProducts", recommendedProducts); // Thêm gợi ý sản phẩm
 
         return "customers/single-product";
     }
+
+
 
     // Phương thức POST để thêm bình luận
     @PostMapping("/detail/{id}/review")

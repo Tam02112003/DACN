@@ -128,9 +128,9 @@
 							<div class="single-product">
 								<img class="img-fluid" th:src="${product.ImgUrl}" height="100px" width="100px" alt="">
 								<div class="product-details">
-									<h6  th:text="${product.name}"></h6>
+									<h6 th:text="${product.name}" th:title="${product.name}"></h6>
 									<div class="price">
-										<h6  th:text="${product.price}" ></h6>
+										<h6  th:text="${product.price} + ' VNĐ'" ></h6>
 									</div>
 									<div class="prd-bottom">
 										<a th:href="@{/detail/{id}(id=${product.id})}" class="social-info">
@@ -148,11 +148,6 @@
 				<!-- Start Filter Bar -->
 				<div class="filter-bar d-flex flex-wrap align-items-center">
 					<div class="sorting mr-auto">
-					<!--	<select>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-							<option value="1">Show 12</option>
-						</select>-->
 					</div>
 					<div class="pagination">
 						<li th:class="${currentPage == 1} ? 'disabled'">
@@ -174,130 +169,38 @@
 		</div>
 	</div>
 
-	<!-- Start related-product Area -->
-	<section class="related-product-area section_gap">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6 text-center">
-					<div class="section-title">
-						<h1>Deals of the Week</h1>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-							magna aliqua.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-9">
-					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r1.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r2.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r3.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r5.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r6.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r7.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r9.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r10.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-md-4 col-sm-6">
-							<div class="single-related-product d-flex">
-								<a href="#"><img src="img/r11.jpg" alt=""></a>
-								<div class="desc">
-									<a href="#" class="title">Black lace Heels</a>
-									<div class="price">
-										<h6>$189.00</h6>
-										<h6 class="l-through">$210.00</h6>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+	<!--Start related-product Area-->
+   <section class="related-product-area section_gap">
+       <div class="container">
+           <div class="row justify-content-center">
+               <div class="col-lg-6 text-center">
+                   <div class="section-title">
+                       <h1>Sản Phẩm được đề xuất</h1>
+                       <p>Đây là sản phẩm được đề xuất ngẫu nhiên.</p>
+                   </div>
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-lg-9">
+				   <div class="row">
+
+					   <div  th:if="${randomProducts.isEmpty()}">
+						   <p>Không có sản phẩm gợi ý.</p>
+					   </div>
+
+					   <div th:if="${!randomProducts.isEmpty()}" th:each="product : ${randomProducts}" class="col-lg-4 col-md-4 col-sm-6 mb-20">
+						   <div class="single-related-product d-flex">
+							   <a th:href="@{/detail/{id}(id=${product.id})}"><img th:src="${product.imgUrl}" width="70px" height="70px" alt=""></a>
+							   <div class="desc">
+								   <a th:href="@{/detail/{id}(id=${product.id})}" class="title" th:text="${product.name}">Tên sản phẩm</a>
+								   <div class="price">
+									   <h6  th:text="${product.price}">Giá sản phẩm</h6>
+									   <h6 th:text="${product.category.name}">Danh mục</h6>
+								   </div>
+							   </div>
+						   </div>
+					   </div>
+				   </div>
 				</div>
 				<div class="col-lg-3">
 					<div class="ctg-right">
@@ -309,7 +212,7 @@
 			</div>
 		</div>
 	</section>
-	<!-- End related-product Area -->
+	<!-- End related-product Area-->
 
 	<!-- Modal Quick Product View -->
 
