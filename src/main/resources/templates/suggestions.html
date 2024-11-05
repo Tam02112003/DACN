@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gợi ý Sản phẩm</title>
+    <style>
+        .suggestion-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<th:block th:each="product : ${suggestions.content}">
+    <div class="suggestion-item">
+        <a th:href="@{/detail/{id}(id=${product.id})}">
+            <img th:src="${product.imgUrl}"  style="width: 70px; height: 70px; margin-right: 10px;">
+            <span th:text="${product.name}">Tên sản phẩm</span> - <span th:text="${product.price} + 'VND'">Giá</span>
+        </a>
+    </div>
+</th:block>
+</body>
+</html>

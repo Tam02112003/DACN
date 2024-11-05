@@ -2,6 +2,7 @@ package DACN.DACN.services;
 
 import DACN.DACN.entity.Product;
 import DACN.DACN.repository.ProductRepository;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class ProductService {
     public Page<Product> getProducts(int page, String search, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
         return productRepository.findByNameContainingIgnoreCase(search, pageable);
+
     }
 
     public Page<Product> getProductsByCategoryId(Long categoryId, int page, String search, int size) {
@@ -67,5 +69,10 @@ public class ProductService {
         existingProduct.setCategory(product.getCategory());
         existingProduct.setUpdatedDate(new Date());
         return productRepository.save(existingProduct);
+    }
+    // Phương thức tìm kiếm sản phẩm bắt đầu bằng ký tự đã nhập
+    public Page<Product> getProductsByStartingLetter(String letter, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // Tạo đối tượng Pageable
+        return productRepository.findByNameStartingWithIgnoreCase(letter, pageable);
     }
 }

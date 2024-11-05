@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <!-- Mobile Specific Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Favicon-->
+  <link rel="shortcut icon" href="img/fav.png">
+  <!-- Author Meta -->
+  <meta name="author" content="CodePixar">
+  <!-- Meta Description -->
+  <meta name="description" content="">
+  <!-- Meta Keyword -->
+  <meta name="keywords" content="">
+  <!-- meta character set -->
+  <meta charset="UTF-8">
+  <!-- Site Title -->
+  <title>Karma Shop</title>
+  <!--
+      CSS
+      ============================================= -->
+  <link rel="stylesheet" href="css/linearicons.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/themify-icons.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/owl.carousel.css">
+  <link rel="stylesheet" href="css/nice-select.css">
+  <link rel="stylesheet" href="css/nouislider.min.css">
+  <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+  <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+  <link rel="stylesheet" href="css/magnific-popup.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+<section layout:fragment="content">
+  <!-- Start Banner Area -->
+  <section class="banner-area organic-breadcrumb">
+    <div class="container">
+      <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+        <div class="col-first">
+          <h1>Shop Category page</h1>
+          <nav class="d-flex align-items-center">
+            <a th:href="@{/index}">Home<span class="lnr lnr-arrow-right"></span></a>
+            <a th:href="@{/shop}">Tìm kiếm</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Banner Area -->
+  <h1>Kết quả tìm kiếm cho: <span th:text="${query}"></span></h1>
+  <div>
+    <ul>
+      <li th:each="product : ${results.content}">
+        <div>
+          <img th:src="${product.imgUrl}" style="width: 100px; height: 100px;">
+          <span th:text="${product.name}"></span> - <span th:text="${product.price} +  'VND'"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!--<div>
+    <nav>
+      <ul class="pagination">
+        <li th:class="${results.hasPrevious() ? '' : 'disabled'}">
+          <a th:href="@{/search(query=${query}, page=${results.number})}">Previous</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(1, results.totalPages)}">
+          <a th:href="@{/search(query=${query}, page=${i})}" th:text="${i}"></a>
+        </li>
+        <li th:class="${results.hasNext() ? '' : 'disabled'}">
+          <a th:href="@{/search(query=${query}, page=${results.number + 2})}">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>-->
+</section>
+</body>
+</html>
