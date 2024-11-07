@@ -101,26 +101,19 @@
                                 </ul>
                                 <ul class="list list_2">
                                     <li><a href="#">Tổng cộng: <span th:text="${#numbers.formatDecimal(totalPrice, 0, 0)} + ' VND'"></span></a></li>
-                                    <li><a href="#">Phí Ship: <span>30.000 VND</span></a></li>
+                                    <li><a href="#">Phí Ship: <span >30.000 VND</span></a></li>
                                     <li><a href="#">Tổng Thanh Toán: <span th:text="${#numbers.formatDecimal(totalPrice + 30000, 0, 0)} + ' VND'"></span></a></li>
                                 </ul>
 
-
-                                <!-- <div class="payment_item active">
-                                     <div class="radion_btn">
-                                         <input type="radio" id="f-option6" name="selector">
-                                         <label for="f-option6">Paypal </label>
-                                         <img src="img/product/card.jpg" alt="">
-                                         <div class="check"></div>
-                                     </div>
-                                     <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
-                                         account.</p>
-                                 </div>-->
-                                <div class="payment_item">
                                     <div class="radio_btn">
-                                        <input th:field="*{paymentMethod}" type="radio" id="paymentMethod" name="paymentMethod" value="Thanh toán khi nhận hàng" required>
-                                        <label for="paymentMethod">Thanh toán khi nhận hàng</label>
-                                        <div class="check"></div>
+                                        <th:block th:each="method : ${paymentMethods}">
+                                            <input type="radio" th:field="*{paymentMethod}" th:value="${method}" th:id="${method}" required>
+                                            <label th:for="${method}" th:text="${method.displayName}"></label>
+                                            <div class="check"></div>
+                                        </th:block>
+                                    </div>
+                                    <div th:if="${errorMessage}" class="alert alert-danger">
+                                        <p th:text="${errorMessage}"></p>
                                     </div>
                                     <!-- Hiển thị thông báo lỗi nếu có -->
                                     <div class="text-danger" th:if="${#fields.hasErrors('paymentMethod')}" th:errors="*{paymentMethod}"></div>

@@ -11,11 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
     List<Order> findByUserOrderByIdDesc(User user);  // Tìm đơn hàng theo người dùng
     List<Order> findAllByOrderByIdDesc();
+    Order findByTransactionCode(String transactionCode);
 
     // Phương thức tìm kiếm theo các tiêu chí
     @Query("SELECT o FROM Order o WHERE " +

@@ -93,6 +93,7 @@
             <h4>Ghi chú:</h4>
             <ul class="list">
               <li><strong>Nội dung: </strong> <span th:text="${order.note}"></span></li>
+              <li><strong>Thanh toán: </strong> <span th:text="${order.paymentStatus.getDescription()}"></span></li>
               <li><strong>Trạng thái đơn hàng: </strong> <span class="order-status" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></span></li>
               <li><strong>Ngày nhận hàng: </strong> <span th:text="${order.actualDeliveryDate != null ? #dates.format(order.actualDeliveryDate, 'dd/MM/yyyy') : 'Chưa cập nhật'}"></span></li>
             </ul>
@@ -162,7 +163,7 @@
                 <h5></h5>
               </td>
               <td>
-                <strong><h5 th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></h5></strong>
+                <strong><h5 th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 0, 0)} + ' VND'"></h5></strong>
               </td>
             </tr>
             </tbody>

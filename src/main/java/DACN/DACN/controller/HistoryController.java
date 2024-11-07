@@ -2,6 +2,7 @@ package DACN.DACN.controller;
 
 import DACN.DACN.entity.Order;
 import DACN.DACN.entity.OrderStatus;
+import DACN.DACN.entity.PaymentStatus;
 import DACN.DACN.entity.User;
 import DACN.DACN.services.CartService;
 import DACN.DACN.services.OrderService;
@@ -61,8 +62,9 @@ public class HistoryController {
         // Cập nhật trạng thái đơn hàng
         order.setStatus(orderStatus);
 
-        // Kiểm tra nếu trạng thái là DELIVERED, cập nhật ngày giao hàng thực tế
+        // Kiểm tra nếu trạng thái là DELIVERED, cập nhật ngày giao hàng thực tế và trạng thái thanh toán
         if (orderStatus == OrderStatus.DELIVERED) {
+            order.setPaymentStatus(PaymentStatus.PAID);//
             order.updateActualDeliveryDate();  // Cập nhật ngày giao hàng thực tế
         }
         // Lưu đơn hàng sau khi cập nhật trạng thái và ngày giao hàng

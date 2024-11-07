@@ -1,12 +1,10 @@
 package DACN.DACN.services;
 
-import DACN.DACN.entity.Order;
-import DACN.DACN.entity.OrderDetail;
-import DACN.DACN.entity.OrderStatus;
-import DACN.DACN.entity.User;
+import DACN.DACN.entity.*;
 import DACN.DACN.repository.OrderDetailRepository;
 import DACN.DACN.repository.OrderRepository;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -53,13 +52,29 @@ public class OrderService {
         return orderRepository.findByUserOrderByIdDesc(user);
     }
 
-    public void updateOrderStatus(Long orderId, OrderStatus orderStatus) {
+    public void updateOrderStatus(Long orderId, OrderStatus orderStatus, PaymentStatus paymentStatus) {
         // Tìm đơn hàng theo ID
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại")); // Ném lỗi nếu không tìm thấy
 
-        // Cập nhật trạng thái cho đơn hàng
-        order.setStatus(orderStatus);
+        // Cập nhật trạng thái cho đơn hàng nếu trạng thái mới khác với trạng thái hiện tại
+        if (order.getStatus() != orderStatus) {
+            order.setStatus(orderStatus);
+
+            // Cập nhật ngày giao hàng thực tế nếu trạng thái là DELIVERED
+            if (orderStatus == OrderStatus.DELIVERED) {
+                order.updateActualDeliveryDate();
+            }
+        }
+
+        // Cập nhật trạng thái thanh toán nếu trạng thái mới khác với trạng thái hiện tại
+        if (order.getPaymentStatus() != paymentStatus) {
+            order.setPaymentStatus(paymentStatus);
+            // Nếu thanh toán không thành công, cập nhật trạng thái đơn hàng thành FAILED
+            if (paymentStatus == PaymentStatus.FAILED) {
+                order.setStatus(OrderStatus.CANCELED);
+            }
+        }
 
         // Lưu đơn hàng đã cập nhật
         orderRepository.save(order);
@@ -137,6 +152,12 @@ public class OrderService {
 
     public void save(Order order) {
         orderRepository.save(order); // Lưu đơn hàng vào cơ sở dữ liệu
+    }
+
+
+
+    public Order findByTransactionCode(String transactionCode) {
+        return orderRepository.findByTransactionCode(transactionCode);
     }
 
 }

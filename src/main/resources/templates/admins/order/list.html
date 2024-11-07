@@ -151,6 +151,10 @@
                     <input type="text" id="orderId" name="orderId" placeholder="Nhập ID đơn hàng" th:value="${param.orderId}" />
                 </div>
                 <div>
+                    <label for="transactionCode">Mã đơn hàng</label>
+                    <input type="text" id="transactionCode" name="transactionCode" placeholder="Nhập mã đơn hàng" th:value="${param.transactionCode}" />
+                </div>
+                <div>
                     <label for="customerName">Tên Khách Hàng</label>
                     <input type="text" id="customerName" name="customerName"  placeholder="Nhập tên khách hàng" th:value="${param.customerName}" />
                 </div>
@@ -189,7 +193,7 @@
                             <ul class="list-group">
                                 <li th:each="order : ${orders}" class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
-                                        <h5 class="mb-3 text-sm">Mã đơn hàng: <span  class="mb-3 text-sm" th:text="${order.id}"></span></h5>
+                                        <h5 class="mb-3 text-sm">Mã đơn hàng: <span  class="mb-3 text-sm" th:text="${order.transactionCode}"></span></h5>
                                         <h6 class="mb-3 text-sm">Tên người đặt: <span  class="mb-3 text-sm" th:text="${order.customerName}"></span></h6>
                                         <p class="mb-2 text-xs" >Địa chỉ: <span class="text-dark font-weight-bold ms-sm-2" th:text="${order.address}"></span></p>
                                         <p class="mb-2 text-xs">Số điện thoại: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${order.phone}"></span></p>

@@ -2,6 +2,7 @@ package DACN.DACN.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -21,6 +22,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // ID của đơn hàng
+    @Column
+    private String transactionCode; // Mã giao dịch dành cho VNPay
+
+    private static final Double SHIPPING_FEE = 30000.0;
+
+    @Column(nullable = false)
+    private Double shippingFee = SHIPPING_FEE;
 
     @NotBlank(message = "Tên người nhận không được để trống")
     @Size(max = 150, min = 1, message = "Tên phải ít hơn 150 ký tự")
@@ -37,9 +45,10 @@ public class Order {
     @Column(name = "address", nullable = false)
     private String address;  // Địa chỉ
 
-    @NotBlank(message = "Phương thức thanh toán không được để trống")
+    @NotNull(message = "Phương thức thanh toán không được để trống")
     @Column(name = "payment_method", nullable = false)
-    private String paymentMethod;  // Phương thức thanh toán
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod  paymentMethod;  // Phương thức thanh toán
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_date", nullable = false)
@@ -56,8 +65,13 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails;  // Danh sách chi tiết đơn hàng
 
+    //Trạng thái đơn hàng
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING; // Mặc định là PENDING
+
+    // Trạng thái thanh toán (PENDING, PAID, FAILED, REFUNDED)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -72,7 +86,7 @@ public class Order {
         this.status = status;
     }
 
-    public Order(String customerName, String phone, String address, String paymentMethod, String note) {
+    public Order(String customerName, String phone, String address, PaymentMethod paymentMethod, String note) {
         this.customerName = customerName;
         this.phone = phone;
         this.address = address;
@@ -106,12 +120,23 @@ public class Order {
         orderDetail.setOrder(null);
     }
 
-    // Phương thức tính tổng tiền của đơn hàng
     public double getTotalAmount() {
-        return orderDetails.stream()
+        double orderTotal = orderDetails.stream()
                 .mapToDouble(OrderDetail::getTotalPrice) // Lấy totalPrice của từng OrderDetail
-                .sum(); // Cộng dồn để ra tổng tiền
+                .sum(); // Cộng dồn để ra tổng tiền của tất cả OrderDetail
+
+        return orderTotal; // Thêm phí ship vào tổng tiền
     }
+
+
+    public double getTotalAmountShip() {
+        double orderTotal = orderDetails.stream()
+                .mapToDouble(OrderDetail::getTotalPrice) // Lấy totalPrice của từng OrderDetail
+                .sum(); // Cộng dồn để ra tổng tiền của tất cả OrderDetail
+
+        return orderTotal + SHIPPING_FEE; // Thêm phí ship vào tổng tiền
+    }
+
 
 
 

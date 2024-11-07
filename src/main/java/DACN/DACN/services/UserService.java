@@ -38,6 +38,7 @@ public class UserService implements UserDetailsService {
     // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
     public void save(@NotNull User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setProvider(Provider.LOCAL.value);
         userRepository.save(user);
         log.info("User {} saved successfully.", user.getUsername());
     }

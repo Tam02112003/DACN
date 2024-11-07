@@ -18,6 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Tìm kiếm với LIKE không phân biệt chữ hoa chữ thường
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', ?1, '%'))")
     Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
     // Phương thức tìm sản phẩm theo categoryId
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
 
