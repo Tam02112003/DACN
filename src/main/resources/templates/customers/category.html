@@ -7,7 +7,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" href="img/fav.png">
+	<link rel="shortcut icon" sizes="32x32" th:href="@{img/icon/icon1.png} ">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -17,7 +17,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Karma Shop</title>
+	<title>Cửa hàng FANFOOTBALL</title>
 	<!--
         CSS
         ============================================= -->
@@ -45,7 +45,7 @@
 				<div class="col-first">
 					<h1>Shop Category page</h1>
 					<nav class="d-flex align-items-center">
-						<a th:href="@{/index}">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a th:href="@{/home}">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a th:href="@{/shop}">Sản phẩm</a>
 					</nav>
 				</div>
@@ -62,7 +62,7 @@
 					<div class="common-filter">
 						<form action="/shop" method="GET" id="categoryFilterForm">
 							<div class="common-filter">
-								<div class="head">Nhãn Hiệu</div>
+								<div class="head">LOẠI SẢN PHẨM</div>
 								<ul th:each="category : ${categories}">
 									<li class="filter-list">
 										<input class="pixel-radio" th:value="${category.id}" type="radio"
@@ -74,12 +74,10 @@
 									</li>
 								</ul>
 							</div>
-							<!--&lt;!&ndash; Thêm nút tìm kiếm &ndash;&gt;
-							<button type="submit" class="btn btn-primary">Tìm Kiếm</button>-->
 						</form>
 					</div>
 					<div class="common-filter">
-						<div class="head">Price</div>
+						<div class="head">GIÁ</div>
 						<div class="price-range-area">
 							<div id="price-range"></div>
 							<div class="value-wrapper d-flex">
@@ -205,7 +203,7 @@
 				<div class="col-lg-3">
 					<div class="ctg-right">
 						<a href="#" target="_blank">
-							<img class="img-fluid d-block mx-auto" src="img/category/c5.jpg" alt="">
+							<img class="img-fluid d-block mx-auto" src="img/banner/sl8.jpg" alt="">
 						</a>
 					</div>
 				</div>

@@ -35,9 +35,33 @@ import java.util.*;
     private SizeService sizeService;
     @Autowired
     private ProductRecommendationService recommendationService;
-    @GetMapping("/home")
-    public String showHome(Model model) {
 
+    @GetMapping("/home")
+    public String showHome( @RequestParam(defaultValue = "1") int page,
+                            @RequestParam(defaultValue = "") String search,
+                            @RequestParam(required = false) Long categoryId,
+                            @RequestParam(defaultValue = "6") int size,
+                            Model model) {
+        if (page < 1) {
+            page = 1;
+        }
+        Page<Product> productPage;
+        if (categoryId != null) {
+            productPage = productService.getProductsByCategoryId(categoryId, page, search, size);
+        } else {
+            productPage = productService.getProducts(page, search, size);
+        }
+        // Lấy 9 sản phẩm ngẫu nhiên
+        List<Product> randomProducts = recommendationService.getRandomProducts(9);
+        List<Category> categories = categoryService.getAllCategories();
+
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("search", search);
+        model.addAttribute("randomProducts", randomProducts);
         return "/customers/index";
     }
     @GetMapping("/contact")

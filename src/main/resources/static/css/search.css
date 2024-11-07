@@ -1,0 +1,84 @@
+.suggestion-item {
+    display: flex; /* Sử dụng flexbox để căn chỉnh */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 10px; /* Khoảng cách xung quanh */
+    border-bottom: 1px solid #ddd; /* Đường viền dưới */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển đổi mượt mà */
+
+}
+
+.suggestion-item:hover {
+    background-color: #f9f9f9; /* Màu nền khi hover */
+}
+
+.suggestion-link {
+    display: flex; /* Sử dụng flexbox cho liên kết */
+    text-decoration: none; /* Bỏ gạch chân */
+    color: #333; /* Màu chữ */
+}
+
+.suggestion-image {
+    width: 100px; /* Chiều rộng hình ảnh */
+    height: 100px; /* Chiều cao hình ảnh */
+    margin-right: 10px; /* Khoảng cách bên phải */
+    border-radius: 5px; /* Bo góc */
+}
+
+.suggestion-details {
+    display: flex;
+    flex-direction: column; /* Căn chỉnh theo chiều dọc */
+}
+
+.suggestion-name {
+    font-weight: bold; /* Chữ đậm cho tên sản phẩm */
+    font-size: 16px; /* Kích thước chữ */
+    margin-bottom: 5px; /* Khoảng cách dưới tên sản phẩm */
+}
+
+.suggestion-price {
+    color: red; /* Màu xám cho giá sản phẩm */
+    font-size: 16px; /* Kích thước chữ */
+}
+    .product-item {
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          margin: 10px;
+          padding: 10px;
+          text-align: center;
+          transition: box-shadow 0.3s;
+          text-decoration: none; /* Bỏ gạch chân */
+          color: inherit; /* Kế thừa màu của văn bản */
+      }
+
+      .product-item:hover {
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          text-decoration: none; /* Bỏ gạch chân khi hover */
+      }
+
+      .product-item img {
+          width: 100px;
+          height: 100px;
+          border-radius: 5px;
+      }
+
+      .product-name {
+          font-weight: bold;
+          margin: 10px 0 5px;
+      }
+
+      .product-price {
+          color: #888;
+      }
+        h1 {
+                text-align: center;
+                margin: 20px 0;
+                font-size: 28px;
+                color: #333;
+            }
+       .search-stats {
+                text-align: center;
+                margin: 20px 0;
+                font-size: 18px;
+                color: #555;
+            }

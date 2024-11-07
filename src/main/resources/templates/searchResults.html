@@ -7,7 +7,7 @@
   <!-- Mobile Specific Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Favicon-->
-  <link rel="shortcut icon" href="img/fav.png">
+  <link rel="shortcut icon" sizes="32x32" th:href="@{img/icon/icon1.png} ">
   <!-- Author Meta -->
   <meta name="author" content="CodePixar">
   <!-- Meta Description -->
@@ -17,10 +17,11 @@
   <!-- meta character set -->
   <meta charset="UTF-8">
   <!-- Site Title -->
-  <title>Karma Shop</title>
+  <title>Cửa hàng FANFOOTBALL</title>
   <!--
       CSS
       ============================================= -->
+  <link rel="stylesheet" href="css/search.css">
   <link rel="stylesheet" href="css/linearicons.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/themify-icons.css">
@@ -42,10 +43,10 @@
     <div class="container">
       <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
         <div class="col-first">
-          <h1>Shop Category page</h1>
+          <h1>Tìm kiếm sản phẩm</h1>
           <nav class="d-flex align-items-center">
-            <a th:href="@{/index}">Home<span class="lnr lnr-arrow-right"></span></a>
-            <a th:href="@{/shop}">Tìm kiếm</a>
+            <a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
+            <a href="#">Tìm kiếm</a>
           </nav>
         </div>
       </div>
@@ -53,32 +54,20 @@
   </section>
   <!-- End Banner Area -->
   <h1>Kết quả tìm kiếm cho: <span th:text="${query}"></span></h1>
-  <div>
-    <ul>
-      <li th:each="product : ${results.content}">
-        <div>
-          <img th:src="${product.imgUrl}" style="width: 100px; height: 100px;">
-          <span th:text="${product.name}"></span> - <span th:text="${product.price} +  'VND'"></span>
-        </div>
-      </li>
-    </ul>
+  <div class="search-stats">
+    <span th:text="${results.content.size()} + ' sản phẩm tìm thấy'">0 sản phẩm tìm thấy</span>
   </div>
-
-  <!--<div>
-    <nav>
-      <ul class="pagination">
-        <li th:class="${results.hasPrevious() ? '' : 'disabled'}">
-          <a th:href="@{/search(query=${query}, page=${results.number})}">Previous</a>
-        </li>
-        <li th:each="i : ${#numbers.sequence(1, results.totalPages)}">
-          <a th:href="@{/search(query=${query}, page=${i})}" th:text="${i}"></a>
-        </li>
-        <li th:class="${results.hasNext() ? '' : 'disabled'}">
-          <a th:href="@{/search(query=${query}, page=${results.number + 2})}">Next</a>
-        </li>
-      </ul>
-    </nav>
-  </div>-->
+  <div class="container">
+    <div class="row">
+      <div th:each="product : ${results.content}" class="col-md-2 product-item">
+        <a th:href="@{/detail/{id}(id=${product.id})}" class="product-item">
+        <img th:src="${product.imgUrl}">
+        <div class="product-name" th:text="${product.name}"></div>
+        <div class="product-price" th:text="${product.price} + ' VND'"></div>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 </body>
 </html>

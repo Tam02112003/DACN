@@ -7,7 +7,7 @@
 	<!-- Mobile Specific Meta -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Favicon-->
-	<link rel="shortcut icon" th:href="@{/img/fav.png}">
+	<link rel="shortcut icon" sizes="32x32" th:href="@{img/icon/icon1.png} ">
 	<!-- Author Meta -->
 	<meta name="author" content="CodePixar">
 	<!-- Meta Description -->
@@ -17,7 +17,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Karma Shop</title>
+	<title>Cửa hàng FANFOOTBALL</title>
 
 	<!--
 		CSS
@@ -43,10 +43,10 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Login/Register</h1>
+					<h1>Đăng nhập</h1>
 					<nav class="d-flex align-items-center">
-						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
-						<a href="category.html">Login/Register</a>
+						<a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
+						<a th:href="@{/login}">Đăng nhập</a>
 					</nav>
 				</div>
 			</div>
@@ -62,9 +62,9 @@
 					<div class="login_box_img">
 						<img class="img-fluid" src="img/login.jpg" alt="">
 						<div class="hover">
-							<h4>New to our website?</h4>
-							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="primary-btn" th:href="${'/register'}">Create an Account</a>
+							<h4>Lần đầu sử dụng website ?</h4>
+							<p>Đăng ký để trải nghiệm sử dụng dịch vụ của chúng tôi</p>
+							<a class="primary-btn" th:href="${'/register'}">Tạo tài khoản</a>
 						</div>
 					</div>
 				</div>
@@ -90,7 +90,7 @@
 								<input type="text" class="form-control" id="username" name="username" placeholder="Nhập tên tài khoản" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nhập tên tài khoản'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password" placeholder="Mật khẩu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mật khẩu'">
+								<input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mật khẩu'">
 							</div>
 							<!--<div class="col-md-12 form-group">
 								<div class="creat_account">

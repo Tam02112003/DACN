@@ -1,0 +1,51 @@
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 177.78%; /* Tỷ lệ khung hình 9:16 cho video dọc */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto; /* Chiều rộng tự động */
+    height: 100%; /* Chiều cao 100% */
+    transform: translate(-50%, -50%); /* Căn giữa video */
+}
+/* Mặc định ẩn hình ảnh trên màn hình lớn */
+.image-container {
+    display: none; /* Ẩn hình ảnh mặc định */
+}
+
+/* Hiện hình ảnh trên màn hình nhỏ */
+@media screen and (max-width: 768px) {
+    .image-container {
+        display: block; /* Hiện hình ảnh khi màn hình nhỏ hơn hoặc bằng 768px */
+    }
+}
+/* Media Query cho điện thoại */
+@media screen and (max-width: 768px) {
+    .video-container {
+        padding-bottom: 177.78%; /* Tỷ lệ khung hình 9:16 cho video dọc */
+    }
+}
+
+/* Media Query cho máy tính */
+@media screen and (min-width: 769px) {
+    .video-container {
+        padding-bottom: 56.25%; /* Tỷ lệ khung hình 16:9 cho màn hình lớn */
+    }
+
+    .video-container video {
+        max-width: 100%; /* Giới hạn chiều rộng tối đa */
+        height: auto; /* Chiều cao tự động dựa trên chiều rộng */
+    }
+}
+/* Media Query cho tablet (khoảng 768px đến 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .image-container {
+        display: none; /* Ẩn hình ảnh trên tablet */
+    }
+}
