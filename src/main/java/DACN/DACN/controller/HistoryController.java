@@ -67,6 +67,9 @@ public class HistoryController {
             order.setPaymentStatus(PaymentStatus.PAID);//
             order.updateActualDeliveryDate();  // Cập nhật ngày giao hàng thực tế
         }
+        if (orderStatus == OrderStatus.CANCELED) {
+            order.setPaymentStatus(PaymentStatus.FAILED);//
+        }
         // Lưu đơn hàng sau khi cập nhật trạng thái và ngày giao hàng
         orderService.save(order);
 

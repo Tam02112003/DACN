@@ -26,7 +26,13 @@ public class VnpayService {
     public String createPaymentUrl(Order order, List<CartItem> cartItems) throws Exception {
         String transactionCode = "ORD" + System.currentTimeMillis(); // Mã đơn hàng duy nhất
         order.setTransactionCode(transactionCode);
-        String amount = String.valueOf((int) (cartItems.stream().mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity()).sum() * 100)); // Tổng tiền tính bằng VND, nhân 100 vì VNPay yêu cầu đơn vị là đồng
+        // Tính tổng tiền của các sản phẩm trong giỏ hàng
+        double productTotal = cartItems.stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+        // Cộng thêm phí ship vào tổng tiền
+        double totalAmount = productTotal + order.getShippingFee();
+        String amount = String.valueOf((int) (totalAmount * 100)); // Tổng tiền tính bằng VND, nhân 100 vì VNPay yêu cầu đơn vị là đồng
 
         Map<String, String> vnpParams = new HashMap<>();
         vnpParams.put("vnp_Version", "2.1.0");
@@ -66,7 +72,7 @@ public class VnpayService {
         // Tạo mã bảo mật HMAC SHA512
         String vnpSecureHash = hmacSHA512(HASH_SECRET, hashData.toString());
         query.append("&vnp_SecureHash=").append(vnpSecureHash);
-// Thiết lập ngày giờ đặt hàng
+        // Thiết lập ngày giờ đặt hàng
         order.setOrderDate(new Date());
 
         // Tính toán và thiết lập ngày giao hàng dự kiến (sau 3 ngày)

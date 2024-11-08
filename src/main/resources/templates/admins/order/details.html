@@ -126,7 +126,20 @@
                     <td th:text="${#numbers.formatDecimal(detail.totalPrice, 1, 2)}"></td> <!-- Hiển thị tổng tiền sản phẩm -->
                 </tr>
                 </tbody>
+                <tfoot>
+                <!-- Dòng phí ship -->
+                <tr>
+                    <td colspan="4" class="text-right font-weight-bold">Phí ship:</td>
+                    <td th:text="${#numbers.formatDecimal(order.shippingFee, 1, 2)}"></td> <!-- Hiển thị phí ship -->
+                </tr>
+                <!-- Dòng tổng tiền -->
+                <tr>
+                    <td colspan="4" class="text-right font-weight-bold">Tổng tiền:</td>
+                    <td th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 2)}"></td> <!-- Hiển thị tổng tiền bao gồm phí ship -->
+                </tr>
+                </tfoot>
             </table>
+
 
             <!-- Nút quay lại -->
             <a th:href="@{/orders/list}" class="btn btn-primary">Quay lại danh sách đơn hàng</a>
@@ -163,3 +176,49 @@
 </body>
 
 </html>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse; /* Đảm bảo không có khoảng cách giữa các viền */
+        margin: 20px 0;
+    }
+
+    th, td {
+        border: 1px solid #ddd; /* Viền cho tất cả các ô */
+        padding: 8px;
+        text-align: center; /* Căn giữa tất cả các ô */
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    /* Đảm bảo viền dưới cho dòng cuối cùng của tbody */
+    tbody tr:last-child td {
+        border-bottom: 1px solid #ddd; /* Thêm viền dưới cho dòng cuối của tbody */
+    }
+
+    /* Đảm bảo dòng trong tfoot cũng có viền dưới */
+    tfoot td {
+        font-weight: bold;
+        text-align: right; /* Căn phải cho cột phí ship và tổng tiền */
+        border-top: 2px solid #ddd; /* Đảm bảo viền trên cho dòng tổng */
+    }
+
+    /* Đảm bảo viền cho toàn bộ cột */
+    td, th {
+        border-left: 1px solid #ddd;  /* Viền trái */
+        border-right: 1px solid #ddd; /* Viền phải */
+    }
+
+    /* Xóa viền bên trái cho cột đầu tiên và viền bên phải cho cột cuối cùng */
+    td:first-child, th:first-child {
+        border-left: none;
+    }
+
+    td:last-child, th:last-child {
+        border-right: none;
+    }
+</style>
+
