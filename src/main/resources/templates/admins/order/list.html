@@ -201,7 +201,7 @@
                                         <p class="mb-2 text-xs">Trạng thái đơn hàng: <span class="order-status text-dark ms-sm-2 font-weight-bold" th:style="'background-color: ' + ${order.getStatusColor()}" th:text="${order.getStatusInVietnamese()}"></span></p>
 
 
-                                        <span class="mb-2 text-xs">Tổng tiền đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 2)}"></span></span><!-- Hiển thị tổng tiền của đơn hàng -->
+                                        <span class="mb-2 text-xs">Tổng tiền đơn hàng: <span class="text-dark ms-sm-2 font-weight-bold" th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 'COMMA', 2, 'POINT')}"></span></span><!-- Hiển thị tổng tiền của đơn hàng -->
 
                                     </div>
                                     <div class="ms-auto text-end">

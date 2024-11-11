@@ -122,20 +122,20 @@
                     <td th:text="${detail.product.name}"></td>
                     <td th:text="${detail.size.name}"></td>
                     <td th:text="${detail.quantity}"></td>
-                    <td th:text="${#numbers.formatDecimal(detail.product.price, 1, 2)}"></td> <!-- Hiển thị giá sản phẩm -->
-                    <td th:text="${#numbers.formatDecimal(detail.totalPrice, 1, 2)}"></td> <!-- Hiển thị tổng tiền sản phẩm -->
+                    <td th:text="${#numbers.formatDecimal(detail.product.price, 1, 'COMMA', 2, 'POINT')}"></td> <!-- Hiển thị giá sản phẩm -->
+                    <td th:text="${#numbers.formatDecimal(detail.totalPrice, 1, 'COMMA', 2, 'POINT')}"></td> <!-- Hiển thị tổng tiền sản phẩm -->
                 </tr>
                 </tbody>
                 <tfoot>
                 <!-- Dòng phí ship -->
                 <tr>
                     <td colspan="4" class="text-right font-weight-bold">Phí ship:</td>
-                    <td th:text="${#numbers.formatDecimal(order.shippingFee, 1, 2)}"></td> <!-- Hiển thị phí ship -->
+                    <td th:text="${#numbers.formatDecimal(order.shippingFee, 1, 'COMMA', 2, 'POINT')}"></td> <!-- Hiển thị phí ship -->
                 </tr>
                 <!-- Dòng tổng tiền -->
                 <tr>
                     <td colspan="4" class="text-right font-weight-bold">Tổng tiền:</td>
-                    <td th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 2)}"></td> <!-- Hiển thị tổng tiền bao gồm phí ship -->
+                    <td th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 'COMMA', 2, 'POINT')}"></td> <!-- Hiển thị tổng tiền bao gồm phí ship -->
                 </tr>
                 </tfoot>
             </table>

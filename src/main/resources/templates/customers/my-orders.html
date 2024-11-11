@@ -116,7 +116,7 @@
                             <td th:text="${order.paymentStatus.getDescription()}"></td>
                             <td class="mb-2 text-xs"  th:text="${order.actualDeliveryDate != null ? #dates.format(order.actualDeliveryDate, 'dd/MM/yyyy') : 'Chưa cập nhật'}"></td>
 
-                            <td th:text="${#numbers.formatDecimal(order.getTotalAmount() + 30000, 1, 2)}"></td> <!-- Hiển thị tổng tiền của đơn hàng -->
+                            <td th:text="${#numbers.formatDecimal(order.getTotalAmountShip() , 1, 'COMMA', 2, 'POINT')}"></td> <!-- Hiển thị tổng tiền của đơn hàng -->
                             <td>
                                 <a th:href="@{/order/details/{id}(id=${order.id})}">Xem chi tiết</a> <!-- Link tới trang chi tiết đơn hàng -->
                             </td>

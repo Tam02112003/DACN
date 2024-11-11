@@ -64,7 +64,7 @@
 							<li><strong>Mã đơn hàng:</strong> <span th:text="${order.transactionCode}"></span></li>
 							<li><strong>Thời gian đặt hàng:</strong> <span th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></li>
 							<li><strong>Giao hàng dự kiến:</strong> <span th:text="${#dates.format(order.estimatedDeliveryDate, 'dd/MM/yyyy')}"></span></li>
-							<li><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.getTotalAmount() + order.shippingFee, 0, 0)} + ' VND'"></span></li>
+							<li><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.getTotalAmount() + order.shippingFee, 1, 'COMMA', 2, 'POINT')} + ' VND'"></span></li>
 							<li><strong>Phương thức thanh toán:</strong> <span th:text="${order.paymentMethod}"></span></li>
 						</ul>
 					</div>
@@ -119,11 +119,11 @@
 								<h5 th:text="${detail.quantity}"></h5>
 							</td>
 							<td>
-								<h5 th:text="${#numbers.formatDecimal(detail.product.price, 0, 0)}  + ' VND'"></h5>
+								<h5 th:text="${#numbers.formatDecimal(detail.product.price, 1, 'COMMA', 2, 'POINT')}  + ' VND'"></h5>
 							</td>
 
 							<td>
-								<h5 th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 0, 0 )} + ' VND'"></h5>
+								<h5 th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 1, 'COMMA', 2, 'POINT' )} + ' VND'"></h5>
 							</td>
 						</tr>
 						<tr>
@@ -134,7 +134,7 @@
 								<h5></h5>
 							</td>
 							<td>
-								<h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 0, 0)} + ' VND'"></h5>
+								<h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5>
 							</td>
 						</tr>
 						<tr>
@@ -145,7 +145,7 @@
 								<h5></h5>
 							</td>
 							<td>
-								<h5>30.000 VND</h5>
+								<h5 th:text="${#numbers.formatDecimal(order.shippingFee, 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5>
 							</td>
 						</tr>
 						<tr>
@@ -156,7 +156,7 @@
 								<h5></h5>
 							</td>
 							<td>
-								<h5 th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 0, 0)} + ' VND'"></h5>
+								<h5 th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5>
 							</td>
 						</tr>
 						</tbody>

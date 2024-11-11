@@ -66,7 +66,7 @@
               <li><p><strong>Mã đơn hàng:</strong> <span th:text="${order.id}"></span></p></li>
               <li><p><strong>Thời gian đặt hàng:</strong> <span th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm:ss')}"></span></p></li>
               <li><p><strong>Giao hàng dự kiến:</strong> <span th:text="${#dates.format(order.estimatedDeliveryDate, 'dd/MM/yyyy')}"></span></p></li>
-              <li><p><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.getTotalAmount() + + 30000, 0, 0)} + ' VND'"></span></p></li>
+              <li><p><strong>Tổng tiền:</strong> <span th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 'COMMA', 2, 'POINT')} + ' VND'"></span></p></li>
               <li><p><strong>Phương thức thanh toán:</strong> <span th:text="${order.paymentMethod}"></span></p></li>
             </ul>
           </div>
@@ -124,13 +124,13 @@
                 <h5 th:text="${detail.size.name}"></h5>
               </td>
               <td>
-                <h5 th:text="${#numbers.formatDecimal(detail.product.price, 0, 0)}  + ' VND'"></h5>
+                <h5 th:text="${#numbers.formatDecimal(detail.product.price, 1, 'COMMA', 2, 'POINT')}  + ' VND'"></h5>
               </td>
               <td>
                 <h5 th:text="${detail.quantity}"></h5>
               </td>
               <td>
-                <h5 th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 0, 0 )} + ' VND'"></h5>
+                <h5 th:text="${#numbers.formatDecimal(detail.product.price * detail.quantity, 1, 'COMMA', 2, 'POINT' )} + ' VND'"></h5>
               </td>
             </tr>
             <tr>
@@ -141,7 +141,7 @@
                 <h5></h5>
               </td>
               <td>
-                <h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 0, 0)} + ' VND'"></h5>
+                <h5 th:text="${#numbers.formatDecimal(order.getTotalAmount(), 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5>
               </td>
             </tr>
             <tr>
@@ -152,7 +152,7 @@
                 <h5></h5>
               </td>
               <td>
-                <h5>30.000 VND</h5>
+                <h5 th:text="${#numbers.formatDecimal(order.shippingFee, 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5>
               </td>
             </tr>
             <tr>
@@ -163,7 +163,7 @@
                 <h5></h5>
               </td>
               <td>
-                <strong><h5 th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 0, 0)} + ' VND'"></h5></strong>
+                <strong><h5 th:text="${#numbers.formatDecimal(order.getTotalAmountShip(), 1, 'COMMA', 2, 'POINT')} + ' VND'"></h5></strong>
               </td>
             </tr>
             </tbody>
