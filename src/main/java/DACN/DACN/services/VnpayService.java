@@ -88,7 +88,7 @@ public class VnpayService {
 
         // Thiết lập chi tiết đơn hàng cho đơn hàng
         order.setOrderDetails(orderDetails);
-
+        order.calculateTotalAmount(); // Tính tổng số tiền của đơn hàng
         // Lưu đơn hàng vào cơ sở dữ liệu
         orderService.createOrder(order);
         // Tạo URL thanh toán hoàn chỉnh

@@ -10,14 +10,27 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
     List<Order> findByUserOrderByIdDesc(User user);  // Tìm đơn hàng theo người dùng
     List<Order> findAllByOrderByIdDesc();
     Order findByTransactionCode(String transactionCode);
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE DATE(o.orderDate) = CURRENT_DATE")
+    Double calculateRevenueByDate(Date date);
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('WEEK', o.orderDate) = FUNCTION('WEEK', CURRENT_DATE)")
+    Double calculateRevenueByWeek();
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('MONTH', o.orderDate) = FUNCTION('MONTH', CURRENT_DATE)")
+    Double calculateRevenueByMonth();
+
+    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('YEAR', o.orderDate) = FUNCTION('YEAR', CURRENT_DATE)")
+    Double calculateRevenueByYear();
+
 
     // Phương thức tìm kiếm theo các tiêu chí
     @Query("SELECT o FROM Order o WHERE " +

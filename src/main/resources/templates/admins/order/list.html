@@ -147,10 +147,6 @@
             </div>
             <form th:action="@{/orders/find}" method="get">
                 <div>
-                    <label for="orderId">ID Đơn Hàng</label>
-                    <input type="text" id="orderId" name="orderId" placeholder="Nhập ID đơn hàng" th:value="${param.orderId}" />
-                </div>
-                <div>
                     <label for="transactionCode">Mã đơn hàng</label>
                     <input type="text" id="transactionCode" name="transactionCode" placeholder="Nhập mã đơn hàng" th:value="${param.transactionCode}" />
                 </div>

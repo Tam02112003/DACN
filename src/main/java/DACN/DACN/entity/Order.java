@@ -81,6 +81,9 @@ public class Order {
     @Column(name = "note", length = 500)
     private String note;  // Ghi chú từ khách hàng
 
+    @Column(name = "total_amount", nullable = false)
+    private Double totalAmount=0.0;
+
 
     public void setStatus(OrderStatus status) {
         this.status = status;
@@ -125,7 +128,13 @@ public class Order {
                 .mapToDouble(OrderDetail::getTotalPrice) // Lấy totalPrice của từng OrderDetail
                 .sum(); // Cộng dồn để ra tổng tiền của tất cả OrderDetail
 
-        return orderTotal; // Thêm phí ship vào tổng tiền
+        return orderTotal;
+    }
+    public void calculateTotalAmount() {
+        double detailsTotal = orderDetails.stream()
+                .mapToDouble(OrderDetail::getTotalPrice)
+                .sum();
+        this.totalAmount = detailsTotal + shippingFee;
     }
 
 

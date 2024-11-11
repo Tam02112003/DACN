@@ -45,6 +45,15 @@ public class UserController {
     public String register(@Valid @ModelAttribute("user") User user,
                            @NotNull BindingResult bindingResult,
                            Model model) {
+        // Kiểm tra nếu username đã tồn tại
+        if (userService.isUsernameExist(user.getUsername())) {
+            bindingResult.rejectValue("username", "error.user", "Tên người dùng đã tồn tại");
+        }
+        // Kiểm tra nếu email đã tồn tại
+        if (userService.isEmailExist(user.getEmail())) {
+            bindingResult.rejectValue("email", "error.user", "Email đã được sử dụng");
+        }
+
         if (bindingResult.hasErrors()) {
             var errors = bindingResult.getAllErrors()
                     .stream()

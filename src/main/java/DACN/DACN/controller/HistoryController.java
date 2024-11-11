@@ -94,12 +94,15 @@ public class HistoryController {
         Optional<User> optionalUser = userService.findByUsername(principal.getName());
 
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get(); // Lấy đối tượng User từ Optional
-            List<Order> orders = orderService.getOrdersByUser(user); // Lấy danh sách đơn hàng của người dùng
+            User user = optionalUser.get();
+            List<Order> orders = orderService.getOrdersByUser(user);
             model.addAttribute("orders", orders);
         } else {
             model.addAttribute("errorMessage", "Không tìm thấy thông tin người dùng.");
+            System.out.println("Không tìm thấy người dùng: " + principal.getName()); // Thêm log nếu không tìm thấy người dùng
         }
+
+
 
         return "customers/my-orders"; // Trả về view hiển thị danh sách đơn hàng
     }
@@ -128,7 +131,7 @@ public class HistoryController {
     }
     @GetMapping("/find")
     public String listOrders(Model model, Principal principal,
-                             @RequestParam(required = false) String orderId,
+                             @RequestParam(required = false) String transactionCode,
                              @RequestParam(required = false) String customerName,
                              @RequestParam(required = false) String phone,
                              @RequestParam(required = false) OrderStatus status,
@@ -136,7 +139,7 @@ public class HistoryController {
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         User user = userService.findByUsername(principal.getName()).orElse(null); // Lấy thông tin người dùng
 
-        List<Order> orders = orderService.findOrders(orderId, customerName, phone, status, startDate, endDate, user);
+        List<Order> orders = orderService.findOrders(transactionCode, customerName, phone, status, startDate, endDate, user);
         model.addAttribute("orders", orders);
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "admins/order/list";

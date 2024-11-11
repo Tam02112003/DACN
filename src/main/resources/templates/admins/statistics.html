@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Thống kê doanh thu và đơn hàng</h1>
+
+<div>
+    <h3>Doanh thu</h3>
+    <p>Hôm nay: ${todayRevenue}</p>
+    <p>Tuần này: ${weekRevenue}</p>
+    <p>Tháng này: ${monthRevenue}</p>
+    <p>Năm này: ${yearRevenue}</p>
+</div>
+
+<canvas id="revenueChart"></canvas>
+<script>
+    // Tạo biểu đồ doanh thu
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Hôm nay', 'Tuần này', 'Tháng này', 'Năm này'],
+            datasets: [{
+                label: 'Doanh thu (VND)',
+                data: [${todayRevenue}, ${weekRevenue}, ${monthRevenue}, ${yearRevenue}],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

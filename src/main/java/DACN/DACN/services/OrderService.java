@@ -79,14 +79,16 @@ public class OrderService {
         // Lưu đơn hàng đã cập nhật
         orderRepository.save(order);
     }
-    public List<Order> findOrders(String orderId, String customerName, String phone, OrderStatus status, Date startDate, Date endDate, User user) {
+    public List<Order> findOrders(String transactionCode, String customerName, String phone, OrderStatus status, Date startDate, Date endDate, User user) {
         return orderRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (orderId != null && !orderId.isEmpty()) {
+            /*if (orderId != null && !orderId.isEmpty()) {
                 predicates.add(criteriaBuilder.equal(root.get("id"), Long.valueOf(orderId)));
+            }*/
+            if (transactionCode != null && !transactionCode.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("transactionCodex"), "%" + transactionCode + "%"));
             }
-
             if (customerName != null && !customerName.isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%"));
             }
@@ -151,6 +153,7 @@ public class OrderService {
     }
 
     public void save(Order order) {
+
         orderRepository.save(order); // Lưu đơn hàng vào cơ sở dữ liệu
     }
 
@@ -158,6 +161,25 @@ public class OrderService {
 
     public Order findByTransactionCode(String transactionCode) {
         return orderRepository.findByTransactionCode(transactionCode);
+    }
+    public double getTodayRevenue() {
+        // Lấy dữ liệu doanh thu cho ngày hôm nay
+        return orderRepository.calculateRevenueByDate(new Date());
+    }
+
+    public double getThisWeekRevenue() {
+        // Lấy dữ liệu doanh thu cho tuần này
+        return orderRepository.calculateRevenueByWeek();
+    }
+
+    public double getThisMonthRevenue() {
+        // Lấy dữ liệu doanh thu cho tháng này
+        return orderRepository.calculateRevenueByMonth();
+    }
+
+    public double getThisYearRevenue() {
+        // Lấy dữ liệu doanh thu cho năm này
+        return orderRepository.calculateRevenueByYear();
     }
 
 }

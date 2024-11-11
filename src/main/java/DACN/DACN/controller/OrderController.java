@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -187,10 +186,12 @@ public class OrderController {
 
         // Thiết lập chi tiết đơn hàng cho đơn hàng
         order.setOrderDetails(orderDetails);
-
+        order.calculateTotalAmount(); // Tính tổng số tiền của đơn hàng
         // Lưu đơn hàng vào cơ sở dữ liệu
         orderService.createOrder(order);
     }
+
+
 
 
 

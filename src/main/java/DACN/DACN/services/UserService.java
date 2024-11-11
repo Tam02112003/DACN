@@ -46,7 +46,13 @@ public class UserService implements UserDetailsService {
     public void update(@NotNull User user) {
         userRepository.save(user);
     }
+    public boolean isUsernameExist(String username) {
+        return userRepository.existsByUsername(username);
+    }
 
+    public boolean isEmailExist(String email) {
+        return userRepository.existsByEmail(email);
+    }
     // Gán vai trò mặc định cho người dùng dựa trên tên người dùng.
     public void setDefaultRole(String username) {
         userRepository.findByUsername(username).ifPresentOrElse(
