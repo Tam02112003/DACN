@@ -1,46 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layoutadmin}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}">
+    <title>Danh sách sản phẩm</title>
+    <!-- Fonts and icons -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <!-- Nucleo Icons -->
+    <link th:href="@{/assets/css/nucleo-icons.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/nucleo-svg.css}" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link id="pagestyle" th:href="@{/assets/css/material-dashboard.css?v=3.1.0}" rel="stylesheet" />
+
+    <!-- Nepcha Analytics -->
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 80vw;
+        }
+    </style>
 </head>
-<body>
-<h1>Thống kê doanh thu và đơn hàng</h1>
 
-<div>
-    <h3>Doanh thu</h3>
-    <p>Hôm nay: ${todayRevenue}</p>
-    <p>Tuần này: ${weekRevenue}</p>
-    <p>Tháng này: ${monthRevenue}</p>
-    <p>Năm này: ${yearRevenue}</p>
-</div>
+<body class="g-sidenav-show  bg-gray-100">
 
-<canvas id="revenueChart"></canvas>
-<script>
-    // Tạo biểu đồ doanh thu
-    const ctx = document.getElementById('revenueChart').getContext('2d');
-    const revenueChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Hôm nay', 'Tuần này', 'Tháng này', 'Năm này'],
-            datasets: [{
-                label: 'Doanh thu (VND)',
-                data: [${todayRevenue}, ${weekRevenue}, ${monthRevenue}, ${yearRevenue}],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+
+<main class="main-content border-radius-lg " layout:fragment="content">
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Thống kê</li>
+                </ol>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+
+                </div>
+                <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                                <i class="sidenav-toggler-line"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item px-3 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0">
+                            <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="./pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+                            <i class="fa fa-user me-sm-1"></i>
+
+                            <span class="d-sm-inline d-none">Sign In</span>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Navbar -->
+    <div class="container mt-5">
+        <h2 class="text-center">Biểu đồ Doanh thu</h2>
+        <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Core JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'bar', // Hoặc 'line', 'pie', v.v.
+            data: {
+                labels: ['Hôm nay', 'Tuần này', 'Tháng này', 'Năm này'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: [
+                        /* Thay thế bằng giá trị doanh thu thực tế từ backend */
+                        [[${todayRevenue}]],
+                        [[${weekRevenue}]],
+                        [[${monthRevenue}]],
+                        [[${yearRevenue}]]
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
+        });
+    </script>
+
+    <script th:src="@{/assets/js/core/popper.min.js}"></script>
+    <script th:src="@{/assets/js/core/bootstrap.min.js}"></script>
+
+    <script th:src="@{/assets/js/plugins/perfect-scrollbar.min.js}" ></script>
+    <script th:src="@{/assets/js/plugins/smooth-scrollbar.min.js}" ></script>
+
+    <script th:inline="javascript">
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            };
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-    });
-</script>
+    </script>
+    <!-- Github buttons -->
+    <script async defer th:src="@{https://buttons.github.io/buttons.js}"></script>
+
+    <!-- Control Center for Material Dashboard -->
+    <script th:src="@{/assets/js/material-dashboard.min.js?v=3.1.0}"></script>
+</main>
 </body>
 </html>
