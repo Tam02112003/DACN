@@ -32,6 +32,9 @@
 
 <main class="main-content border-radius-lg" layout:fragment="content">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+        <div class="container mt-5">
+
+        </div>
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
 
@@ -73,6 +76,19 @@
         </div>
     </nav>
     <!-- End Navbar -->
+    <form method="get" action="#" th:action="@{/statistics}">
+        <label for="month">Chọn Tháng:</label>
+        <select id="month" name="month">
+            <option th:each="m : ${#numbers.sequence(1, 12)}" th:value="${m}" th:text="'Tháng ' + ${m}"></option>
+        </select>
+
+        <label for="year">Chọn Năm:</label>
+        <select id="year" name="year">
+            <option th:each="y : ${#numbers.sequence(2020, currentYear)}" th:value="${y}" th:text="${y}"></option>
+        </select>
+
+        <button type="submit">Xem Doanh thu</button>
+    </form>
     <div class="container mt-5">
         <h2 class="text-center">Biểu đồ Doanh thu</h2>
         <div class="chart-container">

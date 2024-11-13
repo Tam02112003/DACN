@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,8 +35,10 @@ public class AdminController {
 
     @Autowired
     private OrderService orderService;
+
     @Autowired
     private final UserService userService;
+
     @GetMapping("/admin")
     public String showDoashboard(Model model) {
 
@@ -46,10 +49,9 @@ public class AdminController {
 
         return "/admins/index";
     }
-    @GetMapping("/statistics")
+    /*@GetMapping("/statistics")
     public String showStatistics(Model model) {
         // Thêm dữ liệu doanh thu vào model
-
         model.addAttribute("todayRevenue", orderService.getTodayRevenue());
         model.addAttribute("weekRevenue", orderService.getThisWeekRevenue());
         model.addAttribute("monthRevenue", orderService.getThisMonthRevenue());
@@ -65,7 +67,38 @@ public class AdminController {
         model.addAttribute("currentMonth", currentMonth);
         model.addAttribute("currentYear", currentYear);
         return "admins/statistics";
+    }*/
+    @GetMapping("/statistics")
+    public String showStatistics(
+            @RequestParam(value = "month", required = false) Integer month,
+            @RequestParam(value = "year", required = false) Integer year,
+            Model model) {
+
+        // Nếu không có, dùng tháng và năm hiện tại
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        year = (year == null) ? currentYear : year;
+        month = (month == null) ? currentMonth : month;
+
+        // Thêm dữ liệu doanh thu vào model
+        model.addAttribute("todayRevenue", orderService.getTodayRevenue());
+        model.addAttribute("weekRevenue", orderService.getThisWeekRevenue());
+        model.addAttribute("monthRevenue", orderService.getThisMonthRevenue());
+        model.addAttribute("yearRevenue", orderService.getThisYearRevenue());
+
+        // Thống kê doanh thu theo tháng cho năm hiện tại
+        Double[] monthlyRevenue = orderService.getMonthlyRevenue(year);
+        model.addAttribute("monthlyRevenue", monthlyRevenue);
+
+        // Lấy doanh thu hàng ngày cho tháng và năm đã chọn
+        Double[] dailyRevenue = orderService.getDailyRevenue(year, month);
+        model.addAttribute("dailyRevenue", dailyRevenue);
+        model.addAttribute("currentMonth", month);
+        model.addAttribute("currentYear", year);
+
+        return "admins/statistics";
     }
+
     @GetMapping("/profile-admin")
     public String getCurrentUser(Model model) {
         String username = getCurrentUsername();
@@ -150,5 +183,4 @@ public class AdminController {
                 StandardCopyOption.REPLACE_EXISTING);
         return newFileName;
     }
-
 }

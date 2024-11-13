@@ -108,7 +108,7 @@ public class HistoryController {
     }
     @GetMapping("/search")
     public String searchOrders(
-            @RequestParam(required = false) String orderId,
+            @RequestParam(required = false) String transactionCode,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
@@ -120,7 +120,7 @@ public class HistoryController {
             User user = optionalUser.get();
 
             // Gọi searchOrders với tiêu chí tìm kiếm và người dùng
-            List<Order> orders = orderService.searchOrders(user, orderId, status, startDate, endDate);
+            List<Order> orders = orderService.searchOrders(user, transactionCode, status, startDate, endDate);
 
             model.addAttribute("orders", orders);
             model.addAttribute("orderStatuses", OrderStatus.values());

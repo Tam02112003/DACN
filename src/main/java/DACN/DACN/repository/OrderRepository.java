@@ -2,6 +2,7 @@ package DACN.DACN.repository;
 
 import DACN.DACN.entity.Order;
 import DACN.DACN.entity.OrderStatus; // Nhớ import OrderStatus nếu bạn muốn tìm theo trạng thái
+import DACN.DACN.entity.PaymentStatus;
 import DACN.DACN.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -34,7 +35,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 
     @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('YEAR', o.orderDate) = FUNCTION('YEAR', CURRENT_DATE)")
     Double calculateRevenueByYear();
-
 
     // Phương thức tìm kiếm theo các tiêu chí
     @Query("SELECT o FROM Order o WHERE " +

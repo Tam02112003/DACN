@@ -160,6 +160,30 @@ public class OrderService {
         return orderRepository.findByTransactionCode(transactionCode);
     }
     public double getTodayRevenue() {
+        // Lấy dữ liệu doanh thu cho ngày hôm nay và xử lý null
+        Double revenue = orderRepository.calculateRevenueByDate(new Date());
+        return revenue != null ? revenue : 0.0;
+    }
+
+    public double getThisWeekRevenue() {
+        // Lấy dữ liệu doanh thu cho tuần này và xử lý null
+        Double revenue = orderRepository.calculateRevenueByWeek();
+        return revenue != null ? revenue : 0.0;
+    }
+
+    public double getThisMonthRevenue() {
+        // Lấy dữ liệu doanh thu cho tháng này và xử lý null
+        Double revenue = orderRepository.calculateRevenueByMonth();
+        return revenue != null ? revenue : 0.0;
+    }
+
+    public double getThisYearRevenue() {
+        // Lấy dữ liệu doanh thu cho năm này và xử lý null
+        Double revenue = orderRepository.calculateRevenueByYear();
+        return revenue != null ? revenue : 0.0;
+    }
+
+    /*public double getTodayRevenue() {
         // Lấy dữ liệu doanh thu cho ngày hôm nay
         return orderRepository.calculateRevenueByDate(new Date());
     }
@@ -177,7 +201,7 @@ public class OrderService {
     public double getThisYearRevenue() {
         // Lấy dữ liệu doanh thu cho năm này
         return orderRepository.calculateRevenueByYear();
-    }
+    }*/
     private Double calculateRevenue(Date startDate, Date endDate) {
         // Truy vấn trực tiếp để tính tổng doanh thu
         return orderRepository.sumTotalAmountBetween(startDate, endDate);
@@ -210,6 +234,7 @@ public class OrderService {
 
         // Tính số ngày trong tháng
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC")); // Đặt múi giờ nếu cần thiết
         calendar.set(year, month - 1, 1); // Đặt tháng và năm
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
@@ -217,13 +242,24 @@ public class OrderService {
             calendar.set(year, month - 1, day); // Đặt ngày
             Date startDate = calendar.getTime();
 
-            // Đặt ngày tiếp theo để tính ngày kết thúc
-            calendar.set(year, month - 1, day + 1);
+
+            // Đặt endDate là cuối ngày
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            calendar.set(Calendar.MILLISECOND, 999);
             Date endDate = calendar.getTime();
 
             // Tính doanh thu cho ngày
             Double revenue = calculateRevenue(startDate, endDate);
             dailyRevenue[day - 1] = revenue; // Gán doanh thu cho ngày
+
+            // Reset lại giờ về 0 cho ngày tiếp theo
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
         }
 
         return dailyRevenue;
