@@ -20,34 +20,19 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     List<Order> findAllByOrderByIdDesc();
     Order findByTransactionCode(String transactionCode);
 
-    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate AND o.paymentStatus = 'PAID'")
     Double sumTotalAmountBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-
-    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE DATE(o.orderDate) = CURRENT_DATE")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE DATE(o.orderDate) = CURRENT_DATE AND o.paymentStatus = 'PAID'")
     Double calculateRevenueByDate(Date date);
 
-    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('WEEK', o.orderDate) = FUNCTION('WEEK', CURRENT_DATE)")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE FUNCTION('WEEK', o.orderDate) = FUNCTION('WEEK', CURRENT_DATE) AND o.paymentStatus = 'PAID'")
     Double calculateRevenueByWeek();
 
-    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('MONTH', o.orderDate) = FUNCTION('MONTH', CURRENT_DATE)")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE FUNCTION('MONTH', o.orderDate) = FUNCTION('MONTH', CURRENT_DATE) AND o.paymentStatus = 'PAID'")
     Double calculateRevenueByMonth();
 
-    @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE FUNCTION('YEAR', o.orderDate) = FUNCTION('YEAR', CURRENT_DATE)")
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE FUNCTION('YEAR', o.orderDate) = FUNCTION('YEAR', CURRENT_DATE) AND o.paymentStatus = 'PAID'")
     Double calculateRevenueByYear();
 
-    // Phương thức tìm kiếm theo các tiêu chí
-    @Query("SELECT o FROM Order o WHERE " +
-            "(:orderId IS NULL OR o.id = :orderId) AND " +
-            "(:customerName IS NULL OR o.customerName LIKE %:customerName%) AND " +
-            "(:phone IS NULL OR o.phone = :phone) AND " +
-            "(:status IS NULL OR o.status = :status) AND " +
-            "(:orderDate IS NULL OR DATE(o.orderDate) = DATE(:orderDate)) AND " +
-            "(:estimatedDeliveryDate IS NULL OR DATE(o.estimatedDeliveryDate) = DATE(:estimatedDeliveryDate))")
-    List<Order> findByCriteria(@Param("orderId") Long orderId,
-                               @Param("customerName") String customerName,
-                               @Param("phone") String phone,
-                               @Param("status") OrderStatus status,
-                               @Param("orderDate") LocalDate orderDate,
-                               @Param("estimatedDeliveryDate") LocalDate estimatedDeliveryDate);
 }
