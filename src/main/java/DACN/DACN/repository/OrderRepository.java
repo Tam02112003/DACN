@@ -19,6 +19,10 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     List<Order> findAllByOrderByIdDesc();
     Order findByTransactionCode(String transactionCode);
 
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate")
+    Double sumTotalAmountBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+
     @Query("SELECT SUM(o.totalAmount) FROM Order o WHERE DATE(o.orderDate) = CURRENT_DATE")
     Double calculateRevenueByDate(Date date);
 

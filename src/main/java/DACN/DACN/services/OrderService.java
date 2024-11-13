@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -181,5 +178,54 @@ public class OrderService {
         // Lấy dữ liệu doanh thu cho năm này
         return orderRepository.calculateRevenueByYear();
     }
+    private Double calculateRevenue(Date startDate, Date endDate) {
+        // Truy vấn trực tiếp để tính tổng doanh thu
+        return orderRepository.sumTotalAmountBetween(startDate, endDate);
+    }
 
+    public Double[] getMonthlyRevenue(int year) {
+        Double[] monthlyRevenue = new Double[12];
+        Arrays.fill(monthlyRevenue, 0.0); // Khởi tạo tất cả các tháng với 0.0
+
+        for (int month = 1; month <= 12; month++) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month - 1, 1); // Ngày đầu tháng
+            Date startDate = calendar.getTime();
+
+            // Đặt ngày cuối tháng
+            calendar.set(year, month - 1, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            Date endDate = calendar.getTime();
+
+            // Tính doanh thu cho tháng
+            Double revenue = calculateRevenue(startDate, endDate);
+            monthlyRevenue[month - 1] = revenue; // Gán doanh thu cho tháng
+        }
+
+        return monthlyRevenue;
+    }
+
+    public Double[] getDailyRevenue(int year, int month) {
+        Double[] dailyRevenue = new Double[31]; // Tối đa 31 ngày
+        Arrays.fill(dailyRevenue, 0.0); // Khởi tạo tất cả các ngày với 0.0
+
+        // Tính số ngày trong tháng
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, 1); // Đặt tháng và năm
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        for (int day = 1; day <= daysInMonth; day++) {
+            calendar.set(year, month - 1, day); // Đặt ngày
+            Date startDate = calendar.getTime();
+
+            // Đặt ngày tiếp theo để tính ngày kết thúc
+            calendar.set(year, month - 1, day + 1);
+            Date endDate = calendar.getTime();
+
+            // Tính doanh thu cho ngày
+            Double revenue = calculateRevenue(startDate, endDate);
+            dailyRevenue[day - 1] = revenue; // Gán doanh thu cho ngày
+        }
+
+        return dailyRevenue;
+    }
 }
