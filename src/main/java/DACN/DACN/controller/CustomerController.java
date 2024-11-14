@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -21,6 +24,8 @@ import java.util.*;
     @RequiredArgsConstructor
 
     public class CustomerController {
+    @Autowired
+    private NewsService newsService;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -69,11 +74,7 @@ import java.util.*;
 
         return "/customers/contact";
     }
-    @GetMapping("/blog")
-    public String showBlog(Model model) {
 
-        return "/customers/blog";
-    }
     @GetMapping("/shop")
     public String showProductList(
             @RequestParam(defaultValue = "1") int page,
@@ -209,4 +210,45 @@ import java.util.*;
         return "customers/order-detail";
     }
 
+    @GetMapping("/blog")
+    public String showBlog(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<News> newsPage = newsService.getAllNews(pageable);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        // Định dạng ngày cho mỗi bài viết
+        for (News news : newsPage.getContent()) {
+            if (news.getCreatedAt() != null) {
+                news.setFormattedCreatedAt(news.getCreatedAt().format(formatter));
+            }
+        }
+
+        model.addAttribute("newsPage", newsPage);
+        return "/customers/blog";
+    }
+    @GetMapping("blog/detail/{id}")
+    public String getBlogDetail(@PathVariable Long id, Model model) {
+        News news = newsService.getNewsById(id);
+
+        // Kiểm tra xem bài viết có tồn tại không
+        if (news != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Định dạng ngày
+            news.setFormattedCreatedAt(news.getCreatedAt().format(formatter)); // Định dạng thời gian
+            // Lấy bài viết trước và tiếp theo
+            News previousNews = newsService.getPreviousNews(id);
+            News nextNews = newsService.getNextNews(id);
+
+            model.addAttribute("previousNews", previousNews);
+            model.addAttribute("nextNews", nextNews);
+        }
+
+        model.addAttribute("news", news);
+
+        return "/customers/single-blog";
+    }
 }

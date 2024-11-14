@@ -1,0 +1,9 @@
+ .content-cell {
+            max-height: 40px; /* Giới hạn chiều cao cho 2 dòng */
+            overflow: hidden;   /* Ẩn nội dung thừa */
+            text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
+            display: -webkit-box; /* Sử dụng box model */
+            -webkit-line-clamp: 1; /* Giới hạn số dòng hiển thị */
+            -webkit-box-orient: vertical; /* Định hướng chiều dọc */
+            max-width: 300px;
+        }

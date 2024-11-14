@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Tạo Tin Tức</title>
+  <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+  <link rel="stylesheet" th:href="@{/assets/css/news.css}"/>
+</head>
+<body>
+<h1>Tạo Tin Tức Mới</h1>
+
+<form th:action="@{/news/create}" method="post" enctype="multipart/form-data">
+  <label for="title">Tiêu Đề:</label>
+  <input type="text" id="title" name="title" required>
+
+  <label for="author">Tác Giả:</label>
+  <input type="text" id="author" name="author" th:value="${news.author}" required>
+
+  <label for="description">Mô Tả:</label>
+  <input type="text" id="description" name="description" th:value="${news.description}" required>
+
+  <label for="content">Nội Dung:</label>
+  <textarea id="content" name="content" required></textarea>
+
+  <label for="image">Hình Ảnh:</label>
+  <input type="file" id="image" name="image">
+
+  <button type="submit">Lưu</button>
+  <a th:href="@{/news}" class="btn-back">Quay lại</a>
+</form>
+<script>
+  CKEDITOR.replace('content'); // Sử dụng id tương ứng
+</script>
+</body>
+</html>

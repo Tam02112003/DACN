@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sửa Tin Tức</title>
+  <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+  <link rel="stylesheet" th:href="@{/assets/css/news.css}"/>
+</head>
+<body>
+<h1>Sửa Tin Tức</h1>
+<form th:action="@{/news/edit/{id}(id=${news.id})}" method="post"  enctype="multipart/form-data">
+  <label for="title">Tiêu Đề:</label>
+  <input type="text" id="title" name="title" th:value="${news.title}" required>
+  <br>
+  <label for="author">Tác Giả:</label>
+  <input type="text" id="author" name="author" th:value="${news.author}" required>
+  <br>
+  <label for="description">Mô Tả:</label>
+  <input type="text" id="description" name="description" th:value="${news.description}" required>
+  <br>
+  <label for="image" class="w-10 me-3 mb-0">Hình ảnh</label>
+  <input type="file" name="image"  id="image">
+  <br>
+  <label for="image" class="w-10 me-3 mb-0">Hình ảnh hiện tại</label>
+  <img th:src="@{${news.ImgUrl}}" width="150" height="150" alt="Sản phẩm" />
+  <br>
+  <label for="content">Nội Dung:</label>
+  <textarea id="content" name="content" required th:text="${news.content}"></textarea>
+  <br>
+  <p>Thời Gian Đăng: <span th:text="${news.formattedCreatedAt}"></span></p>
+  <button type="submit">Cập Nhật</button>
+  <a th:href="@{/news}" class="btn-back">Quay lại</a>
+</form>
+
+<script>
+  CKEDITOR.replace('content'); // Sử dụng id tương ứng
+</script>
+</body>
+</html>
