@@ -126,7 +126,10 @@ public class User implements UserDetails {
         User user = (User) o;
         return getId() != null && Objects.equals(getId(), user.getId());
     }
-
+    // Constructor với ID
+    public User(Long id) {
+        this.id = id;
+    }
     @Override
     public int hashCode() {
         return getClass().hashCode();
