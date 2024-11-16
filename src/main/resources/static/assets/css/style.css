@@ -1,4 +1,4 @@
- .content-cell {
+        .content-cell {
             max-height: 40px; /* Giới hạn chiều cao cho 2 dòng */
             overflow: hidden;   /* Ẩn nội dung thừa */
             text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
@@ -7,3 +7,24 @@
             -webkit-box-orient: vertical; /* Định hướng chiều dọc */
             max-width: 300px;
         }
+        .welcome-message {
+              margin-top: 16rem;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              animation: fadeIn 2s ease-in-out;
+
+            }
+
+            .welcome-message h1 {
+              font-family: 'Lucida Calligraphy', cursive;
+              font-size: 6rem;
+              color: #ffd700;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              margin-bottom: 1rem;
+            }
+
+            @keyframes fadeIn {
+              0% { opacity: 0; transform: translateY(-50px); }
+              100% { opacity: 1; transform: translateY(0); }
+            }

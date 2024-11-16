@@ -9,7 +9,7 @@
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/assets/img/apple-icon.png}">
     <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}">
-    <title>Danh sách sản phẩm</title>
+    <title>Chi tiết đơn hàng</title>
     <!-- Fonts and icons -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
@@ -70,11 +70,23 @@
                     </li>
 
                     <li class="nav-item d-flex align-items-center">
-                        <a href="./pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
+                        <i class="fa fa-user me-sm-1"></i>
+                        <a class="nav-link text-body font-weight-bold px-0">
 
-                            <span class="d-sm-inline d-none">Sign In</span>
+                            <span class="nav-link text-body font-weight-bold px-0" sec:authorize="isAuthenticated()">
 
+                            <span class="d-sm-inline d-none">
+
+                                <span class="d-sm-inline d-none">
+                                    <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-nav-link" style="padding:0;" type="submit">Đăng xuất</button>
+                                    </form>
+                                </span>
+                            </span>
+                            </span>
+                            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-outline-dark" th:href="@{/login}">Login</a>
+                            </li>
                         </a>
                     </li>
                 </ul>

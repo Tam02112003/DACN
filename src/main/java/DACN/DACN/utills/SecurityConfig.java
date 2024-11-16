@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         // Cho phép truy cập các file tĩnh, và các URL không cần xác thực
-                        .requestMatchers("/fonts/**", "/css/**", "/", "/img/**","/video/**","/uploads/profile-pictures/**", "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**", "/.github/**", "/register", "/home", "/shop", "/cart", "/cart/**", "/detail/**","/search","/search-results","/suggestions").permitAll()
+                        .requestMatchers("/fonts/**", "/css/**", "/", "/img/**","/video/**","/uploads/profile-pictures/**", "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**", "/.github/**", "/register", "/home", "/shop","/blog","/blog/detail/**", "/cart", "/cart/**", "/detail/**","/search","/search-results","/suggestions").permitAll()
                         // Chỉ ADMIN mới được phép truy cập các route dưới đây
                         .requestMatchers( "/admin","/products","/products/detail/**","/categories/list","/categories/create","/categories/edit","/categories/delete","/products/edit/**"
                                 , "/products/create", "/products/delete", "/order/list", "/order/details/**","/sizes","/sizes/create","/sizes/edit/**","/sizes/delete","/discounts"

@@ -9,7 +9,7 @@
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/assets/img/apple-icon.png}">
     <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}">
-    <title>Danh sách thể loại</title>
+    <title>Thêm thương hiệu</title>
     <!-- Fonts and icons -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
@@ -40,9 +40,9 @@
 
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a></li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Size</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Thương hiệu</li>
                 </ol>
-                <h6 class="font-weight-bolder mb-0">Danh sách</h6>
+                <h6 class="font-weight-bolder mb-0">Thêm</h6>
 
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -53,7 +53,7 @@
                 </div>
                 <ul class="navbar-nav  justify-content-end">
                     <li class="nav-item d-flex align-items-center">
-                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/sizes/create}">Thêm Size</a>
+                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/brands/create}">Thêm Size</a>
                     </li>
 
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -98,39 +98,20 @@
     <!-- End Navbar -->
 
     <div class="container-fluid py-4">
-        <div class="card-body px-0 pb-2">
-            <!-- Form tìm kiếm -->
-            <form th:action="@{/sizes}" method="get" class="mb-3">
-                <div class="input-group">
-                    <input type="text" name="search" th:value="${search}" class="form-control" placeholder="Tìm kiếm thể loại...">
-                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+        <div class="row">
+            <form th:action="@{/brands/create}" th:object="${brand}" method="post" novalidate>
+                <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                    <label class="w-10 me-3 mb-0" for="name">Thương hiệu:</label>
+                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập tên thương hiệu">
+                    <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
+                <button type="submit" class="btn btn-primary">Thêm thương hiệu</button>
+                <a th:href="@{/brands}" class="btn btn-secondary">Quay lại</a>
             </form>
-            <div class="table-responsive p-0">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th class="mb-0 text-sm">ID</th>
-                        <th class="mb-0 text-sm">Size</th>
-                        <th class="mb-0 text-sm">Tên Thể loại</th>
-                        <th class="mb-0 text-sm">Chức năng</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="size : ${sizes}">
-                        <td th:text="${size.id}"></td>
-                        <td th:text="${size.name}"></td>
-                        <td th:text="${size.category.name}"></td>
-                        <td>
-                            <a th:href="@{'/sizes/edit/' + ${size.id}}" class="btn btn-link text-dark px-3 mb-0"><i class="material-icons text-sm me-2">edit</i>Sửa</a>
-                            <a th:href="@{'/sizes/delete/' + ${size.id}}" class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirm('Bạn chắc muốn size này chứ?')"><i class="material-icons text-sm me-2">delete</i>Xóa</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
+</main>
+
 <!-- Core JS Files -->
 <script th:src="@{/assets/js/core/popper.min.js}"></script>
 <script th:src="@{/assets/js/core/bootstrap.min.js}"></script>
@@ -153,7 +134,7 @@
 
 <!-- Control Center for Material Dashboard -->
 <script th:src="@{/assets/js/material-dashboard.min.js?v=3.1.0}"></script>
-</main>
+
 </body>
 
 </html>

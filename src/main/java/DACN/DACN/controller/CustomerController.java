@@ -24,6 +24,9 @@ import java.util.*;
     @RequiredArgsConstructor
 
     public class CustomerController {
+
+    @Autowired
+    private BrandService brandService;
     @Autowired
     private NewsService newsService;
     @Autowired
@@ -52,7 +55,7 @@ import java.util.*;
         }
         Page<Product> productPage;
         if (categoryId != null) {
-            productPage = productService.getProductsByCategoryId(categoryId, page, search, size);
+            productPage = productService.getProductsByCategoryId(categoryId, page, size);
         } else {
             productPage = productService.getProducts(page, search, size);
         }
@@ -69,42 +72,78 @@ import java.util.*;
         model.addAttribute("randomProducts", randomProducts);
         return "/customers/index";
     }
-    @GetMapping("/contact")
-    public String showContact(Model model) {
-
-        return "/customers/contact";
-    }
 
     @GetMapping("/shop")
     public String showProductList(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "") String search,
             @RequestParam(required = false) Long categoryId,
-            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) String priceRange,
+            @RequestParam(defaultValue = "9") int size,
             Model model) {
+
+        // Đảm bảo page không nhỏ hơn 1
         if (page < 1) {
             page = 1;
         }
         Page<Product> productPage;
-        if (categoryId != null) {
-            productPage = productService.getProductsByCategoryId(categoryId, page, search, size);
-        } else {
+        // Kiểm tra và xử lý priceRange để tránh lỗi
+        if (priceRange != null && priceRange.isEmpty()) {
+            priceRange = null; // Gán về null nếu là chuỗi rỗng
+        }
+        // Lọc theo categoryId, brandId và priceRange
+        if (categoryId != null && brandId != null && priceRange != null) {
+            productPage = productService.getProductsByCategoryIdBrandIdAndPriceRange(categoryId, brandId, priceRange, page, size);
+        }
+        // Lọc theo categoryId và brandId mà không có priceRange
+        else if (categoryId != null && brandId != null) {
+            productPage = productService.getProductsByCategoryIdAndBrandId(categoryId, brandId, page, size);
+        }
+        // Lọc theo categoryId và priceRange
+        else if (categoryId != null && priceRange != null) {
+            productPage = productService.getProductsByCategoryIdAndPriceRange(categoryId, priceRange, page, size);
+        }
+        // Lọc theo brandId và priceRange
+        else if (brandId != null && priceRange != null) {
+            productPage = productService.getProductsByBrandIdAndPriceRange(brandId, priceRange, page, size);
+        }
+        // Lọc theo chỉ categoryId
+        else if (categoryId != null) {
+            productPage = productService.getProductsByCategoryId(categoryId, page, size);
+        }
+        // Lọc theo chỉ brandId
+        else if (brandId != null) {
+            productPage = productService.getProductsByBrandId(brandId, page, size);
+        }
+        // Lọc theo priceRange
+        else if (priceRange != null) {
+            productPage = productService.getProductsByPriceRange(priceRange, page, size);
+        }
+        // Nếu không có tham số nào
+        else {
             productPage = productService.getProducts(page, search, size);
         }
-        // Lấy 9 sản phẩm ngẫu nhiên
+
+        // Lấy danh sách sản phẩm ngẫu nhiên
         List<Product> randomProducts = recommendationService.getRandomProducts(9);
         List<Category> categories = categoryService.getAllCategories();
+        List<Brand> brands = brandService.getAllBrands();
 
-
+        // Gửi các thuộc tính vào model
         model.addAttribute("categories", categories);
+        model.addAttribute("brands", brands);
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("search", search);
         model.addAttribute("randomProducts", randomProducts);
+        model.addAttribute("selectedCategoryId", categoryId);
+        model.addAttribute("selectedBrandId", brandId);
+        model.addAttribute("priceRange", priceRange);
+
         return "customers/category";
     }
-
 
     @GetMapping("/detail/{id}")
     public String getProductDetail(@PathVariable Long id, Model model,

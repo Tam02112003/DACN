@@ -34,6 +34,8 @@ import java.util.UUID;
 public class ProductController {
 
     @Autowired
+    private BrandService brandService;
+    @Autowired
     private ProductService productService;
 
     @Autowired
@@ -78,6 +80,7 @@ public class ProductController {
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("brands", brandService.getAllBrands());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
     }
@@ -133,6 +136,7 @@ public class ProductController {
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
+        model.addAttribute("brands", brandService.getAllBrands());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "/admins/product/edit";
     }

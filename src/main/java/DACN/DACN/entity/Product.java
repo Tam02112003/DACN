@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +31,13 @@ public class Product {
 
     @NotNull(message = "Giá là bắt buộc")
     private Double price;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand; // Tham chiếu đến thương hiệu
+
+    @Column(columnDefinition = "TEXT")
+    private String content;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();

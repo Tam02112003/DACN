@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layoutadmin}">
+      layout:decorate="~{layoutadmin}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -53,7 +53,7 @@
                 </div>
                 <ul class="navbar-nav  justify-content-end">
                     <li class="nav-item d-flex align-items-center">
-                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/categories/create}">Chỉnh Sửa Size</a>
+                        <a class="btn btn-outline-primary btn-sm mb-0 me-3"  th:href="@{/categories/create}">Thêm Size</a>
                     </li>
 
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -72,11 +72,23 @@
                     </li>
 
                     <li class="nav-item d-flex align-items-center">
-                        <a href="./pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
+                        <i class="fa fa-user me-sm-1"></i>
+                        <a class="nav-link text-body font-weight-bold px-0">
 
-                            <span class="d-sm-inline d-none">Sign In</span>
+                            <span class="nav-link text-body font-weight-bold px-0" sec:authorize="isAuthenticated()">
 
+                            <span class="d-sm-inline d-none">
+
+                                <span class="d-sm-inline d-none">
+                                    <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-nav-link" style="padding:0;" type="submit">Đăng xuất</button>
+                                    </form>
+                                </span>
+                            </span>
+                            </span>
+                            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-outline-dark" th:href="@{/login}">Login</a>
+                            </li>
                         </a>
                     </li>
                 </ul>

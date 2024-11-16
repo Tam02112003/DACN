@@ -104,7 +104,7 @@
 
 						<ul class="list">
 							<li><a class="active" href="#"><span>Thể loại</span><a th:text="${product.category.name}"></a></a></li>
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
+							<!--<li><a href="#"><span>Availibility</span> : In Stock</a></li>-->
 						</ul>
 						<p th:text="${product.description}"></p>
 						<!--<form th:action="@{/cart/add}" method="post">
@@ -152,16 +152,16 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-					 aria-selected="false">Specification</a>
+					 aria-selected="false">Chi tiết sản phẩm</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
-					 aria-selected="false">Reviews</a>
+					 aria-selected="false">Đánh giá</a>
 				</li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-					<p th:text="${product.description}"></p>
+					<p th:utext="${product.content}"></p>
 				</div>
 				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 					<div class="table-responsive">
@@ -189,6 +189,14 @@
 									</td>
 									<td>
 										<h5 th:text="${product.category.name}"></h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Thương hiệu sản phẩm</h5>
+									</td>
+									<td>
+										<h5 th:text="${product.brand.name}"></h5>
 									</td>
 								</tr>
 							</tbody>

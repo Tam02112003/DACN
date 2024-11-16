@@ -64,11 +64,23 @@
                     </li>
 
                     <li class="nav-item d-flex align-items-center">
-                        <a href="./pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
+                        <i class="fa fa-user me-sm-1"></i>
+                        <a class="nav-link text-body font-weight-bold px-0">
 
-                            <span class="d-sm-inline d-none">Sign In</span>
+                            <span class="nav-link text-body font-weight-bold px-0" sec:authorize="isAuthenticated()">
 
+                            <span class="d-sm-inline d-none">
+
+                                <span class="d-sm-inline d-none">
+                                    <form th:action="@{/logout}" method="post">
+                                    <button class="btn btn-nav-link" style="padding:0;" type="submit">Đăng xuất</button>
+                                    </form>
+                                </span>
+                            </span>
+                            </span>
+                            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-outline-dark" th:href="@{/login}">Login</a>
+                            </li>
                         </a>
                     </li>
                 </ul>
@@ -87,7 +99,7 @@
             <option th:each="y : ${#numbers.sequence(2020, currentYear)}" th:value="${y}" th:text="${y}"></option>
         </select>
 
-        <button type="submit">Xem Doanh thu</button>
+        <button class="btn btn-primary" type="submit">Xem Doanh thu</button>
     </form>
     <div class="container mt-5">
         <h2 class="text-center">Biểu đồ Doanh thu</h2>

@@ -43,7 +43,7 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Shop Category page</h1>
+					<h1>Trang sản phẩm</h1>
 					<nav class="d-flex align-items-center">
 						<a th:href="@{/home}">Home<span class="lnr lnr-arrow-right"></span></a>
 						<a th:href="@{/shop}">Sản phẩm</a>
@@ -63,46 +63,109 @@
 						<form action="/shop" method="GET" id="categoryFilterForm">
 							<div class="common-filter">
 								<div class="head">LOẠI SẢN PHẨM</div>
-								<ul th:each="category : ${categories}">
-									<li class="filter-list">
+
+								<ul>
+
+									<li th:each="category : ${categories}">
 										<input class="pixel-radio" th:value="${category.id}" type="radio"
-											   id="${category.name}" name="categoryId"  th:onchange="submitForm()"
+											   id="${category.name}" name="categoryId" th:onchange="this.form.submit()"
 											   th:checked="${category.id == selectedCategoryId}">
-										<label th:for="${category.id}">
+										<label th:for="${category.name}">
 											<span th:text="${category.name}"></span>
 										</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="clear-category" name="categoryId" value=""
+											   onchange="this.form.submit()"
+											   th:checked="${selectedCategoryId == null}">
+										<label for="clear-category">Tất cả</label>
+									</li>
+								</ul>
+							</div>
+
+							<div class="common-filter">
+								<div class="head">THƯƠNG HIỆU</div>
+
+								<ul>
+									<li th:each="brand : ${brands}">
+										<input class="pixel-radio" th:value="${brand.id}" type="radio"
+											   id="${brand.name}" name="brandId" th:onchange="this.form.submit()"
+											   th:checked="${brand.id == selectedBrandId}">
+										<label th:for="${brand.name}">
+											<span th:text="${brand.name}"></span>
+										</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="clear-brand" name="brandId" value=""
+											   onchange="this.form.submit()"
+											   th:checked="${selectedBrandId == null}">
+										<label for="clear-brand">Tất cả</label>
+									</li>
+								</ul>
+							</div>
+
+
+							<!-- Phần thêm vào để tìm kiếm theo mức giá -->
+							<div class="common-filter">
+								<div class="head">TÌM KIẾM THEO GIÁ</div>
+
+								<ul>
+
+									<li class="filter-list">
+										<input type="radio" id="0-1000000" name="priceRange" value="0-1000000"
+											   onchange="this.form.submit()"
+											   th:checked="${priceRange == '0-1000000'}">
+										<label for="0-1000000">0 VNĐ ~ 1.000.000 VNĐ</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="1000000-2000000" name="priceRange" value="1000000-2000000"
+											   onchange="this.form.submit()"
+											   th:checked="${priceRange == '1000000-2000000'}">
+										<label for="1000000-2000000">1.000.000 VNĐ ~ 2.000.000 VNĐ</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="2000000-3000000" name="priceRange" value="2000000-3000000"
+											   onchange="this.form.submit()"
+											   th:checked="${priceRange == '2000000-3000000'}">
+										<label for="2000000-3000000">2.000.000 VNĐ ~ 3.000.000 VNĐ</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="3000000-5000000" name="priceRange" value="3000000-5000000"
+											   onchange="this.form.submit()"
+											   th:checked="${priceRange == '3000000-5000000'}">
+										<label for="3000000-5000000">3.000.000 VNĐ ~ 5.000.000 VNĐ</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="above5000000" name="priceRange" value="6000000"
+											   onchange="this.form.submit()"
+											   th:checked="${priceRange == '6000000'}">
+										<label for="above5000000">Trên 5.000.000 VNĐ</label>
+									</li>
+									<li class="filter-list">
+										<input type="radio" id="clear" name="priceRange" value=""
+											   onchange="this.form.submit()"
+											   th:checked="${priceRange == ''}">
+										<label for="clear">Bỏ chọn</label>
 									</li>
 								</ul>
 							</div>
 						</form>
 					</div>
-					<div class="common-filter">
-						<div class="head">GIÁ</div>
-						<div class="price-range-area">
-							<div id="price-range"></div>
-							<div class="value-wrapper d-flex">
-								<div class="price">Price:</div>
-								<span>$</span>
-								<div id="lower-value"></div>
-								<div class="to">to</div>
-								<span>$</span>
-								<div id="upper-value"></div>
-							</div>
-						</div>
-					</div>
+
 				</div>
 				<div class="pagination">
 					<li th:class="${currentPage == 1} ? 'disabled'">
-						<a th:href="@{/shop(page=${currentPage - 1}, search=${search})}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+						<a th:href="@{/shop(page=${currentPage - 1}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" class="prev-arrow">
+							<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+						</a>
 					</li>
 					<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage} ? 'active'">
-						<a th:href="@{/shop(page=${i}, search=${search})}" th:text="${i}" class="active"></a>
+						<a th:href="@{/shop(page=${i}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" th:text="${i}"></a>
 					</li>
-
-					<!--<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-                    <a href="#">6</a>-->
 					<li th:class="${currentPage == totalPages} ? 'disabled'">
-						<a th:href="@{/shop(page=${currentPage + 1}, search=${search})}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+						<a th:href="@{/shop(page=${currentPage + 1}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" class="next-arrow">
+							<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+						</a>
 					</li>
 				</div>
 			</div>
@@ -113,7 +176,26 @@
 
 					</div>
 					<div class="sorting mr-auto">
-
+						<!-- Start Filter Bar -->
+						<div class="filter-bar d-flex flex-wrap align-items-center">
+							<div class="sorting mr-auto">
+							</div>
+							<div class="pagination">
+								<li th:class="${currentPage == 1} ? 'disabled'">
+									<a th:href="@{/shop(page=${currentPage - 1}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" class="prev-arrow">
+										<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+									</a>
+								</li>
+								<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage} ? 'active'">
+									<a th:href="@{/shop(page=${i}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" th:text="${i}"></a>
+								</li>
+								<li th:class="${currentPage == totalPages} ? 'disabled'">
+									<a th:href="@{/shop(page=${currentPage + 1}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" class="next-arrow">
+										<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+									</a>
+								</li>
+							</div>
+						</div>
 					</div>
 
 				</div>
@@ -149,16 +231,17 @@
 					</div>
 					<div class="pagination">
 						<li th:class="${currentPage == 1} ? 'disabled'">
-							<a th:href="@{/shop(page=${currentPage - 1}, search=${search})}" class="prev-arrow"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
+							<a th:href="@{/shop(page=${currentPage - 1}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" class="prev-arrow">
+								<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+							</a>
 						</li>
 						<li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${i == currentPage} ? 'active'">
-							<a th:href="@{/shop(page=${i}, search=${search})}" th:text="${i}" class="active"></a>
+							<a th:href="@{/shop(page=${i}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" th:text="${i}"></a>
 						</li>
-
-						<!--<a href="#" class="dot-dot"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a>
-						<a href="#">6</a>-->
 						<li th:class="${currentPage == totalPages} ? 'disabled'">
-							<a th:href="@{/shop(page=${currentPage + 1}, search=${search})}" class="next-arrow"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+							<a th:href="@{/shop(page=${currentPage + 1}, search=${search}, categoryId=${selectedCategoryId}, brandId=${selectedBrandId}, priceRange=${priceRange})}" class="next-arrow">
+								<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+							</a>
 						</li>
 					</div>
 				</div>
@@ -219,6 +302,8 @@
 		function submitForm() {
             document.getElementById('categoryFilterForm').submit();
         }
+
+}
 	</script>
 
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>

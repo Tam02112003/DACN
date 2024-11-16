@@ -44,11 +44,6 @@ public class AdminController {
 
         return "/admins/dashboard";
     }
-    @GetMapping("/admin1")
-    public String showDoashboard2(Model model) {
-
-        return "/admins/index";
-    }
     /*@GetMapping("/statistics")
     public String showStatistics(Model model) {
         // Thêm dữ liệu doanh thu vào model
