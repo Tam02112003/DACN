@@ -110,7 +110,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th class="mb-0 text-sm">ID</th>
+                       <!-- <th class="mb-0 text-sm">ID</th>-->
                         <th class="mb-0 text-sm">Size</th>
                         <th class="mb-0 text-sm">Tên Thể loại</th>
                         <th class="mb-0 text-sm">Chức năng</th>
@@ -118,7 +118,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="size : ${sizes}">
-                        <td th:text="${size.id}"></td>
+                        <!--<td th:text="${size.id}"></td>-->
                         <td th:text="${size.name}"></td>
                         <td th:text="${size.category.name}"></td>
                         <td>

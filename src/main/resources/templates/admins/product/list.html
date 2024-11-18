@@ -107,7 +107,7 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                     <tr>
-                        <th class="mb-0 text-sm">ID</th>
+                        <!--<th class="mb-0 text-sm">ID</th>-->
                         <th class="mb-0 text-sm">Tên</th>
                         <th class="mb-0 text-sm">Giá (VND)</th>
                         <th class="mb-0 text-sm">Mô tả</th>
@@ -121,8 +121,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="product : ${products}">
-
-                        <td th:text="${product.id}"></td>
+                        <!--<td th:text="${product.id}"></td>-->
                         <td class="mb-0 text-sm" th:text="${product.name}"></td>
                         <td class="mb-0 text-sm" th:text="${product.price}"></td>
                         <td class="mb-0 text-sm" style="display: inline-block; text-wrap: wrap; height: 100%; max-width: 700px" th:text="${product.description}"></td>
