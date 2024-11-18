@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layoutadmin}" xmlns:sec="http://www.w3.org/1999/xhtml">
+     xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,6 +25,7 @@
     <link id="pagestyle" th:href="@{/assets/css/material-dashboard.css?v=3.1.0}" rel="stylesheet" />
 
     <!-- Nepcha Analytics -->
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
     <style>
         .error-message {
@@ -36,7 +37,7 @@
 <body class="g-sidenav-show  bg-gray-100">
 
 
-<main class="main-content border-radius-lg " layout:fragment="content">
+<main class="main-content border-radius-lg " >
     <!-- Navbar -->
 
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -166,7 +167,10 @@
     }
 </script>
 
-
+<script  th:inline="javascript">
+    CKEDITOR.replace('content'); // Sử dụng id tương ứng
+    CKEDITOR.replace('description'); // Sử dụng id tương ứng
+</script>
 
 <!-- Github buttons -->
 <script async defer th:src="@{https://buttons.github.io/buttons.js}"></script>

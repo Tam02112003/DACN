@@ -106,7 +106,7 @@
 							<li><a class="active" href="#"><span>Thể loại</span><a th:text="${product.category.name}"></a></a></li>
 							<!--<li><a href="#"><span>Availibility</span> : In Stock</a></li>-->
 						</ul>
-						<p th:text="${product.description}"></p>
+						<p th:utext="${product.description}"></p>
 						<!--<form th:action="@{/cart/add}" method="post">
 							<input type="number" name="quantity" min="1" value="1"
 								   class="form-control d-inline-block" style="width: 70px;">

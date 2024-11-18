@@ -26,7 +26,7 @@ public class Product {
     private String name;
 
     @Size(max = 5000, message = "Mô tả không được vượt quá 5000 ký tự")
-    @Column(length = 5000)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @NotNull(message = "Giá là bắt buộc")

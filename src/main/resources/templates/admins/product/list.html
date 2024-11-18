@@ -110,8 +110,8 @@
                         <!--<th class="mb-0 text-sm">ID</th>-->
                         <th class="mb-0 text-sm">Tên</th>
                         <th class="mb-0 text-sm">Giá (VND)</th>
-                        <th class="mb-0 text-sm">Mô tả</th>
-                        <th class="mb-0 text-sm">Mô tả dài</th>
+
+
                         <th class="mb-0 text-sm">Hình ảnh</th>
                         <th class="mb-0 text-sm">Hình ảnh khác</th>
                         <th class="mb-0 text-sm">Tên thương hiệu</th>
@@ -124,8 +124,6 @@
                         <!--<td th:text="${product.id}"></td>-->
                         <td class="mb-0 text-sm" th:text="${product.name}"></td>
                         <td class="mb-0 text-sm" th:text="${product.price}"></td>
-                        <td class="mb-0 text-sm" style="display: inline-block; text-wrap: wrap; height: 100%; max-width: 700px" th:text="${product.description}"></td>
-                        <td class="content-cell" th:utext="${product.content}"></td>
                         <td> <img th:src="${product.ImgUrl}" width="100px" height="100px" ></td>
                         <td>
                             <div class="flex space-x-2 mt-2">

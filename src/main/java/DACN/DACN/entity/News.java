@@ -36,6 +36,6 @@ public class News {
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-    @Transient // Chỉ dùng trong model, không lưu vào DB
-    private String formattedCreatedAt; // Trường để lưu thời gian đã định dạng
+    @Transient
+    private String formattedCreatedAt;
 }
