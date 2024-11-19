@@ -32,6 +32,18 @@
 	<link rel="stylesheet" th:href="@{/css/main.css}">
 	<link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}">
 	<style>
+
+       .carousel img {
+           width: 100%;
+           height: auto;
+       }
+       .carousel .active {
+           display: block;
+       }
+       .carousel img:not(.active) {
+           display: none;
+       }
+
 		.list-star {
             list-style: none;
             padding: 0;
@@ -84,13 +96,9 @@
 						<div class="single-prd-item">
 							<img class="img-fluid" th:src="@{${product.imgUrl}}" alt="">
 						</div>
-						<!--<div class="single-prd-item">
-							<img class="img-fluid" th:src="@{${image.imagePath[1]}}" alt="">
-						</div>-->
-						<div class="single-prd-item">
-						<div th:each="image : ${product.images}">
-							<img th:src="@{${image.imagePath}}" alt="Hình ảnh khác" class="img-thumbnail">
-						</div>
+
+						<div  id="imageCarousel" th:each="image, iterStat : ${product.images}" class="single-prd-item" th:classappend="${iterStat.first} ? 'active'">
+							<img th:src="@{${image.imagePath}}" alt="Hình ảnh khác" class="img-fluid">
 						</div>
 					</div>
 				</div>
@@ -360,6 +368,26 @@
                 });
             });
         });
+
+	</script>
+	<script>
+		const images = document.querySelectorAll('.single-prd-item img');
+
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.classList.remove('active');
+                if (i === index) {
+                    img.classList.add('active');
+                }
+            });
+        }
+
+        function nextImage() {
+            let currentIndex = Array.from(images).findIndex(img => img.classList.contains('active'));
+            const nextIndex = (currentIndex + 1) % images.length;
+            showImage(nextIndex);
+        }
+
 	</script>
 	<script th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
