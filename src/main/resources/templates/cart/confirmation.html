@@ -41,7 +41,7 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Đặt hàng thành công</h1>
+					<h1 th:text="${order.getStatusInVietnamese()}"></h1>
 					<nav class="d-flex align-items-center">
 						<a th:href="@{/home}">Trang chủ<span class="lnr lnr-arrow-right"></span></a>
 						<a href="#">Xác nhận</a>
@@ -56,6 +56,7 @@
 	<section class="order_details section_gap">
 		<div class="container">
 			<h3 class="title_confirmation"  th:text="${message}"></h3>
+			<h3 class="alert alert-danger"  th:text="${errorMessage}"></h3>
 			<div class="row order_d_inner">
 				<div class="col-lg-4">
 					<div class="details_item">

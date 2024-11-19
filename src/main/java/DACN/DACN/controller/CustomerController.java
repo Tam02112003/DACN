@@ -80,7 +80,7 @@ import java.util.*;
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Long brandId,
             @RequestParam(required = false) String priceRange,
-            @RequestParam(defaultValue = "9") int size,
+            @RequestParam(defaultValue = "6") int size,
             Model model) {
 
         // Đảm bảo page không nhỏ hơn 1

@@ -40,6 +40,20 @@ public class OrderController {
         model.addAttribute("paymentMethods", PaymentMethod.values());
         model.addAttribute("cartItems", cartService.getCartItems());
         model.addAttribute("totalPrice", cartService.getTotalPrice()); // Thêm tổng tiền vào model
+        String username = userService.getCurrentUser(); // Lấy thông tin người dùng hiện tại
+        Optional<User> userOptional = userService.findByUsername(username);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Order order = new Order();
+            order.setCustomerName(user.getFullname());
+            order.setPhone(user.getPhone());
+            order.setAddress(user.getAddress());
+            model.addAttribute("orders", order); // Thêm đối tượng Order đã cập nhật vào model
+            model.addAttribute("user", userOptional.get());
+        } else {
+            model.addAttribute("error", "Người dùng không tìm thấy.");
+            return "error";
+        }
         return "/cart/checkout"; // Chuyển đến trang checkout
     }
 

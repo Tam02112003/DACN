@@ -175,7 +175,7 @@
                     <select id="status" name="status" >
                         <option value="">-- Chọn Trạng Thái --</option>
                         <th:block th:each="status : ${orderStatuses}">
-                            <option th:value="${status}" th:text="${status}"></option>
+                            <option th:value="${status}" th:text="${status.getStatusInVietnamese()}"></option>
                         </th:block>
                     </select>
                 </div>

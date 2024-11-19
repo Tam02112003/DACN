@@ -60,7 +60,7 @@ public class SizeController {
     }
 
     @PostMapping("/update/{id}")
-    public String editSize(@ModelAttribute Size size) {
+    public String editSize(@ModelAttribute Size size, BindingResult bindingResult, Model model) {
         sizeService.saveSize(size);
         return "redirect:/sizes";
     }

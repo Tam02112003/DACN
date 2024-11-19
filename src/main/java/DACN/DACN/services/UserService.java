@@ -8,6 +8,8 @@ import DACN.DACN.repository.IUserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -114,5 +116,9 @@ public class UserService implements UserDetailsService {
         existingUser.setAddress(updatedUser.getAddress());
         userRepository.save(existingUser);
         log.info("User {} updated successfully.", existingUser.getUsername());
+    }
+    public String getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null ? authentication.getName() : null;
     }
 }

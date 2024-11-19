@@ -2,9 +2,11 @@ package DACN.DACN.controller;
 
 import DACN.DACN.entity.Brand;
 import DACN.DACN.services.BrandService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +34,10 @@ public class BrandController {
 
     // Xử lý form tạo thương hiệu
     @PostMapping("/create")
-    public String createBrand(@ModelAttribute Brand brand) {
+    public String createBrand(@Valid @ModelAttribute Brand brand, BindingResult result) {
+        if (result.hasErrors()) {
+            return "admins/brand/create";
+        }
         brandService.createBrand(brand);
         return "redirect:/brands"; // Chuyển hướng về danh sách thương hiệu
     }

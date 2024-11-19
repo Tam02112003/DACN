@@ -2,6 +2,7 @@ package DACN.DACN.controller;
 
 import DACN.DACN.entity.News;
 import DACN.DACN.services.NewsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -57,7 +58,7 @@ public class NewsController {
     }
 
     @PostMapping("/create")
-    public String addNews(@ModelAttribute News news, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
+    public String addNews(@ModelAttribute News news, @Valid BindingResult result, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
             return "/admins/news/create";
         }

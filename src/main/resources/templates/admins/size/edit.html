@@ -99,10 +99,10 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <form th:action="@{/sizes/update/{id}(id=${size.id})}" th:object="${size}" method="post" novalidate>
+            <form th:action="@{/sizes/update/{id}(id=${size.id})}" th:object="${size}" method="post">
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
                     <label class="w-10 me-3 mb-0" for="name">Size:</label>
-                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập Size">
+                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Nhập Size" required>
                     <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
                 <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">

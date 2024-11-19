@@ -88,8 +88,10 @@ public class ProductController {
 
     //------------------------------------------------------------------------------
     @PostMapping("/create")
-    public String addProduct(@Valid Product product, BindingResult result, @RequestParam("image") MultipartFile imageFile, @RequestParam("productimages") MultipartFile[] imageList) {
+    public String addProduct(@Valid Product product, BindingResult result, @RequestParam("image") MultipartFile imageFile, @RequestParam("productimages") MultipartFile[] imageList, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("brands", brandService.getAllBrands());
+            model.addAttribute("categories", categoryService.getAllCategories());
             return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
         }
 

@@ -103,7 +103,8 @@
 
 
 						<ul class="list">
-							<li><a class="active" href="#"><span>Thể loại</span><a th:text="${product.category.name}"></a></a></li>
+							<li><a class="active"><span>Thể loại:</span><a th:text="${product.category.name}"></a></a></li>
+							<li><a class="active"><span>Thương Hiệu:</span><a th:text="${product.brand.name}"></a></a></li>
 							<!--<li><a href="#"><span>Availibility</span> : In Stock</a></li>-->
 						</ul>
 						<p th:utext="${product.description}"></p>
@@ -116,7 +117,7 @@
 						<form th:action="@{/cart/add}" method="post" th:object="${product}">
 							<div class="product_count">
 								<label>Số lượng:</label>
-								<input type="number" name="quantity" id="sst" min="1" max="100" title="Số lượng:" class="input-text qty" value="1" />
+								<input type="number" name="quantity" id="sst" min="1" max="10" title="Số lượng:" class="input-text qty" value="1" />
 								<button type="button" onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst)) result.value++; return false;"
 										class="increase items-count"><i class="lnr lnr-chevron-up"></i></button>
 								<button type="button" onclick="var result = document.getElementById('sst'); var sst = result.value; if (!isNaN(sst) && sst > 1) result.value--; return false;"
