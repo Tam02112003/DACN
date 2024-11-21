@@ -53,14 +53,10 @@ public class UserController {
         if (userService.isEmailExist(user.getEmail())) {
             bindingResult.rejectValue("email", "error.user", "Email đã được sử dụng");
         }
-
+        // Nếu có lỗi, thêm lỗi vào model và trả về trang đăng ký
         if (bindingResult.hasErrors()) {
-            var errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toArray(String[]::new);
-            model.addAttribute("errors", errors);
-            return "users/register";
+            model.addAttribute("org.springframework.validation.BindingResult.user", bindingResult);
+            return "users/register"; // Trả về trang đăng ký với lỗi
         }
         userService.save(user);
         userService.setDefaultRole(user.getUsername());

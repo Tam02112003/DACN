@@ -45,9 +45,9 @@ public class User implements UserDetails {
     @Column(name = "fullname", length = 250)
     private String fullname;
 
-    @Column(name = "phone", length = 15, unique = true)
-    @Length(min = 10, max = 10, message = "Số điện thoại phải đúng 10 số")
-    @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số")
+    @Column(name = "phone", length = 15, nullable = true )
+    /*@Length(min = 10, max = 10, message = "Số điện thoại phải đúng 10 số")*/
+    @Pattern(regexp = "^[0-9]{10}$|^$", message = "Số điện thoại phải là số và đúng 10 số (hoặc để trống)")
     private String phone;
 
     @Column(name = "address", length = 250)

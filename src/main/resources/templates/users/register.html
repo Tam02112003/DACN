@@ -62,38 +62,52 @@
                     <div class="login_form_inner">
                         <h3>Đăng ký</h3>
                         <div th:if="${errors}" class="alert alert-danger" role="alert">
-                            <ul class="mb-0">
+                          <!--  <ul class="mb-0">
                                 <li th:each="error : ${errors}" th:text="${error}" class="text-danger"></li>
-                            </ul>
+                            </ul>-->
                         </div>
                         <form class="row login_form" th:action="@{/register}" method="post" id="registrationForm">
 
                             <div class="col-md-12 form-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn">
+                                <label for="email">Email<span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn" th:value="*{user.email}">
+                                <div th:if="${#fields.hasErrors('user.email')}" class="text-danger">
+                                    <span th:errors="*{user.email}"></span>
+                                </div>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Nhập tên người dùng của bạn">
+                                <label for="username">Tên tài khoản<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Nhập tên người dùng của bạn" th:value="*{user.username}">
+                                <div th:if="${#fields.hasErrors('user.username')}" class="text-danger">
+                                    <span th:errors="*{user.username}"></span>
+                                </div>
                             </div>
                             <div class="col-md-12 form-group">
+                                <label for="password">Mật khẩu<span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" id="password"
-                                       name="password" placeholder="Nhập mật khẩu của bạn">
-                                <div class="invalid-feedback">
-                                    Vui lòng nhập mật khẩu.
+                                       name="password" placeholder="Nhập mật khẩu của bạn" th:value="*{user.password}">
+                                <div th:if="${#fields.hasErrors('user.password')}" class="text-danger">
+                                    <span th:errors="*{user.password}"></span>
                                 </div>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận mật khẩu">
+                                <label for="confirmPassword">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" id="confirmPassword"
+                                       name="confirmPassword" placeholder="Xác nhận mật khẩu">
                                 <div class="invalid-feedback">
-                                    Mất khẩu không hợp lệ.
+                                    Mật khẩu không trùng khớp.
                                 </div>
                             </div>
                             <div class="col-md-12 form-group">
+                                <label for="fullname">Họ và tên</label>
                                 <input type="text" class="form-control" id="fullname" name="fullname" placeholder="Nhập họ tên của bạn">
                             </div>
                             <div class="col-md-12 form-group">
+                                <label for="phone">Điện thoại</label>
                                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nhập điện thoại của bạn">
                             </div>
                             <div class="col-md-12 form-group">
+                                <label for="address">Địa chỉ</label>
                                 <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ của bạn">
                             </div>
                             <div class="col-md-12 form-group">
