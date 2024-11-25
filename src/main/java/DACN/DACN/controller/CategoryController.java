@@ -20,7 +20,6 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
     @GetMapping("/list")
     public String listCategories(@RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
                                  @RequestParam(defaultValue = "") String search, // Tìm kiếm

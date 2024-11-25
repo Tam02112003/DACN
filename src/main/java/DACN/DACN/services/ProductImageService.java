@@ -3,6 +3,7 @@ package DACN.DACN.services;
 import DACN.DACN.entity.ProductImage;
 import DACN.DACN.repository.ProductImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +12,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class ProductImageService {
-    private final ProductImageRepository productImageRepository;
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
     public void deleteAllByProductId(Long productId) {
         productImageRepository.deleteAllByProduct_Id(productId);

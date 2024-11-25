@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 @Getter
 @Setter
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")  // Tên bảng trong cơ sở dữ liệu
@@ -156,4 +155,125 @@ public class Order {
         return status.getColor(); // Trả về màu sắc tương ứng với trạng thái
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
+    }
+
+    public Double getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(Double shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public @NotBlank(message = "Tên người nhận không được để trống") @Size(max = 150, min = 1, message = "Tên phải ít hơn 150 ký tự") String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(@NotBlank(message = "Tên người nhận không được để trống") @Size(max = 150, min = 1, message = "Tên phải ít hơn 150 ký tự") String customerName) {
+        this.customerName = customerName;
+    }
+
+    public @NotBlank(message = "Số điện thoại không được để trống") @Length(min = 10, max = 10, message = "Số điện thoại phải đúng 10 số") @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số") String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(@NotBlank(message = "Số điện thoại không được để trống") @Length(min = 10, max = 10, message = "Số điện thoại phải đúng 10 số") @Pattern(regexp = "^[0-9]*$", message = "Số điện thoại phải là số") String phone) {
+        this.phone = phone;
+    }
+
+    public @NotBlank(message = "Địa chỉ giao hàng không được để trống") String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NotBlank(message = "Địa chỉ giao hàng không được để trống") String address) {
+        this.address = address;
+    }
+
+    public @NotNull(message = "Phương thức thanh toán không được để trống") PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(@NotNull(message = "Phương thức thanh toán không được để trống") PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Date getEstimatedDeliveryDate() {
+        return estimatedDeliveryDate;
+    }
+
+    public void setEstimatedDeliveryDate(Date estimatedDeliveryDate) {
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
+    }
+
+    public Date getActualDeliveryDate() {
+        return actualDeliveryDate;
+    }
+
+    public void setActualDeliveryDate(Date actualDeliveryDate) {
+        this.actualDeliveryDate = actualDeliveryDate;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public @Size(max = 500, message = "Ghi chú quá dài vui lòng viết dưới 500 ký tự") String getNote() {
+        return note;
+    }
+
+    public void setNote(@Size(max = 500, message = "Ghi chú quá dài vui lòng viết dưới 500 ký tự") String note) {
+        this.note = note;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Order(){}
 }

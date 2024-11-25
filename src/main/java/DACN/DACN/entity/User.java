@@ -1,5 +1,6 @@
 package DACN.DACN.entity;
 
+import DACN.DACN.Provider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +8,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,6 @@ import java.util.*;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
@@ -56,7 +55,8 @@ public class User implements UserDetails {
 
 
     @Column(name = "provider", length = 50)
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -134,4 +134,109 @@ public class User implements UserDetails {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(@NotBlank(message = "Tên người dùng là bắt buộc") @Size(min = 1, max = 50, message = "Tên người dùng phải từ 1-50 kí tự") String username) {
+        this.username = username;
+    }
+
+    public void setPassword(@NotBlank(message = "Mật khẩu là bắt buộc") String password) {
+        this.password = password;
+    }
+
+    public @NotBlank(message = "Email là bắt buộc") @Email String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@NotBlank(message = "Email là bắt buộc") @Email String email) {
+        this.email = email;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public @Size(max = 400, message = "Địa chỉ của bạn quá dài!!! Vui lòng nhập 400 kí tự ") String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@Size(max = 400, message = "Địa chỉ của bạn quá dài!!! Vui lòng nhập 400 kí tự ") String address) {
+        this.address = address;
+    }
+
+    public @Pattern(regexp = "^[0-9]{10}$|^$", message = "Số điện thoại phải là số và đúng 10 số (hoặc để trống)") String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(@Pattern(regexp = "^[0-9]{10}$|^$", message = "Số điện thoại phải là số và đúng 10 số (hoặc để trống)") String phone) {
+        this.phone = phone;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<ProductReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ProductReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public List<Product> getViewedProducts() {
+        return viewedProducts;
+    }
+
+    public void setViewedProducts(List<Product> viewedProducts) {
+        this.viewedProducts = viewedProducts;
+    }
+
+    public List<Product> getPurchasedProducts() {
+        return purchasedProducts;
+    }
+
+    public void setPurchasedProducts(List<Product> purchasedProducts) {
+        this.purchasedProducts = purchasedProducts;
+    }
+    public User(){}
 }

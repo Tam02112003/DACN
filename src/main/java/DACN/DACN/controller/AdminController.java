@@ -37,7 +37,7 @@ public class AdminController {
     private OrderService orderService;
 
     @Autowired
-    private final UserService userService;
+    private UserService userService;
 
     @GetMapping("/admin")
     public String showDoashboard(Model model) {

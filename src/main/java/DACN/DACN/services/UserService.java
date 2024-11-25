@@ -6,7 +6,8 @@ import DACN.DACN.entity.User;
 import DACN.DACN.repository.IRoleRepository;
 import DACN.DACN.repository.IUserRepository;
 import jakarta.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,19 +17,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
+/*import java.util.logging.Logger;*/
+
 
 @Service
-@Slf4j
+/*@Slf4j*/
 @Transactional
 public class UserService implements UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private IUserRepository userRepository;
 
@@ -40,7 +39,7 @@ public class UserService implements UserDetailsService {
     // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
     public void save(@NotNull User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setProvider(Provider.LOCAL.value);
+        user.setProvider(Provider.LOCAL);
         userRepository.save(user);
         log.info("User {} saved successfully.", user.getUsername());
     }
@@ -103,7 +102,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(username));
-        user.setProvider(Provider.GOOGLE.value);
+        user.setProvider(Provider.GOOGLE);
         user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
         userRepository.save(user);
         log.info("OAuth user {} saved successfully.", username);

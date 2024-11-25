@@ -7,6 +7,7 @@ import DACN.DACN.entity.User;
 import DACN.DACN.repository.ProductRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductRecommendationService {
-
-    private final ProductRepository productRepository;
-
-
+    @Autowired
+    private ProductRepository productRepository;
 
     public List<Product> getRecommendedProducts(User user, HttpSession session) {
         Set<Category> categories = new HashSet<>();

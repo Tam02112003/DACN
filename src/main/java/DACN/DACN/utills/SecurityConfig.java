@@ -5,6 +5,7 @@ import DACN.DACN.services.OauthService;
 import DACN.DACN.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,8 +24,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity // Kích hoạt tính năng bảo mật web của Spring Security.
 @RequiredArgsConstructor // Lombok tự động tạo constructor có tham số cho tất cả các trường final.
 public class SecurityConfig {
-    private final UserService userService; // Tiêm UserService vào lớp cấu hình này.
-    private final OauthService oauthService;
+    @Autowired
+    private UserService userService; // Tiêm UserService vào lớp cấu hình này.
+    @Autowired
+    private OauthService oauthService;
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
         return new UserService(); // Cung cấp dịch vụ xử lý chi tiết người dùng.

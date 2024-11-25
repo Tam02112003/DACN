@@ -18,8 +18,10 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 public class OrderService {
-    private final OrderRepository orderRepository;
-    private final OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
 
     public Order createOrder(Order order) {
         // Lưu đối tượng Order vào cơ sở dữ liệu

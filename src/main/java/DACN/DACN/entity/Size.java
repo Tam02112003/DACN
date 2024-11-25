@@ -23,4 +23,28 @@ public class Size {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public @NotBlank(message = "Vui lòng nhập tên size") String getName() {
+        return name;
+    }
+
+    public void setName(@NotBlank(message = "Vui lòng nhập tên size") String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

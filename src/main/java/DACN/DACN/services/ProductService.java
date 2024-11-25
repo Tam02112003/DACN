@@ -21,7 +21,7 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    private final ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();

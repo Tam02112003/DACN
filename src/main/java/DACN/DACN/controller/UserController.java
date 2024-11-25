@@ -5,6 +5,7 @@ import DACN.DACN.services.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,8 @@ import java.util.UUID;
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/login")
     public String login() {
