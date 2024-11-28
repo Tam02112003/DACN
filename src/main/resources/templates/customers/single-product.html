@@ -268,6 +268,9 @@
 							</div>
 						</div>
 						<div class="col-lg-6">
+							<div th:if="${message}" class="alert alert-success">
+								<p th:text="${message}"></p>
+							</div>
 							<form class="row contact_form" th:action="@{/detail/{id}/review(id=${product.id})}" method="post" th:object="${review}" novalidate="novalidate">
 							<div class="review_box">
 

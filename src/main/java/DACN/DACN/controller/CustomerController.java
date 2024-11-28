@@ -186,7 +186,8 @@ import java.util.*;
             totalReviews += entry.getValue();
         }
         double averageRating = (totalReviews > 0) ? totalRating / totalReviews : 0;
-
+        // Làm tròn trung bình
+        averageRating = Math.round(averageRating * 100.0) / 100.0;
         // Lấy các sản phẩm gợi ý dựa trên sản phẩm đã xem
         List<Product> recommendedProducts = recommendationService.getRecommendedProducts(user, session);
 
