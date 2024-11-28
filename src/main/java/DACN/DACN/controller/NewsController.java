@@ -48,19 +48,19 @@ public class NewsController {
                 }
             }
         model.addAttribute("newsPage", newsPage);
-        return "/admins/news/list";
+        return "admins/news/list";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("news", new News());
-        return "/admins/news/create";
+        return "admins/news/create";
     }
 
     @PostMapping("/create")
     public String addNews(@ModelAttribute News news, @Valid BindingResult result, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
-            return "/admins/news/create";
+            return "admins/news/create";
         }
 
         if (!imageFile.isEmpty()) {
@@ -104,14 +104,14 @@ public class NewsController {
             return "redirect:/news";
         }
         model.addAttribute("news", news);
-        return "/admins/news/edit";
+        return "admins/news/edit";
     }
 
     @PostMapping("/edit/{id}")
     public String updateNews(@PathVariable Long id, @ModelAttribute News news, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
             news.setId(id);
-            return "/admins/news/edit";
+            return "admins/news/edit";
         }
 
         News existingNews = newsService.getNewsById(id);

@@ -23,13 +23,13 @@ public class BrandController {
     public String getAllBrands(Model model) {
         List<Brand> brands = brandService.getAllBrands();
         model.addAttribute("brands", brands);
-        return "/admins/brand/list"; // Trả về view danh sách thương hiệu
+        return "admins/brand/list"; // Trả về view danh sách thương hiệu
     }
 
     @GetMapping("/create")
     public String createBrandForm(Model model) {
         model.addAttribute("brand", new Brand());
-        return "/admins/brand/create"; // Trả về view tạo thương hiệu
+        return "admins/brand/create"; // Trả về view tạo thương hiệu
     }
 
     // Xử lý form tạo thương hiệu
@@ -48,7 +48,7 @@ public class BrandController {
         Brand brand = brandService.getBrandById(id)
                 .orElseThrow(() -> new RuntimeException("Thương hiệu không tồn tại"));
         model.addAttribute("brand", brand);
-        return "/admins/brand/edit"; // Trả về view chỉnh sửa thương hiệu
+        return "admins/brand/edit"; // Trả về view chỉnh sửa thương hiệu
     }
 
     // Xử lý form cập nhật thương hiệu

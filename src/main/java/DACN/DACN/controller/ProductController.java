@@ -47,14 +47,6 @@ public class ProductController {
     private ProductReviewService productReviewService;
     @Autowired
     private UserService userService;
-    ///////////////////////////////////
-    /*@GetMapping("")
-    public String showProductList(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        return "/admins/product/list";  // Đảm bảo rằng đường dẫn này là chính xác
-    }*/
-    //////////////////////////////////
-
 
     @GetMapping("")
     public String showProductList(
@@ -74,7 +66,7 @@ public class ProductController {
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("search", search);
 
-        return "/admins/product/list";
+        return "admins/product/list";
     }
 
     @GetMapping("/create")
@@ -82,7 +74,7 @@ public class ProductController {
         model.addAttribute("product", new Product());
         model.addAttribute("brands", brandService.getAllBrands());
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
+        return "admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
     }
 
 
@@ -92,7 +84,7 @@ public class ProductController {
         if (result.hasErrors()) {
             model.addAttribute("brands", brandService.getAllBrands());
             model.addAttribute("categories", categoryService.getAllCategories());
-            return "/admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
+            return "admins/product/create";  // Đảm bảo rằng đường dẫn này là chính xác
         }
 
         if (!imageFile.isEmpty()) {
@@ -122,25 +114,26 @@ public class ProductController {
     }
 
     private String saveImage(MultipartFile image) throws IOException {
-        Path dirImages = Paths.get("target/classes/static/img");
+        Path dirImages = Paths.get("/app/static/img");
         if (!Files.exists(dirImages)) {
             Files.createDirectories(dirImages);
         }
 
-        String newFileName = UUID.randomUUID()+ "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
+        String newFileName = image.getOriginalFilename();
 
         Path pathFileUpload = dirImages.resolve(newFileName);
         Files.copy(image.getInputStream(), pathFileUpload,
                 StandardCopyOption.REPLACE_EXISTING);
         return newFileName;
     }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         model.addAttribute("brands", brandService.getAllBrands());
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "/admins/product/edit";
+        return "admins/product/edit";
     }
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id, @Valid Product product,

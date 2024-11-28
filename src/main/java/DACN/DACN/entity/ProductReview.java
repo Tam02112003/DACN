@@ -27,7 +27,6 @@ public class ProductReview {
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // Đảm bảo rằng người dùng đã đăng nhập
 
-    @NotNull
     @Column(columnDefinition = "TEXT")
     private String comment; // Bình luận
 

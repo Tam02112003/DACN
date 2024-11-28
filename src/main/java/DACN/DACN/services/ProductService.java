@@ -84,8 +84,8 @@ public class ProductService {
         return productRepository.findByCategoryIdAndBrandIdAndPriceBetween(categoryId, brandId, minPrice, maxPrice, PageRequest.of(page - 1, size));
     }
 
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+    public void addProduct(Product product) {
+        productRepository.save(product);
     }
 
     public void deleteProduct(Long id) {

@@ -1,5 +1,6 @@
 package DACN.DACN.services;
 
+import DACN.DACN.entity.Product;
 import DACN.DACN.entity.ProductReview;
 import DACN.DACN.repository.ProductRepository;
 import DACN.DACN.repository.ProductReviewRepository;
@@ -32,9 +33,7 @@ public class ProductReviewService {
         }
         return ratingCounts;
     }
-    public void addReview(ProductReview review) {
-        reviewRepository.save(review);
-    }
+
     public void saveReview(ProductReview review) {
         reviewRepository.save(review); // Lưu bình luận
     }

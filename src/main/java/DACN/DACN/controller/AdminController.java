@@ -42,27 +42,8 @@ public class AdminController {
     @GetMapping("/admin")
     public String showDoashboard(Model model) {
 
-        return "/admins/dashboard";
+        return "admins/dashboard";
     }
-    /*@GetMapping("/statistics")
-    public String showStatistics(Model model) {
-        // Thêm dữ liệu doanh thu vào model
-        model.addAttribute("todayRevenue", orderService.getTodayRevenue());
-        model.addAttribute("weekRevenue", orderService.getThisWeekRevenue());
-        model.addAttribute("monthRevenue", orderService.getThisMonthRevenue());
-        model.addAttribute("yearRevenue", orderService.getThisYearRevenue());
-        // Thống kê doanh thu theo tháng cho năm hiện tại
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        Double[] monthlyRevenue = orderService.getMonthlyRevenue(currentYear);
-        model.addAttribute("monthlyRevenue", monthlyRevenue);
-        // Lấy doanh thu hàng ngày cho tháng hiện tại
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1; // Tháng tính từ 0
-        Double[] dailyRevenue = orderService.getDailyRevenue(currentYear, currentMonth);
-        model.addAttribute("dailyRevenue", dailyRevenue);
-        model.addAttribute("currentMonth", currentMonth);
-        model.addAttribute("currentYear", currentYear);
-        return "admins/statistics";
-    }*/
     @GetMapping("/statistics")
     public String showStatistics(
             @RequestParam(value = "month", required = false) Integer month,

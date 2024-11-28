@@ -36,23 +36,11 @@ public class OrderController {
     @Autowired
     private VnpayService vnpayService;
     @GetMapping
-    public String showCheckoutForm(Model model, HttpSession session) {
-        // Lấy giỏ hàng từ session
-        List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cart");
-        if (cartItems == null) {
-            cartItems = new ArrayList<>(); // Khởi tạo giỏ hàng rỗng nếu không có
-        }
-
-        // Tính tổng tiền từ giỏ hàng
-        double totalPrice = cartService.getTotalPrice(cartItems);
-
-        // Thêm giỏ hàng và tổng tiền vào model
+    public String showCheckoutForm(Model model) {
         model.addAttribute("orders", new Order());
         model.addAttribute("paymentMethods", PaymentMethod.values());
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", totalPrice);
-
-        // Lấy thông tin người dùng hiện tại
+        model.addAttribute("cartItems", cartService.getCartItems());
+        model.addAttribute("totalPrice", cartService.getTotalPrice()); // Thêm tổng tiền vào model
         String username = userService.getCurrentUser(); // Lấy thông tin người dùng hiện tại
         Optional<User> userOptional = userService.findByUsername(username);
         if (userOptional.isPresent()) {
@@ -69,37 +57,22 @@ public class OrderController {
         }
         return "/cart/checkout"; // Chuyển đến trang checkout
     }
-
     @PostMapping
-    public String processCheckout(@Valid @ModelAttribute("orders") Order order,
-                                  BindingResult result,
-                                  Model model,
-                                  Principal principal,
-                                  HttpSession session) {
+    public String processCheckout(@Valid @ModelAttribute("orders") Order order, BindingResult result, Model model, Principal principal) {
 
         // Kiểm tra lỗi xác thực
         if (result.hasErrors()) {
-            // Lấy giỏ hàng từ session
-            List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cart");
-            if (cartItems == null) {
-                cartItems = new ArrayList<>(); // Khởi tạo giỏ hàng rỗng nếu không có
-            }
-
-            // Tính tổng tiền từ giỏ hàng
-            double totalPrice = cartService.getTotalPrice(cartItems);
             // Nếu có lỗi, trả về lại trang checkout cùng với các thông báo lỗi
-            model.addAttribute("cartItems", cartItems);
-            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("cartItems", cartService.getCartItems());
             model.addAttribute("paymentMethods", PaymentMethod.values());
-            //model.addAttribute("totalPrice", cartService.getTotalPrice()); // Tính tổng tiền
+            model.addAttribute("totalPrice", cartService.getTotalPrice()); // Tính tổng tiền
             return "/cart/checkout"; // Chuyển đến trang checkout
         }
 
-        // Lấy giỏ hàng từ session
-        List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cart");
-        if (cartItems == null || cartItems.isEmpty()) {
+        List<CartItem> cartItems = cartService.getCartItems();
+        if (cartItems.isEmpty()) {
             model.addAttribute("errorMessage", "Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi thanh toán.");
-            return "/cart/checkout"; // Trả về trang checkout nếu giỏ hàng trống
+            return "/cart/checkout";
         }
 
         // Thiết lập chi tiết đơn hàng và lưu vào cơ sở dữ liệu
@@ -123,16 +96,15 @@ public class OrderController {
             calendar.setTime(currentDate);
             calendar.add(Calendar.DAY_OF_MONTH, 3);
             order.setEstimatedDeliveryDate(calendar.getTime());
-
             // Nếu phương thức thanh toán là VNPay, thực hiện xử lý thanh toán qua VNPay
             if (order.getPaymentMethod() == PaymentMethod.VNPAY) {
                 try {
                     String paymentUrl = vnpayService.createPaymentUrl(order, cartItems); // Gọi service tạo URL thanh toán
                     return "redirect:" + paymentUrl; // Chuyển hướng đến VNPay để thanh toán
                 } catch (Exception e) {
-                    model.addAttribute("cartItems", cartItems);
+                    model.addAttribute("cartItems", cartService.getCartItems());
                     model.addAttribute("paymentMethods", PaymentMethod.values());
-                    model.addAttribute("totalPrice", cartService.getTotalPrice(cartItems)); // Tính tổng tiền
+                    model.addAttribute("totalPrice", cartService.getTotalPrice()); // Tính tổng tiền
                     model.addAttribute("errorMessage", "Lỗi từ VNPay: " + e.getMessage());
                     return "/cart/checkout"; // Quay về trang checkout
                 }
@@ -146,7 +118,7 @@ public class OrderController {
             model.addAttribute("order", order);
 
             // Xóa giỏ hàng sau khi đặt hàng thành công
-            cartService.clearCart(session);
+            cartService.clearCart();
             model.addAttribute("message", "Đặt hàng thành công!");
             return "/cart/confirmation"; // Chuyển hướng đến trang cảm ơn
         } catch (Exception e) {
@@ -154,8 +126,9 @@ public class OrderController {
             return "/cart/checkout";
         }
     }
+
     @GetMapping("/vnpay-return")
-    public String vnpayReturn(@RequestParam Map<String, String> params, Model model, HttpSession session ) {
+    public String vnpayReturn(@RequestParam Map<String, String> params, Model model ) {
         String vnp_ResponseCode = params.get("vnp_ResponseCode");
         String transactionCode  = params.get("vnp_TxnRef");
         System.out.println("vnp_ResponseCode: " + vnp_ResponseCode);
@@ -165,7 +138,7 @@ public class OrderController {
 
             if (order == null) {
                 model.addAttribute("errorMessage", "Đơn hàng không tìm thấy.");
-                return "/cart/checkout";
+                return "cart/checkout";
             }
 
             if ("00".equals(vnp_ResponseCode)) {
@@ -185,7 +158,7 @@ public class OrderController {
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("order", order);
             // Xóa giỏ hàng sau khi đặt hàng thành công
-            cartService.clearCart(session);
+            cartService.clearCart();
         } catch (NumberFormatException e) {
             model.addAttribute("errorMessage", "Mã đơn hàng không hợp lệ.");
 
@@ -194,7 +167,7 @@ public class OrderController {
             e.printStackTrace(); // In lỗi chi tiết để kiểm tra
         }
 
-        return "/cart/confirmation";
+        return "cart/confirmation";
     }
 
     // Phương thức phụ để chuyển đổi CartItem thành OrderDetail

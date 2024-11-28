@@ -37,7 +37,7 @@ public class CategoryController {
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("category", new Category());
-        return "/admins/category/create"; // Đường dẫn đến file template create.html
+        return "admins/category/create"; // Đường dẫn đến file template create.html
     }
 
     @PostMapping

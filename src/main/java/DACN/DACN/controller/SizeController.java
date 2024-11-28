@@ -29,7 +29,7 @@ public class SizeController {
             sizes = new ArrayList<>(); // Tạo danh sách rỗng để tránh lỗi NullPointerException
         }
         model.addAttribute("sizes", sizes);
-        return "/admins/size/list";
+        return "admins/size/list";
     }
 
     @GetMapping("/create")

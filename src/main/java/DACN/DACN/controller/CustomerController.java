@@ -70,7 +70,7 @@ import java.util.*;
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("search", search);
         model.addAttribute("randomProducts", randomProducts);
-        return "/customers/index";
+        return "customers/index";
     }
 
     @GetMapping("/shop")
@@ -233,15 +233,18 @@ import java.util.*;
 
         // Thiết lập sản phẩm và người dùng cho review
         review.setCreateDate(new Date()); // Gán giá trị thời gian hiện tại cho createDate
+        review.setId(null); // Đảm bảo review là đối tượng mới
         Product product = productService.getProductById(id); // Lấy sản phẩm theo ID
         review.setProduct(product);
         review.setUser(currentUser); // Gán người dùng đã đăng nhập
-
+        // Thêm review vào danh sách reviews của sản phẩm
+        product.getReviews().add(review);  // Thêm review vào danh sách
         productReviewService.saveReview(review); // Lưu bình luận vào cơ sở dữ liệu
-
+        productService.addProduct(product);  // Cập nhật danh sách reviews của sản phẩm
         redirectAttributes.addFlashAttribute("message", "Bình luận đã được thêm thành công!");
         return "redirect:/detail/" + id; // Chuyển hướng về trang chi tiết sản phẩm
     }
+
     @GetMapping("order/details/{id}")
     public String orderDetails(@PathVariable("id") Long orderId, Model model) {
         Order order = orderService.getOrderById(orderId);
@@ -268,7 +271,7 @@ import java.util.*;
         }
 
         model.addAttribute("newsPage", newsPage);
-        return "/customers/blog";
+        return "customers/blog";
     }
     @GetMapping("blog/detail/{id}")
     public String getBlogDetail(@PathVariable Long id, Model model) {
@@ -288,6 +291,6 @@ import java.util.*;
 
         model.addAttribute("news", news);
 
-        return "/customers/single-blog";
+        return "customers/single-blog";
     }
 }

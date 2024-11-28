@@ -276,7 +276,7 @@
 								<input type="hidden" id="rating" th:field="*{rating}" />
 								<p>Đánh giá của bạn:</p>
 								<ul class="list-star" id="star-rating">
-									<li><a href="#" data-rating="1"><i class="fa fa-star"></i></a></li>
+									<li><a href="#" data-rating="1"><i class="fa fa-star highlighted"></i></a></li>
 									<li><a href="#" data-rating="2"><i class="fa fa-star"></i></a></li>
 									<li><a href="#" data-rating="3"><i class="fa fa-star"></i></a></li>
 									<li><a href="#" data-rating="4"><i class="fa fa-star"></i></a></li>
@@ -285,7 +285,7 @@
 								<p>Nội dung</p>
 									<div class="col-md-12">
 										<div class="form-group">
-											<textarea class="form-control" name="message" th:field="*{comment}" rows="1" placeholder="Ghi chú" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ghi chú'"></textarea></textarea>
+											<textarea class="form-control" name="message" th:field="*{comment}" rows="1" placeholder="Ghi chú" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Ghi chú'"></textarea>
 										</div>
 									</div>
 									<div class="col-md-12 text-right">
@@ -350,6 +350,9 @@
             const stars = document.querySelectorAll('#star-rating li a');
             const ratingInput = document.getElementById('rating');
 
+            // Mặc định chọn 1 sao
+            ratingInput.value = 1;
+
             stars.forEach(star => {
                 star.addEventListener('click', function (event) {
                     event.preventDefault();
@@ -368,7 +371,6 @@
                 });
             });
         });
-
 	</script>
 	<script>
 		const images = document.querySelectorAll('.single-prd-item img');

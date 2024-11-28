@@ -39,7 +39,7 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images = new ArrayList<>();
 
     @ManyToOne
