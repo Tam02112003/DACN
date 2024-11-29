@@ -96,7 +96,7 @@ public class ProductService {
         }
     }
 
-    public Product updateProduct(@NotNull Product product) {
+    public void updateProduct(@NotNull Product product) {
         Product existingProduct = productRepository.findById(product.getId())
                 .orElseThrow(() -> new IllegalStateException("Product with ID " +
                         product.getId() + " does not exist."));
@@ -108,7 +108,7 @@ public class ProductService {
         existingProduct.setContent(product.getContent());
         existingProduct.setCategory(product.getCategory());
         existingProduct.setUpdatedDate(new Date());
-        return productRepository.save(existingProduct);
+        productRepository.save(existingProduct);
     }
 
     public Page<Product> getProductsByStartingLetter(String letter, int page, int size) {
