@@ -26,7 +26,27 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-
+    public List<Product> findAll() {
+        return productRepository.findAllByDeletedFalse();
+    }
+    public Page<Product> getProductsNotDeleted(int page, String search, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return productRepository.findAllByDeletedFalseAndNameContainingIgnoreCase(search, pageable);
+    }
+    public Page<Product> getProductsDeleted(int page, String search, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return productRepository.findAllByDeletedTrueAndNameContainingIgnoreCase(search, pageable);
+    }
+    public void softDelete(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setDeleted(true);
+        productRepository.save(product);
+    }
+    public void restore(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setDeleted(false);
+        productRepository.save(product);
+    }
     public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -39,17 +59,17 @@ public class ProductService {
 
     public Page<Product> getProductsByCategoryId(Long categoryId, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        return productRepository.findByCategoryId(categoryId, pageable);
+        return productRepository.findByCategoryIdAndDeletedFalse(categoryId, pageable);
     }
 
     public Page<Product> getProductsByBrandId(Long brandId, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        return productRepository.findByBrandId(brandId, pageable);
+        return productRepository.findByBrandIdAndDeletedFalse(brandId, pageable);
     }
 
     public Page<Product> getProductsByCategoryIdAndBrandId(Long categoryId, Long brandId, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        return productRepository.findByCategoryIdAndBrandId(categoryId, brandId, pageable);
+        return productRepository.findByCategoryIdAndBrandIdAndDeletedFalse(categoryId, brandId, pageable);
     }
 
     public Page<Product> getProductsByCategoryIdAndPriceRange(Long categoryId, String priceRange, int page, int size) {

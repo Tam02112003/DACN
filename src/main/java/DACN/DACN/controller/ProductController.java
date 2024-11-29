@@ -6,6 +6,7 @@ import DACN.DACN.entity.ProductImage;
 import DACN.DACN.entity.ProductReview;
 import DACN.DACN.entity.User;
 import DACN.DACN.services.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class ProductController {
             page = 1;
         }
         // Gọi phương thức từ productService để lấy danh sách sản phẩm với phân trang và tìm kiếm
-        Page<Product> productPage = productService.getProducts(page, search, size);
+        Page<Product> productPage = productService.getProductsNotDeleted(page, search, size);
 
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("currentPage", page);
@@ -68,6 +69,29 @@ public class ProductController {
 
         return "admins/product/list";
     }
+
+    @GetMapping("/listdelete")
+    public String showProductListDelete(
+            @RequestParam(defaultValue = "1") int page, // Trang mặc định là 1
+            @RequestParam(defaultValue = "") String search, // Tìm kiếm
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
+        // Kiểm tra và đảm bảo page không nhỏ hơn 1
+        if (page < 1) {
+            page = 1;
+        }
+
+        // Gọi phương thức từ productService để lấy danh sách sản phẩm đã xóa với phân trang và tìm kiếm
+        Page<Product> productPage = productService.getProductsDeleted(page, search, size);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("search", search);
+
+        return "admins/product/delete"; // Chuyển hướng tới trang hiển thị danh sách sản phẩm đã xóa
+    }
+
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
@@ -185,9 +209,23 @@ public class ProductController {
     }
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        productService.deleteProduct(id);
-        redirectAttributes.addFlashAttribute("message", "Product deleted successfully!");
+        try {
+            productService.softDelete(id);
+            redirectAttributes.addFlashAttribute("message", "Product marked as deleted successfully!");
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("error", "Product not found!");
+        }
         return "redirect:/products"; // Chuyển hướng về danh sách sản phẩm
+    }
+    @GetMapping("/restore/{id}")
+    public String restoreProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            productService.restore(id); // Gọi phương thức khôi phục sản phẩm
+            redirectAttributes.addFlashAttribute("message", "Product restored successfully!");
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("error", "Product not found!");
+        }
+        return "redirect:/products/listdelete"; // Chuyển hướng về danh sách sản phẩm đã xóa
     }
     @GetMapping("/detail/{id}")
     public String getProductDetail(@PathVariable Long id, Model model) {

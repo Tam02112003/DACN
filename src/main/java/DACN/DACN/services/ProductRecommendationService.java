@@ -48,7 +48,7 @@ public class ProductRecommendationService {
         }
 
         // Lấy sản phẩm trong các danh mục tương ứng
-        List<Product> recommendedProducts = productRepository.findByCategoryIn(categories);
+        List<Product> recommendedProducts = productRepository.findByCategoryInAndDeletedFalse(categories);
 
         // Loại bỏ các sản phẩm đã xem hoặc mua
         recommendedProducts.removeAll(viewedProducts);

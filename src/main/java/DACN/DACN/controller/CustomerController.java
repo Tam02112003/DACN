@@ -57,7 +57,7 @@ import java.util.*;
         if (categoryId != null) {
             productPage = productService.getProductsByCategoryId(categoryId, page, size);
         } else {
-            productPage = productService.getProducts(page, search, size);
+            productPage = productService.getProductsNotDeleted(page, search, size);
         }
         // Lấy 9 sản phẩm ngẫu nhiên
         List<Product> randomProducts = recommendationService.getRandomProducts(9);
@@ -122,7 +122,7 @@ import java.util.*;
         }
         // Nếu không có tham số nào
         else {
-            productPage = productService.getProducts(page, search, size);
+            productPage = productService.getProductsNotDeleted(page, search, size);
         }
 
         // Lấy danh sách sản phẩm ngẫu nhiên

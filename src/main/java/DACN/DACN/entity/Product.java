@@ -57,6 +57,8 @@ public class Product {
 
     private String imgUrl;
 
+    private boolean deleted = false;
+
     @PrePersist
     protected void onCreate() {
         createdDate = new Date();
