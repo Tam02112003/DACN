@@ -86,7 +86,7 @@ public class OrderService {
                 predicates.add(criteriaBuilder.equal(root.get("id"), Long.valueOf(orderId)));
             }*/
             if (transactionCode != null && !transactionCode.isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("transactionCodex"), "%" + transactionCode + "%"));
+                predicates.add(criteriaBuilder.like(root.get("transactionCode"), "%" + transactionCode + "%"));
             }
             if (customerName != null && !customerName.isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("customerName"), "%" + customerName + "%"));
@@ -120,7 +120,7 @@ public class OrderService {
 
 
 
-    public List<Order> searchOrders(User user, String orderId, String status, Date startDate, Date endDate) {
+    public List<Order> searchOrders(User user, String transactionCode, String status, Date startDate, Date endDate) {
         return orderRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -128,10 +128,13 @@ public class OrderService {
             predicates.add(criteriaBuilder.equal(root.get("user"), user));
 
             // Kiểm tra và thêm tiêu chí tìm kiếm theo ID đơn hàng
-            if (orderId != null && !orderId.isEmpty()) {
+            /*if (orderId != null && !orderId.isEmpty()) {
                 predicates.add(criteriaBuilder.equal(root.get("id"), Long.parseLong(orderId)));
+            }*/
+            //Tìm kiếm theo mã đơn hàng
+            if (transactionCode != null && !transactionCode.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("transactionCode"), "%" + transactionCode + "%"));
             }
-
             // Kiểm tra và thêm tiêu chí tìm kiếm theo trạng thái đơn hàng
             if (status != null && !status.isEmpty()) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), OrderStatus.valueOf(status)));
