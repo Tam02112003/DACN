@@ -92,18 +92,17 @@
                                 <li class="page-item" th:classappend="${newsPage.hasPrevious() ? '' : 'disabled'}">
                                     <a th:href="@{/blog(page=${newsPage.number - 1}, size=${newsPage.size})}" class="page-link"
                                        aria-label="Previous" th:if="${newsPage.hasPrevious()}">
-                                        <span aria-hidden="true">
-                                            <span class="lnr lnr-chevron-left"></span>
-                                        </span>
+                                    <span aria-hidden="true">
+                                        <span class="lnr lnr-chevron-left"></span>
+                                    </span>
                                     </a>
                                     <span class="page-link" th:if="${!newsPage.hasPrevious()}">
                                         <span class="lnr lnr-chevron-left"></span>
                                     </span>
                                 </li>
 
-                                <li class="page-item" th:each="i : ${#numbers.sequence(0, newsPage.totalPages - 1)}">
-                                    <a th:href="@{/blog(page=${i}, size=${newsPage.size})}" class="page-link"
-                                       th:classappend="${i == newsPage.number ? 'active' : ''}">
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, newsPage.totalPages - 1)}" th:if="${newsPage.totalPages > 1}">
+                                    <a th:href="@{/blog(page=${i}, size=${newsPage.size})}" class="page-link" th:classappend="${i == newsPage.number ? 'active' : ''}">
                                         <span th:text="${i + 1}">1</span>
                                     </a>
                                 </li>
