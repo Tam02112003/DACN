@@ -211,9 +211,9 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             productService.softDelete(id);
-            redirectAttributes.addFlashAttribute("message", "Product marked as deleted successfully!");
+            redirectAttributes.addFlashAttribute("message", "Sản phẩm được xóa thành công!");
         } catch (EntityNotFoundException e) {
-            redirectAttributes.addFlashAttribute("error", "Product not found!");
+            redirectAttributes.addFlashAttribute("error", "Lỗi không xóa được sản phẩm!");
         }
         return "redirect:/products"; // Chuyển hướng về danh sách sản phẩm
     }
@@ -221,9 +221,9 @@ public class ProductController {
     public String restoreProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             productService.restore(id); // Gọi phương thức khôi phục sản phẩm
-            redirectAttributes.addFlashAttribute("message", "Product restored successfully!");
+            redirectAttributes.addFlashAttribute("message", "Sản phẩm được khôi phục thành công!");
         } catch (EntityNotFoundException e) {
-            redirectAttributes.addFlashAttribute("error", "Product not found!");
+            redirectAttributes.addFlashAttribute("error", "Lỗi không khôi phục được sản phẩm!");
         }
         return "redirect:/products/listdelete"; // Chuyển hướng về danh sách sản phẩm đã xóa
     }

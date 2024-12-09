@@ -96,7 +96,12 @@
   <div class="container-fluid py-4">
     <div class="card-body px-0 pb-2">
       <!-- Form tìm kiếm -->
-
+      <div th:if="${message}" style="color: green;">
+        <p th:text="${message}"></p>
+      </div>
+      <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+      </div>
       <div class="table-responsive p-0">
         <table class="table align-items-center mb-0">
           <thead>

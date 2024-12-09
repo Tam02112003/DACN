@@ -102,7 +102,12 @@
                     <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                 </div>
             </form>
-
+            <div th:if="${message}" style="color: green;">
+                <p th:text="${message}"></p>
+            </div>
+            <div th:if="${error}" style="color: red;">
+                <p th:text="${error}"></p>
+            </div>
             <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0">
                     <thead>
