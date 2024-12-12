@@ -44,7 +44,7 @@ public class VnpayService {
         vnpParams.put("vnp_OrderInfo", "Thanh toan don hang " + transactionCode);
         vnpParams.put("vnp_OrderType", "billpayment");
         vnpParams.put("vnp_Locale", "vn");
-        vnpParams.put("vnp_ReturnUrl", "http://localhost:8080/checkout/vnpay-return"); // URL để VNPay chuyển hướng sau khi thanh toán
+        vnpParams.put("vnp_ReturnUrl", "http://ec2-54-251-38-25.ap-southeast-1.compute.amazonaws.com:8080/checkout/vnpay-return"); // URL để VNPay chuyển hướng sau khi thanh toán
         vnpParams.put("vnp_IpAddr", "127.0.0.1");
         vnpParams.put("vnp_CreateDate", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 

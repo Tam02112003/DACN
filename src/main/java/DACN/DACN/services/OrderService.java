@@ -78,7 +78,7 @@ public class OrderService {
         // Lưu đơn hàng đã cập nhật
         orderRepository.save(order);
     }
-    public List<Order> findOrders(String transactionCode, String customerName, String phone, OrderStatus status, Date startDate, Date endDate, User user) {
+    public List<Order> findOrders(String transactionCode, String customerName, String phone, OrderStatus status, Date startDate, Date endDate) {
         return orderRepository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -109,11 +109,6 @@ public class OrderService {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("orderDate"), endDate));
             }
 
-            // Nếu user không phải là null, có thể thêm điều kiện cho user
-            if (user != null) {
-                predicates.add(criteriaBuilder.equal(root.get("user"), user));
-            }
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
@@ -127,10 +122,6 @@ public class OrderService {
             // Thêm tiêu chí người dùng để chỉ lấy đơn hàng của người dùng đó
             predicates.add(criteriaBuilder.equal(root.get("user"), user));
 
-            // Kiểm tra và thêm tiêu chí tìm kiếm theo ID đơn hàng
-            /*if (orderId != null && !orderId.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(root.get("id"), Long.parseLong(orderId)));
-            }*/
             //Tìm kiếm theo mã đơn hàng
             if (transactionCode != null && !transactionCode.isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("transactionCode"), "%" + transactionCode + "%"));
@@ -148,8 +139,6 @@ public class OrderService {
             } else if (endDate != null) { // Chỉ có endDate
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("orderDate"), endDate));
             }
-
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
@@ -188,25 +177,6 @@ public class OrderService {
         return revenue != null ? revenue : 0.0;
     }
 
-    /*public double getTodayRevenue() {
-        // Lấy dữ liệu doanh thu cho ngày hôm nay
-        return orderRepository.calculateRevenueByDate(new Date());
-    }
-
-    public double getThisWeekRevenue() {
-        // Lấy dữ liệu doanh thu cho tuần này
-        return orderRepository.calculateRevenueByWeek();
-    }
-
-    public double getThisMonthRevenue() {
-        // Lấy dữ liệu doanh thu cho tháng này
-        return orderRepository.calculateRevenueByMonth();
-    }
-
-    public double getThisYearRevenue() {
-        // Lấy dữ liệu doanh thu cho năm này
-        return orderRepository.calculateRevenueByYear();
-    }*/
     private Double calculateRevenue(Date startDate, Date endDate) {
         // Truy vấn trực tiếp để tính tổng doanh thu
         return orderRepository.sumTotalAmountBetween(startDate, endDate);

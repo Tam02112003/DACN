@@ -139,7 +139,7 @@ public class HistoryController {
                              @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         User user = userService.findByUsername(principal.getName()).orElse(null); // Lấy thông tin người dùng
 
-        List<Order> orders = orderService.findOrders(transactionCode, customerName, phone, status, startDate, endDate, user);
+        List<Order> orders = orderService.findOrders(transactionCode, customerName, phone, status, startDate, endDate);
         model.addAttribute("orders", orders);
         model.addAttribute("orderStatuses", OrderStatus.values());
         return "admins/order/list";

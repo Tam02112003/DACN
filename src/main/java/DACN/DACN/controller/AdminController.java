@@ -147,7 +147,7 @@ public class AdminController {
     }
 
     private String saveImage(MultipartFile image) throws IOException {
-        Path dirImages = Paths.get("target/classes/static/img");
+        Path dirImages = Paths.get("/mnt/ebs/static/img");
         if (!Files.exists(dirImages)) {
             Files.createDirectories(dirImages);
         }

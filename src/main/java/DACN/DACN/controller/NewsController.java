@@ -58,7 +58,7 @@ public class NewsController {
     }
 
     @PostMapping("/create")
-    public String addNews(@ModelAttribute News news, @Valid BindingResult result, @RequestParam("image") MultipartFile imageFile) {
+    public String addNews(@Valid @ModelAttribute News news, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
             return "admins/news/create";
         }
@@ -108,7 +108,7 @@ public class NewsController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateNews(@PathVariable Long id, @ModelAttribute News news, BindingResult result, @RequestParam("image") MultipartFile imageFile) {
+    public String updateNews(@Valid @ModelAttribute News news, BindingResult result, @PathVariable Long id, @RequestParam("image") MultipartFile imageFile) {
         if (result.hasErrors()) {
             news.setId(id);
             return "admins/news/edit";

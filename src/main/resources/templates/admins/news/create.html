@@ -12,18 +12,21 @@
 <body>
 <h1>Tạo Tin Tức Mới</h1>
 
-<form th:action="@{/news/create}" method="post" enctype="multipart/form-data">
+<form th:action="@{/news/create}" th:object="${news}" method="post" enctype="multipart/form-data" novalidate>
   <label for="title">Tiêu Đề:</label>
-  <input type="text" id="title" name="title" required>
+  <input type="text" id="title" name="title" th:field="*{title}">
+  <div th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></div>
 
   <label for="author">Tác Giả:</label>
-  <input type="text" id="author" name="author" th:value="${news.author}" required>
+  <input type="text" id="author" name="author" th:field="${news.author}" >
+  <div th:if="${#fields.hasErrors('author')}" class="text-danger" th:errors="*{author}"></div>
 
   <label for="description">Mô Tả:</label>
-  <input type="text" id="description" name="description" th:value="${news.description}">
+  <input type="text" id="description" name="description">
 
   <label for="content">Nội Dung:</label>
-  <textarea id="content" name="content" required></textarea>
+  <textarea id="content" name="content" th:field="*{content}" required></textarea>
+  <div th:if="${#fields.hasErrors('content')}" class="text-danger" th:errors="*{content}"></div>
 
   <label for="image">Hình Ảnh:</label>
   <input type="file" id="image" name="image">

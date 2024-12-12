@@ -120,7 +120,7 @@
                         <td class="content-cell" th:utext="${news.content}"></td>
                         <td>
                             <a th:href="@{/news/edit/{id}(id=${news.id})}" class="btn btn-link text-dark px-3 mb-0"><i class="material-icons text-sm me-2">edit</i>Sửa</a>
-                            <a th:href="@{/news/delete/{id}(id=${news.id})}" class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirm('Bạn chắc muốn xóa thể loại này chứ?')"><i class="material-icons text-sm me-2">delete</i>Xóa</a>
+                            <a th:href="@{/news/delete/{id}(id=${news.id})}" class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirm('Bạn chắc muốn bản tin này chứ?')"><i class="material-icons text-sm me-2">delete</i>Xóa</a>
                         </td>
                     </tr>
                     </tbody>

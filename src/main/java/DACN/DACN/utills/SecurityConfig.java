@@ -57,9 +57,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin", "/products", "/products/detail/**", "/categories/list",
                                 "/categories/create", "/categories/edit", "/categories/delete",
                                 "/products/edit/**", "/products/create", "/products/delete",
-                                "/order/list", "/order/details/**", "/sizes", "/sizes/create",
-                                "/sizes/edit/**", "/sizes/delete", "/discounts", "/discounts/create",
-                                "/discounts/edit/**", "/discounts/delete")
+                                "/order/list", "/orders/details/**", "/sizes", "/sizes/create",
+                                "/sizes/edit/**", "/sizes/delete")
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .logout(logout -> configureLogout(logout))

@@ -246,7 +246,7 @@ import java.util.*;
         return "redirect:/detail/" + id; // Chuyển hướng về trang chi tiết sản phẩm
     }
 
-    @GetMapping("order/details/{id}")
+    @GetMapping("/order/details/{id}")
     public String orderDetails(@PathVariable("id") Long orderId, Model model) {
         Order order = orderService.getOrderById(orderId);
         model.addAttribute("order", order);

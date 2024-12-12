@@ -10,15 +10,17 @@
 </head>
 <body>
 <h1>Sửa Tin Tức</h1>
-<form th:action="@{/news/edit/{id}(id=${news.id})}" method="post"  enctype="multipart/form-data">
+<form th:action="@{/news/edit/{id}(id=${news.id})}" th:object="${news}" method="post"  enctype="multipart/form-data" novalidate>
   <label for="title">Tiêu Đề:</label>
-  <input type="text" id="title" name="title" th:value="${news.title}" required>
+  <input type="text" id="title" name="title" th:field="${news.title}" required>
+  <div th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}"></div>
   <br>
   <label for="author">Tác Giả:</label>
-  <input type="text" id="author" name="author" th:value="${news.author}" required>
+  <input type="text" id="author" name="author" th:field="${news.author}" required>
+  <div th:if="${#fields.hasErrors('author')}" class="text-danger" th:errors="*{author}"></div>
   <br>
   <label for="description">Mô Tả:</label>
-  <input type="text" id="description" name="description" th:value="${news.description}" required>
+  <input type="text" id="description" name="description" th:field="${news.description}" >
   <br>
   <label for="image" class="w-10 me-3 mb-0">Hình ảnh</label>
   <input type="file" name="image"  id="image">
@@ -27,7 +29,8 @@
   <img th:src="@{${news.ImgUrl}}" width="150" height="150" alt="Sản phẩm" />
   <br>
   <label for="content">Nội Dung:</label>
-  <textarea id="content" name="content" required th:text="${news.content}"></textarea>
+  <textarea id="content" name="content" th:field="${news.content}"></textarea>
+  <div th:if="${#fields.hasErrors('content')}" class="text-danger" th:errors="*{content}"></div>
   <br>
   <p>Thời Gian Đăng: <span th:text="${news.formattedCreatedAt}"></span></p>
   <button type="submit">Cập Nhật</button>

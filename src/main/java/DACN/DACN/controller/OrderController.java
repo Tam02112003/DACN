@@ -55,7 +55,7 @@ public class OrderController {
             model.addAttribute("error", "Người dùng không tìm thấy.");
             return "error";
         }
-        return "/cart/checkout"; // Chuyển đến trang checkout
+        return "cart/checkout"; // Chuyển đến trang checkout
     }
     @PostMapping
     public String processCheckout(@Valid @ModelAttribute("orders") Order order, BindingResult result, Model model, Principal principal) {
@@ -66,13 +66,13 @@ public class OrderController {
             model.addAttribute("cartItems", cartService.getCartItems());
             model.addAttribute("paymentMethods", PaymentMethod.values());
             model.addAttribute("totalPrice", cartService.getTotalPrice()); // Tính tổng tiền
-            return "/cart/checkout"; // Chuyển đến trang checkout
+            return "cart/checkout"; // Chuyển đến trang checkout
         }
 
         List<CartItem> cartItems = cartService.getCartItems();
         if (cartItems.isEmpty()) {
             model.addAttribute("errorMessage", "Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi thanh toán.");
-            return "/cart/checkout";
+            return "cart/checkout";
         }
 
         // Thiết lập chi tiết đơn hàng và lưu vào cơ sở dữ liệu
@@ -88,7 +88,7 @@ public class OrderController {
                 order.setUser(user); // Gán người dùng vào đơn hàng
             } else {
                 model.addAttribute("errorMessage", "Không tìm thấy thông tin người dùng.");
-                return "/cart/checkout"; // Trả về trang checkout nếu không tìm thấy người dùng
+                return "cart/checkout"; // Trả về trang checkout nếu không tìm thấy người dùng
             }
             Date currentDate = new Date();
             order.setOrderDate(currentDate);
@@ -106,7 +106,7 @@ public class OrderController {
                     model.addAttribute("paymentMethods", PaymentMethod.values());
                     model.addAttribute("totalPrice", cartService.getTotalPrice()); // Tính tổng tiền
                     model.addAttribute("errorMessage", "Lỗi từ VNPay: " + e.getMessage());
-                    return "/cart/checkout"; // Quay về trang checkout
+                    return "cart/checkout"; // Quay về trang checkout
                 }
             }
 
@@ -120,10 +120,10 @@ public class OrderController {
             // Xóa giỏ hàng sau khi đặt hàng thành công
             cartService.clearCart();
             model.addAttribute("message", "Đặt hàng thành công!");
-            return "/cart/confirmation"; // Chuyển hướng đến trang cảm ơn
+            return "cart/confirmation"; // Chuyển hướng đến trang cảm ơn
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Có lỗi xảy ra trong quá trình đặt hàng. Vui lòng thử lại.");
-            return "/cart/checkout";
+            return "cart/checkout";
         }
     }
 
