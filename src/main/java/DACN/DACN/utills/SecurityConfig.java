@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/fonts/**", "/css/**", "/", "/img/**", "/video/**", "/uploads/profile-pictures/**",
                                 "/Karma Shop-doc/**", "/scss/**", "/js/**", "/assets/**", "/docs/**",
                                 "/.github/**", "/register", "/home", "/shop", "/blog", "/blog/detail/**",
-                                "/cart", "/cart/**", "/detail/**", "/search", "/search-results", "/suggestions")
+                                "/cart", "/cart/**", "/detail/**", "/search", "/search-results", "/suggestions","/api/ai/chat")
                         .permitAll()
                         .requestMatchers("/admin", "/products", "/products/detail/**", "/categories/list",
                                 "/categories/create", "/categories/edit", "/categories/delete",

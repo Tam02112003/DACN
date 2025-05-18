@@ -85,6 +85,13 @@
 			<artifactId>json</artifactId>
 			<version>20231013</version> <!-- Hoặc version mới nhất -->
 		</dependency>
+		<!-- pom.xml -->
+		<dependency>
+			<groupId>io.github.cdimascio</groupId>
+			<artifactId>dotenv-java</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
