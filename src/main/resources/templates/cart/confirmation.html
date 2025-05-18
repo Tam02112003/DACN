@@ -55,8 +55,11 @@
 	<!--================Order Details Area =================-->
 	<section class="order_details section_gap">
 		<div class="container">
-			<h3 class="title_confirmation"  th:text="${message}"></h3>
-			<h3 class="alert alert-danger"  th:text="${errorMessage}"></h3>
+
+
+				<h3 th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></h3>
+				<h3 th:if="${message}" class="title_confirmation" th:text="${message}"></h3>
+
 			<div class="row order_d_inner">
 				<div class="col-lg-4">
 					<div class="details_item">

@@ -44,6 +44,7 @@ public class AdminController {
 
         return "admins/dashboard";
     }
+
     @GetMapping("/statistics")
     public String showStatistics(
             @RequestParam(value = "month", required = false) Integer month,
@@ -147,7 +148,7 @@ public class AdminController {
     }
 
     private String saveImage(MultipartFile image) throws IOException {
-        Path dirImages = Paths.get("/mnt/ebs/static/img");
+        Path dirImages = Paths.get("target/classes/static/img");
         if (!Files.exists(dirImages)) {
             Files.createDirectories(dirImages);
         }

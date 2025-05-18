@@ -319,41 +319,6 @@
                 }
             });
         });
-
-        function increaseQuantity(productId) {
-  fetch(`/cart/increase/${productId}`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      }
-  })
-  .then(response => response.json())
-  .then(data => {
-      document.getElementById(`price-${productId}`).innerText = data.newPrice.toFixed(2);
-      // Cập nhật tổng tiền nếu cần
-  })
-  .catch(error => {
-      console.error('Error increasing quantity:', error);
-  });
-}
-
-function decreaseQuantity(productId) {
-  fetch(`/cart/decrease/${productId}`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      }
-  })
-  .then(response => response.json())
-  .then(data => {
-      document.getElementById(`price-${productId}`).innerText = data.newPrice.toFixed(2);
-      // Cập nhật tổng tiền nếu cần
-  })
-  .catch(error => {
-      console.error('Error decreasing quantity:', error);
-  });
-}
-
     </script>
     <!--================End Cart Area =================-->
 

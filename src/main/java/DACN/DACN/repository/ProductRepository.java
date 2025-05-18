@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByDeletedFalseAndNameContainingIgnoreCase(String name, Pageable pageable);
 
     Page<Product> findAllByDeletedTrueAndNameContainingIgnoreCase(String name, Pageable pageable);
+    // Tìm sản phẩm bán chạy
+
+
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Product> searchByKeyword(@Param("keyword") String keyword);
+    // Tìm theo tên
+    List<Product> findByNameContainingIgnoreCase(String keyword);
 
     // Tìm kiếm sản phẩm đã xóa theo tên (không phân biệt chữ hoa chữ thường)
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', ?1, '%')) AND p.deleted = true")

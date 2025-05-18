@@ -20,6 +20,7 @@
     <title>Cửa hàng FANFOOTBALL</title>
     <!-- CSS ============================================= -->
     <link rel="stylesheet" th:href="@{/css/search.css}">
+    <link rel="stylesheet" th:href="@{/css/chatbox.css}">
     <link rel="stylesheet" th:href="@{/css/linearicons.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
@@ -32,6 +33,7 @@
     <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css}">
 </head>
 
 
@@ -132,6 +134,7 @@
 <!-- End Header Area -->
     <section layout:fragment="content">
         <!-- Nội dung cụ thể của từng trang sẽ được đặt tại đây -->
+
     </section>
 <!-- start footer Area -->
 
@@ -225,6 +228,27 @@
         </div>
     </div>
 <!-- End footer Area --></footer>
+<!-- Nút mở chatbox -->
+<div class="chat-toggle" onclick="toggleChat()">
+    <i class="fas fa-comment-dots"></i>
+</div>
+
+<!-- Chatbox container -->
+<div class="chat-container" id="chatContainer" style="display:none;">
+    <div class="chat-header" onclick="toggleChat()">
+        Trợ lý ảo - Hỗ trợ khách hàng
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+        <input type="text" id="fanfootball-user-input" placeholder="Nhập câu hỏi...">
+        <button id="sendButton" onclick="sendMessage()">Gửi</button>
+    </div>
+</div>
+
+<!-- Font Awesome cho icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="js/vendor/jquery-2.2.4.min.js"></script>
+<script src="/js/chatbox.js"></script>
 <script>
     // Hàm để lấy gợi ý từ server
     function fetchSuggestions() {
@@ -300,5 +324,6 @@
 <script type="text/javascript">
     (function(w,d){var hS=w.helpcrunchSettings;if(!hS||!hS.organization){return;}var widgetSrc='https://embed.helpcrunch.com/sdk.js';w.HelpCrunch=function(){w.HelpCrunch.q.push(arguments)};w.HelpCrunch.q=[];function r(){if (d.querySelector('script[src="' + widgetSrc + '"')) { return; }var s=d.createElement('script');s.async=1;s.type='text/javascript';s.src=widgetSrc;(d.body||d.head).appendChild(s);}if(d.readyState === 'complete'||hS.loadImmediately){r();} else if(w.attachEvent){w.attachEvent('onload',r)}else{w.addEventListener('load',r,false)}})(window, document)
 </script>
+
 </body>
 </html>
